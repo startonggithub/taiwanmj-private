@@ -1,0 +1,564 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>記錄分享</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/theme/css/style.css">
+    <link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css" type="text/css">
+	<link rel="stylesheet" href="assets/web/assets/jquery/jquery-confirm.css" type="text/css">
+</head>
+<body style="zoom:0.8;">
+    <div id="master" class="container-fluid">
+		<div class="row">
+			<div id="topbar" class="fixed-top-right-div">
+				<button class="close-button" onclick="if (appCategory == 'web') window.history.back(); else window.open('index.html', '_self');">X</button>
+			</div>
+		</div>
+
+		<div class="row" style="margin-top:5px;">
+			<table class="col-12" style="margin-left:10px;">
+				<thead>
+					<th style="width:73%;"></th>
+					<th style="width:27%;"></th>
+				</thead>
+				<tr>
+					<td colspan="2">
+						<label class="display-7 align-left" style="padding:0px;margin:0px;">識別碼</label>
+					</td>				
+				</tr>
+				<tr>
+					<td>
+						<input type="text" class="form-control" id="code" required="required" aria-required="true">
+					</td>
+					<td>
+						&nbsp;<button id="button-retrieve" onclick="onClickRetrieve(); return false;" type="submit" class="btn-sm btn-primary align-left">確定</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="row" style="margin-top:5px;margin-bottom:10px;">
+			<table class="col-12">
+				<tr>
+					<td class="align-center" style="width:50%;">
+						<text class="xlarge">玩家&nbsp;</text><select class="xlarge" style="width:50%;" id="player"></select>
+					</td>
+					<td class="align-center" style="width:50%">
+						<text class="xlarge" id="wind-position"></text>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="row">
+			<table class="table table-bordered table-secondary col-12 align-center" id="table-scores" cellspacing="0" cellpadding="0" style="border-collapse: collapse;table-layout: fixed;">
+				<thead id="table-scores-thead" style="background-color:#3399FF;color:white;">
+					<tr id="header-row-1" class="xlarge">
+						<th colspan="3" style="padding:5px;background-color:white;color:#3399FF;width:25%;"><text id="e-scores">0</text>&nbsp;<span id="e-consecutive-win-label" class="badge badge-pill badge-primary"></span><input type="hidden" id="e-consecutive-win" value="0"></th>
+						<th colspan="3" style="padding:5px;background-color:white;color:#3399FF;width:25%;"><text id="s-scores">0</text>&nbsp;<span id="s-consecutive-win-label" class="badge badge-pill badge-primary"></span><input type="hidden" id="s-consecutive-win" value="0"></th>
+						<th colspan="3" style="padding:5px;background-color:white;color:#3399FF;width:25%;"><text id="w-scores">0</text>&nbsp;<span id="w-consecutive-win-label" class="badge badge-pill badge-primary"></span><input type="hidden" id="w-consecutive-win" value="0"></th>
+						<th colspan="3" style="padding:5px;background-color:white;color:#3399FF;width:25%;"><text id="n-scores">0</text>&nbsp;<span id="n-consecutive-win-label" class="badge badge-pill badge-primary"></span><input type="hidden" id="n-consecutive-win" value="0"></th>
+					</tr>
+					<tr id="header-row-2" class="display-5">
+						<th colspan="3" id="e-position" style="padding:5px;width:25%;"></th>
+						<th colspan="3" id="s-position" style="padding:5px;width:25%;"></th>
+						<th colspan="3" id="w-position" style="padding:5px;width:25%;"></th>
+						<th colspan="3" id="n-position" style="padding:5px;width:25%;"></th>
+					</tr>
+					<tr id="header-row-3" >
+						<th id="es-pairs" style="padding:5px;width:8%;"></th>
+						<th id="ew-pairs" style="padding:5px;width:8%;"></th>
+						<th id="en-pairs" style="padding:5px;width:8%;"></th>
+						<th id="se-pairs" style="padding:5px;width:8%;"></th>
+						<th id="sw-pairs" style="padding:5px;width:8%;"></th>
+						<th id="sn-pairs" style="padding:5px;width:8%;"></th>
+						<th id="we-pairs" style="padding:5px;width:8%;"></th>
+						<th id="ws-pairs" style="padding:5px;width:8%;"></th>
+						<th id="wn-pairs" style="padding:5px;width:8%;"></th>
+						<th id="ne-pairs" style="padding:5px;width:8%;"></th>
+						<th id="ns-pairs" style="padding:5px;width:8%;"></th>
+						<th id="nw-pairs" style="padding:5px;width:8%;"></th>
+					</tr>
+				</thead>
+				<tbody id="table-scores-tbody"></tbody>
+			</table>
+		</div>
+
+		<div class="row" style="margin-top: 0px;padding: 5px;">
+			<table class="col-12 xlarge" id="table-confirm-transaction-main">
+				<thead>
+					<th style="width:25%;"></th>
+					<th style="width:75%;"></th>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</div>
+
+		<!-- Bootstrap Modal -->
+		<!-- For alert to confirm the latest game first -->
+		<div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+			  <div class="modal-content">
+				<div class="modal-body display-5">
+					<text id="warning-message"></text>
+				</div>
+				<!--<div class="modal-footer">
+				  <button type="button" id="closeAlert" class="btn-sm btn-secondary display-7" data-dismiss="modal">關閉</button>
+				</div>-->
+			  </div>
+			</div>
+		</div>
+  	</div>
+
+	<script src="assets/web/assets/jquery/jquery.min.js"></script>
+	<script src="assets/web/assets/jquery/jquery-confirm.js"></script>
+	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-firestore.js"></script>
+    <script src="assets/web/assets/common.js"></script>
+	<script src="assets/web/assets/environment.js"></script>
+
+	<script type="text/javascript">
+		var basic = {
+			currentPosition : '',
+			currentWind : '',
+			e_player_input : '',
+			s_player_input : '',
+			w_player_input : '',
+			n_player_input : '',
+			e_scores : 0,
+			s_scores : 0,
+			w_scores : 0,
+			n_scores : 0,
+			e_consecutive_win : 0,
+			s_consecutive_win : 0,
+			w_consecutive_win : 0,
+			n_consecutive_win : 0,
+			rowNumberFrom : 1,
+			rowNumberTo : 0,
+			//confirmTransaction : '',
+			lastUpdateTime : ''
+		}
+
+		var row = {
+			mode : '',
+			winner_list : '',
+			loser_list : ''
+		}
+
+		var cell = {
+			score : 0,
+			score_original : 0,
+			confirm : '',
+			win : '',
+			rev : ''
+		}
+
+		var snapShot;
+		var snapShotRecord;
+		var snapShotTransaction;
+
+		$(document).ready(function () {
+			resize();
+			window.addEventListener('resize', resize);
+
+			var param = getUrlParam('shareGameDataId', '');
+			if (param != '') {
+			    localStorage.setItem('shareGameDataId', param);
+			}
+
+			if (localStorage.getItem('shareGameDataId') != null && localStorage.getItem('shareGameDataId') != '') {
+				$('#code').val(localStorage.getItem('shareGameDataId'));
+				onClickRetrieve();
+			}
+		})
+
+		function onClickRetrieve () {
+			if ($('#code').val() != null && $('#code').val() != '') {
+				var selectedPlayer = $('#player').children("option:selected").val();
+				if (selectedPlayer == null) {
+					selectedPlayer = localStorage.getItem('shareSelectedPlayer');
+					if (selectedPlayer == null) selectedPlayer = '';
+				}
+
+				startSnapShot($('#code').val());
+				startSnapShotRecord($('#code').val());
+				startSnapShotTransaction($('#code').val(), selectedPlayer);
+			}
+		}
+
+		function startSnapShot (uuid) {
+			//stop previous monitor
+			if (snapShot != null) snapShot();
+
+			snapShot = collectionRooms
+				.doc(uuid)
+				.onSnapshot({includeMetadataChanges: false}, function(doc) {
+					reset();
+					if (doc.exists) {
+						updateBasic(doc);
+					}
+					else {
+						localStorage.removeItem('shareGameDataId');
+						localStorage.removeItem('shareSelectedPlayer');
+						$('#warning-message').text('識別碼不正確 / 局數已結束');
+						$('#alertModal').modal('show');
+						setTimeout(function () {
+							$('#alertModal').modal('hide');
+						}, 2000);
+						$('#table-confirm-transaction-main > tbody:last-child').empty();
+						return;
+					}
+				}, function(error) {
+					console.log('Error get rooms document:', error);
+				});
+		}
+
+		function startSnapShotRecord (uuid) {
+			//stop previous monitor
+			if (snapShotRecord != null) snapShotRecord();
+
+			snapShotRecord = collectionRecords
+				.where('uuid', '==', uuid).orderBy('row')
+				.onSnapshot(function(querySnapshot) {
+					$('#table-scores').children('tbody').empty();
+					querySnapshot.forEach(function(doc) {
+						updateDetail(doc);
+					})
+				});
+		}
+
+		function startSnapShotTransaction (uuid, selectedPlayer) {
+			//stop previous monitor
+			if (snapShotTransaction != null) snapShotTransaction();
+
+			localStorage.setItem('shareSelectedPlayer', selectedPlayer);
+
+			$('#table-confirm-transaction-main').hide();
+			snapShotTransaction = collectionTransactions
+				.where('uuid', '==', uuid).where('players', 'array-contains', selectedPlayer).orderBy('timestamp')
+				.onSnapshot(function(querySnapshot) {
+					$('#table-confirm-transaction-main > tbody:last-child').empty();
+					querySnapshot.forEach(function(doc) {
+						var transactionUuid = doc.data().transactionUuid;
+						if ($('#' + transactionUuid).length == 0)
+							$('#table-confirm-transaction-main > tbody:last-child').prepend('<tr><td class="align-center" style="font-size: large; vertical-align: middle; color: DarkGray;">' + 
+								formatDateddMMHHmm(doc.data().timestamp) + '</td><td><text id="' + transactionUuid + '" class="align-left ' + (doc.data().marked ? 'strike' : '') + 
+								'" onclick="onTransactionClick(this,' + doc.data().marked + ');" style="color:' + (doc.data().pay == selectedPlayer ? 'red' : 'blue') + ';">' + doc.data().detail + '</text></td></tr>');
+					})
+					$('#table-confirm-transaction-main').show();
+				});
+		}
+
+		function onTransactionClick(element, marked) {
+			collectionTransactions.doc(element.id).set ({marked: (marked ? false : true)}, { merge: true });
+			if (marked) $(element).removeClass('strike');
+			else $(element).addClass('strike');
+		}
+
+		function reset () {
+			//reset scores and names
+			for (var i = 0; i < allPlayers.length; i ++) {
+				$('#' + allPlayers[i] + '-scores').text('0');
+				$('#' + allPlayers[i] + '-scores').css('color','#3399FF');
+				$('#' + allPlayers[i] + '-player-input').val('');
+
+				$('#' + allPlayers[i] + '-consecutive-win').val(0);
+				$('#' + allPlayers[i] + '-consecutive-win-label').text('');
+			}
+
+			$('#table-scores-thead tr[id=header-row-2] th').text('');
+			$('#table-scores-thead tr[id=header-row-3] th').text('');
+
+			//reset columns color
+			$('#header-row-3 th').each(function () {
+				$(this).css('color','white');
+			});
+		}
+
+		function updateBasic (doc) {
+			localStorage.setItem('shareGameDataId', $('#code').val());
+
+			console.log(doc.data());
+
+			basic.currentPosition = doc.data().currentPosition;
+			basic.currentWind = doc.data().currentWind;
+			basic.rowNumberFrom = doc.data().rowNumberFrom;
+			basic.rowNumberTo = doc.data().rowNumberTo;
+			//basic.confirmTransaction = doc.data().confirmTransaction;
+			basic.lastUpdateTime = doc.data().lastUpdateTime;
+
+			basic.e_player_input = doc.data()['e-player-input'];
+			basic.s_player_input = doc.data()['s-player-input'];
+			basic.w_player_input = doc.data()['w-player-input'];
+			basic.n_player_input = doc.data()['n-player-input'];
+
+			basic.e_scores = doc.data()['e-scores'];
+			basic.s_scores = doc.data()['s-scores'];
+			basic.w_scores = doc.data()['w-scores'];
+			basic.n_scores = doc.data()['n-scores'];
+
+			basic.e_consecutive_win = doc.data()['e-consecutive-win'];
+			basic.s_consecutive_win = doc.data()['s-consecutive-win'];
+			basic.w_consecutive_win = doc.data()['w-consecutive-win'];
+			basic.n_consecutive_win = doc.data()['n-consecutive-win'];
+
+			console.log(basic);
+
+			setWindPosition();
+
+			$('#e-scores').text(basic.e_scores == null ? '0' : basic.e_scores);
+			$('#s-scores').text(basic.s_scores == null ? '0' : basic.s_scores);
+			$('#w-scores').text(basic.w_scores == null ? '0' : basic.w_scores);
+			$('#n-scores').text(basic.n_scores == null ? '0' : basic.n_scores);
+
+			$('#e-consecutive-win').val(basic.e_consecutive_win == null || basic.e_consecutive_win == '' ? '0' : basic.e_consecutive_win);
+			$('#s-consecutive-win').val(basic.s_consecutive_win == null || basic.s_consecutive_win == '' ? '0' : basic.s_consecutive_win);
+			$('#w-consecutive-win').val(basic.w_consecutive_win == null || basic.w_consecutive_win == '' ? '0' : basic.w_consecutive_win);
+			$('#n-consecutive-win').val(basic.n_consecutive_win == null || basic.n_consecutive_win == '' ? '0' : basic.n_consecutive_win);
+
+			for (var i = 0; i < allPlayers.length; i ++) {
+				if (parseInt($('#' + allPlayers[i] + '-scores').text()) < 0) $('#' + allPlayers[i] + '-scores').css('color','red');
+
+				$('#' + allPlayers[i] + '-consecutive-win-label').text('');
+				if ($('#' + allPlayers[i] + '-consecutive-win').val() != '0') $('#' + allPlayers[i] + '-consecutive-win-label').text('連 ' + $('#' + allPlayers[i] + '-consecutive-win').val());
+			}
+
+			addPlayers();
+
+			//$('#table-confirm-transaction-main').html(basic.confirmTransaction);
+		}
+
+		function setWindPosition() {
+			var windPosition = '';
+			if (basic.currentWind == 'e-wind') {
+				windPosition = windPosition + '東風';
+			}
+			else if (basic.currentWind == 's-wind') {
+				windPosition = windPosition + '南風';
+			}
+			else if (basic.currentWind == 'w-wind') {
+				windPosition = windPosition + '西風';
+			}
+			else if (basic.currentWind == 'n-wind') {
+				windPosition = windPosition + '北風';
+			}
+
+			if (basic.currentPosition == 'e-position') {
+				windPosition = windPosition + '東局';
+			}
+			else if (basic.currentPosition == 's-position') {
+				windPosition = windPosition + '南局';
+			}
+			else if (basic.currentPosition == 'w-position') {
+				windPosition = windPosition + '西局';
+			}
+			else if (basic.currentPosition == 'n-position') {
+				windPosition = windPosition + '北局';
+			}
+
+			$('#wind-position').text(windPosition);
+		}
+
+		function addPlayers() {
+			$('#table-scores-thead th').each(function () {
+				if ($(this).attr('id') == 'e-position') {
+					$(this).text(basic.e_player_input);
+				};
+				if ($(this).attr('id') == 's-position') {
+					$(this).text(basic.s_player_input);
+				};
+				if ($(this).attr('id') == 'w-position') {
+					$(this).text(basic.w_player_input);
+				};
+				if ($(this).attr('id') == 'n-position') {
+					$(this).text(basic.n_player_input);
+				};
+
+				if ($(this).attr('id') == 'se-pairs' || $(this).attr('id') == 'we-pairs' || $(this).attr('id') == 'ne-pairs') {
+					$(this).text(basic.e_player_input);
+				};
+				if ($(this).attr('id') == 'es-pairs' || $(this).attr('id') == 'ws-pairs' || $(this).attr('id') == 'ns-pairs') {
+					$(this).text(basic.s_player_input);
+				};
+				if ($(this).attr('id') == 'ew-pairs' || $(this).attr('id') == 'sw-pairs' || $(this).attr('id') == 'nw-pairs') {
+					$(this).text(basic.w_player_input);
+				};
+				if ($(this).attr('id') == 'en-pairs' || $(this).attr('id') == 'sn-pairs' || $(this).attr('id') == 'wn-pairs') {
+					$(this).text(basic.n_player_input);
+				};
+			});
+
+			var selected = $('#player').children("option:selected").val();
+			if (selected == null) {
+				selected = localStorage.getItem('shareSelectedPlayer');
+				if (selected == null) selected = '';
+			}
+
+			$('#player').empty();
+			
+			$('#player').append($('<option>', {
+                value: ('e'),
+                text: (basic.e_player_input == null ? '東' : basic.e_player_input)
+            }));
+
+			$('#player').append($('<option>', {
+                value: ('s'),
+                text: (basic.s_player_input == null ? '南' : basic.s_player_input)
+            }));
+
+			$('#player').append($('<option>', {
+                value: ('w'),
+                text: (basic.w_player_input == null ? '西' : basic.w_player_input)
+            }));
+
+			$('#player').append($('<option>', {
+                value: ('n'),
+                text: (basic.n_player_input == null ? '北' : basic.n_player_input)
+            }));
+
+			$("#player").val(selected).change(function () {
+				var selectedPlayer = $('#player').children("option:selected").val();
+				if (selectedPlayer == null) selectedPlayer = '';
+				startSnapShotTransaction($('#code').val(), selectedPlayer);
+			});
+		}
+
+		function updateDetail (doc) {
+			var field = '';
+			var curRow = doc.data()['row'];
+
+			row.mode = doc.data()['mode'];
+			row.winner_list = doc.data()['winner-list'];
+			row.loser_list = doc.data()['loser-list'];
+
+			console.log(row);
+
+			addRow(curRow, row.mode, 'Y');
+			$('#table-scores #' + curRow + ' #winner-list').val(row.winner_list);
+			$('#table-scores #' + curRow + ' #loser-list').val(row.loser_list);
+
+			cell.score = 0;
+			cell.score_original = 0;
+			cell.confirm = '';
+			cell.win = '';
+			cell.rev = '';
+			for (var j = 0; j < allPairs.length; j ++) {
+				field = allPairs[j] + '-score';
+				cell.score = doc.data()[field];
+
+				field = allPairs[j] + '-score-original';
+				cell.score_original = doc.data()[field];
+
+				field = allPairs[j] + '-confirm';
+				cell.confirm = doc.data()[field];
+
+				field = allPairs[j] + '-win';
+				cell.win = doc.data()[field];
+
+				field = allPairs[j] + '-rev';
+				cell.rev = doc.data()[field];
+
+				restoreRow (curRow, allPairs[j]);
+
+				//set background color
+				if ($('#table-scores #' + curRow + ' #' + allPairs[j] + '-score').val() == '' || parseInt($('#table-scores #' + curRow + ' #' + allPairs[j] + '-score').val()) <= 0 || $('#table-scores #' + curRow + ' #' + allPairs[j] + '-confirm').val() == 'Y') {
+					$('#table-scores #' + curRow + ' #' + allPairs[j] + '-score').css('background-color','#ededed');
+				}
+				else {
+					$('#table-scores #' + curRow + ' #' + allPairs[j] + '-score').css('background-color','#ffffff');
+				}
+
+				//set topup fields
+				if ($('#table-scores #' + curRow + ' #' + allPairs[j] + '-score').val() == '0' || parseInt($('#table-scores #' + curRow + ' #' + allPairs[j] + '-win').val()) > 1) {
+					$('#table-scores #' + curRow + ' #' + allPairs[j] + '-score').css('color','blue');
+				};
+
+				//set revenge fields
+				if ($('#table-scores #' + curRow + ' #' + allPairs[j] + '-rev').val() == 'Y') {
+						$('#table-scores #' + curRow + ' #' + allPairs[j] + '-score').css('color', 'red');
+				};
+			}
+
+			markWinnerLoser();			
+		}
+
+		function addRow(rowNumber, mode, isConfirm) {
+			//return if already add
+			if ($('#table-scores #' + rowNumber).length > 0) return;
+
+			//Try to get tbody first with jquery children. works faster!
+			var tbody = $('#table-scores').children('tbody');
+
+			//Then if no tbody just select your table
+			var table = tbody.length ? tbody : $('#table-scores');
+
+			var row = '<tr id="' + rowNumber + '"' + (mode == "adjust" ? ' style="display:none;"' : '') + '><input type="hidden" id="row-confirm" value="' + isConfirm + '"><input type="hidden" id="mode" value="' + mode + '"><input type="hidden" id="winner-list"><input type="hidden" id="loser-list">' +
+				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="es-score" readonly><input type="hidden" id="es-score-original"><input type="hidden" id="es-confirm" value="N"><input type="hidden" id="es-win" value="1"><input type="hidden" id="es-rev" value="N"></td>' +
+				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="ew-score" readonly><input type="hidden" id="ew-score-original"><input type="hidden" id="ew-confirm" value="N"><input type="hidden" id="ew-win" value="1"><input type="hidden" id="ew-rev" value="N"></td>' +
+				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="en-score" readonly><input type="hidden" id="en-score-original"><input type="hidden" id="en-confirm" value="N"><input type="hidden" id="en-win" value="1"><input type="hidden" id="en-rev" value="N"></td>' +
+				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="se-score" readonly><input type="hidden" id="se-score-original"><input type="hidden" id="se-confirm" value="N"><input type="hidden" id="se-win" value="1"><input type="hidden" id="se-rev" value="N"></td>' +
+				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="sw-score" readonly><input type="hidden" id="sw-score-original"><input type="hidden" id="sw-confirm" value="N"><input type="hidden" id="sw-win" value="1"><input type="hidden" id="sw-rev" value="N"></td>' +
+				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="sn-score" readonly><input type="hidden" id="sn-score-original"><input type="hidden" id="sn-confirm" value="N"><input type="hidden" id="sn-win" value="1"><input type="hidden" id="sn-rev" value="N"></td>' +
+				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="we-score" readonly><input type="hidden" id="we-score-original"><input type="hidden" id="we-confirm" value="N"><input type="hidden" id="we-win" value="1"><input type="hidden" id="we-rev" value="N"></td>' +
+				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="ws-score" readonly><input type="hidden" id="ws-score-original"><input type="hidden" id="ws-confirm" value="N"><input type="hidden" id="ws-win" value="1"><input type="hidden" id="ws-rev" value="N"></td>' +
+				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="wn-score" readonly><input type="hidden" id="wn-score-original"><input type="hidden" id="wn-confirm" value="N"><input type="hidden" id="wn-win" value="1"><input type="hidden" id="wn-rev" value="N"></td>' +
+				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="ne-score" readonly><input type="hidden" id="ne-score-original"><input type="hidden" id="ne-confirm" value="N"><input type="hidden" id="ne-win" value="1"><input type="hidden" id="ne-rev" value="N"></td>' +
+				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="ns-score" readonly><input type="hidden" id="ns-score-original"><input type="hidden" id="ns-confirm" value="N"><input type="hidden" id="ns-win" value="1"><input type="hidden" id="ns-rev" value="N"></td>' +
+				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="nw-score" readonly><input type="hidden" id="nw-score-original"><input type="hidden" id="nw-confirm" value="N"><input type="hidden" id="nw-win" value="1"><input type="hidden" id="nw-rev" value="N"></td>' +
+				'</tr>';
+
+			table.append(row);
+		}
+
+		function restoreRow(r, c) {
+			$('#table-scores #' + r + ' #' + c + '-score').val(cell.score);
+			$('#table-scores #' + r + ' #' + c + '-score-original').val(cell.score_original);
+			$('#table-scores #' + r + ' #' + c + '-confirm').val(cell.confirm);
+			$('#table-scores #' + r + ' #' + c + '-win').val(cell.win);
+			$('#table-scores #' + r + ' #' + c + '-rev').val(cell.rev);
+		}
+
+		function markWinnerLoser () {
+			//Reset all columns
+			$('#header-row-3 th').each(function () {
+				$(this).css('color','white');
+			});
+
+			for (var i = 0; i < halfPairs.length; i ++) {
+				searchWinnerLoser (halfPairs[i]);
+			}
+		}
+
+		function searchWinnerLoser (c) {
+			var oppositec = c.charAt(1) + c.charAt(0);
+
+			for (var r = basic.rowNumberTo; r >= basic.rowNumberFrom; r--) {
+				//If confirmed, exit
+				if ($('#table-scores #' + r + ' #' + c + '-confirm').val() == 'Y') break;
+
+				var score = $('#table-scores #' + r + ' #' + c + '-score').val() == '' ? 0 : parseInt($('#table-scores #' + r + ' #' + c + '-score').val());
+
+				if (score > 0) {
+					$('#' + c + '-pairs').css('color','#0d6786');
+					$('#' + oppositec + '-pairs').css('color','red');
+					break;
+				}
+
+				if ($('#table-scores #' + r + ' #' + oppositec + '-confirm').val() == 'Y') break;
+
+				var oppositeScore = $('#table-scores #' + r + ' #' + oppositec + '-score').val() == '' ? 0 : parseInt($('#table-scores #' + r + ' #' + oppositec + '-score').val());
+
+				if (oppositeScore > 0) {
+					$('#' + oppositec + '-pairs').css('color','#0d6786');
+					$('#' + c + '-pairs').css('color','red');
+					break;
+				}
+			}
+		}
+</script>
+</body>
+</html>
