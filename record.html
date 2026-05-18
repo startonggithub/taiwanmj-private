@@ -706,7 +706,9 @@
 			//Swap between e and s, w and n
 			resetConsecutiveWin();
 
-			for (var i = 1; i <= rowNumberTo; i++) {
+			//Confirmed transaction do not swap
+			//for (var i = 1; i <= rowNumberTo; i++) {
+			for (var i = rowNumberFrom; i <= rowNumberTo; i++) {
 				for (var j = 0; j < swapPairs.length; j ++) {
 					var fieldScore0 = i + '#' + swapPairs[j][0] + '-score';
 					var fieldScoreOriginal0 = i + '#' + swapPairs[j][0] + '-score-original';
