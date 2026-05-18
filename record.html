@@ -880,8 +880,9 @@
 			$('#table-confirm-transaction-main').hide();
 			//retrieve all if set blank by default 
 			if (selectedPlayer != '') {
+				//filter by player name
 				snapShotTransaction = collectionTransactions
-					.where('uuid', '==', uuid).where('players', 'array-contains', selectedPlayer).orderBy('timestamp')
+					.where('uuid', '==', uuid).where('players', 'array-contains', $('#' + selectedPlayer + '-player-input').val()).orderBy('timestamp')
 					.onSnapshot(function(querySnapshot) {
 						$('#table-confirm-transaction-main > tbody:last-child').empty();
 						querySnapshot.forEach(function(doc) {
@@ -889,7 +890,7 @@
 							if ($('#' + transactionUuid).length == 0)
 								$('#table-confirm-transaction-main > tbody:last-child').prepend('<tr><td class="align-center" style="font-size: large; vertical-align: middle; color: DarkGray;">' + 
 									formatDateddMMHHmm(doc.data().timestamp) + '</td><td><text id="' + transactionUuid + '" class="align-left ' + (doc.data().marked ? 'strike' : '') + 
-									'" onclick="onTransactionClick(this,' + doc.data().marked + ');" style="color:' + (doc.data().pay == selectedPlayer ? 'red' : 'blue') + ';">' + doc.data().detail + '</text></td></tr>');
+									'" onclick="onTransactionClick(this,' + doc.data().marked + ');" style="color:' + (doc.data().pay == $('#' + selectedPlayer + '-player-input').val() ? 'red' : 'blue') + ';">' + doc.data().detail + '</text></td></tr>');
 						})
 						$('#table-confirm-transaction-main').show();
 					});
