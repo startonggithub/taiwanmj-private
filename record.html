@@ -2430,13 +2430,6 @@
 					.collection("transactions")
 					.get();
 			})
-			.then((snapshot) => {
-				console.log("All transactions:");
-
-				snapshot.forEach(doc => {
-					console.log(doc.id, doc.data());
-				});
-			})
 			.catch((err) => {
 				console.error("Error:", err);
 			});	
