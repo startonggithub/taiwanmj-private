@@ -1037,7 +1037,7 @@
 		function onClickAdjust() {
 			for (var i = 0; i < allPlayers.length; i ++) {
 				$('#input-adjust-body #' + allPlayers[i] + '-player-name').text($('#' + allPlayers[i] + '-player-input').val());
-				$('#input-adjust-body #' + allPlayers[i] + '-adjust-point').val('');
+				$('#input-adjust-body #' + allPlayers[i] + '-adjust-point').val('0');
 			}
 			$('#adjustConfirm').prop('disabled', true);
 
@@ -1045,6 +1045,7 @@
 		}
 
 		$('#input-adjust-body input').on('keyup', adjustTimeout);
+		$('#input-adjust-body button').on('click', adjustTimeout);
 
 		function adjustTimeout() {
 			setTimeout(() => {
