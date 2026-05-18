@@ -2409,6 +2409,8 @@
 		function sendServerTransaction (pay, receive, point, detail) {
 			var transactionUuid = getUUID();
 
+			alert(transactionUuid);
+
 			collectionTransactions.doc(transactionUuid).set({
 				uuid: uuid,
 				transactionUuid: transactionUuid,
