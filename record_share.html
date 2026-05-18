@@ -238,6 +238,7 @@
 			localStorage.setItem('shareSelectedPlayer', selectedPlayer);
 
 			$('#table-confirm-transaction-main').hide();
+			//select only one player
 			if (selectedPlayer != '')
 			{
 				snapShotTransaction = collectionTransactions
@@ -254,6 +255,7 @@
 						$('#table-confirm-transaction-main').show();
 					});
 			}
+			//all players 
 			else
 			{
 				snapShotTransaction = collectionTransactions
