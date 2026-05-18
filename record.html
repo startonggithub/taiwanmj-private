@@ -775,6 +775,21 @@
 				return;
 			}
 
+			if ($('#e-player-input').val() == $('#s-player-input').val() || 
+			    $('#e-player-input').val() == $('#w-player-input').val() || 
+				$('#e-player-input').val() == $('#n-player-input').val() || 
+				$('#s-player-input').val() == $('#w-player-input').val() || 
+				$('#s-player-input').val() == $('#n-player-input').val() || 
+				$('#w-player-input').val() == $('#n-player-input').val()) 
+			{
+				$('#warning-message').text('名字不可以相同');
+				$('#alertModal').modal('show');
+				setTimeout(function () {
+					$('#alertModal').modal('hide');
+				}, 2000);
+				return;
+			}
+
 			for (var i = 0; i < allPlayers.length; i ++) {
 				$('#' + allPlayers[i] + '-position').text($('#' + allPlayers[i] + '-player-input').val());
 				
@@ -2157,7 +2172,8 @@
 
 			$('#table-confirm-transaction').append('<tr style="color:' + fontColor + '"><td>' + confirmTransaction + '</td></tr>');
 
-			sendServerTransaction(c.charAt(1), c.charAt(0), Math.abs(s), confirmTransaction);
+			//sendServerTransaction(c.charAt(1), c.charAt(0), Math.abs(s), confirmTransaction);
+			sendServerTransaction($('#' + c.charAt(1) + '-player-input').val(), $('#' + c.charAt(0) + '-player-input').val(), Math.abs(s), confirmTransaction);
 
 			//Adjust scores
 			$('#' + c.charAt(0) + '-scores').text(parseInt($('#' + c.charAt(0) + '-scores').text()) + s);
