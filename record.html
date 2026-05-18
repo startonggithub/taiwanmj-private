@@ -2411,7 +2411,7 @@
 
 			alert(transactionUuid);
 
-			collectionTransactions.doc(transactionUuid).set({
+			var data = {
 				uuid: uuid,
 				transactionUuid: transactionUuid,
 				pay: pay,
@@ -2421,7 +2421,9 @@
 				detail: detail,
 				marked: false,
 				timestamp: getDateyyyymmddHHmmss()
-			})
+			};
+
+			collectionTransactions.doc(transactionUuid).set(data)
 			.then(() => {
 				console.log("Row added:", data);
 
