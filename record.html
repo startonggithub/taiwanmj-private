@@ -2419,8 +2419,26 @@
 				detail: detail,
 				marked: false,
 				timestamp: getDateyyyymmddHHmmss()
-			})						
-		}		
+			})
+			.then(() => {
+				console.log("Row added:", data);
+
+				// print ALL rows after insert
+				return firebase.firestore()
+					.collection("transactions")
+					.get();
+			})
+			.then((snapshot) => {
+				console.log("All transactions:");
+
+				snapshot.forEach(doc => {
+					console.log(doc.id, doc.data());
+				});
+			})
+			.catch((err) => {
+				console.error("Error:", err);
+			});	
+		}	
   </script>
 </body>
 </html>
