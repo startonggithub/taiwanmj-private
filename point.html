@@ -1,0 +1,2632 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>番數計算表</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css" type="text/css">
+    <link rel="stylesheet" href="assets/theme/css/style.css">
+</head>
+<body background="image/background.jpg" style="background-size:cover;">
+    <!--<div id="topbar" class="fixed-top-right-div">
+        <button class="close-button" onclick="onClickFinish(); return false;">X</button>
+    </div>-->
+    <div id="main" class="display-7">
+		<table class="col-12" style="vertical-align:central;margin:8px 0px 0px 0px;color:white;">
+			<tr>
+				<td style="width:6%;font-weight:bold;">
+					風:
+				</td>
+				<td style="width:10%;">
+					<input type="radio" id="e-wind" name="wind">東
+				</td>											
+				<td style="width:10%;">
+					<input type="radio" id="s-wind" name="wind">南
+				</td>											
+				<td style="width:10%;">
+					<input type="radio" id="w-wind" name="wind">西
+				</td>											
+				<td style="width:10%;">
+					<input type="radio" id="n-wind" name="wind">北
+				</td>
+				<td style="width:14%;font-weight:bold;text-align:right;">
+					局:&nbsp;
+				</td>
+				<td style="width:10%;">
+					<input type="radio" id="e-position" name="position">東
+				</td>													
+				<td style="width:10%;">
+					<input type="radio" id="s-position" name="position">南
+				</td>													
+				<td style="width:10%;">
+					<input type="radio" id="w-position" name="position">西
+				</td>													
+				<td style="width:10%;">
+					<input type="radio" id="n-position" name="position">北
+				</td>
+			</tr>
+		</table>
+		<table class="col-12" style="vertical-align:central;margin:3px 0px 0px 0px;color:white;">
+			<tr>
+				<td style="width:6%;font-weight:bold;">
+                    勝:
+				</td>
+				<td style="width:20%;" colspan="2">
+					<input type="radio" id="e-winner" name="winner"><text id="e-winner-label"></text>
+				</td>
+				<td style="width:20%;" colspan="2">
+					<input type="radio" id="s-winner" name="winner"><text id="s-winner-label"></text>
+				</td>
+				<td style="width:20%;" colspan="2">
+					<input type="radio" id="w-winner" name="winner"><text id="w-winner-label"></text>
+				</td>
+				<td style="width:20%;" colspan="2">
+					<input type="radio" id="n-winner" name="winner"><text id="n-winner-label"></text>
+				</td>
+				<td style="width:14%;" >
+					<button id="button-others" onclick="onClickOthers(); return false;" type="submit" class="btn-xs btn-primary display-7">其他</button>
+				</td>
+			</tr>
+		</table>
+		<table class="col-12" style="vertical-align:central;margin:3px 0px 0px 0px;color:white;">
+			<tr>
+				<td style="width:6%;font-weight:bold;">
+                    食:
+				</td>
+				<td style="width:15%;">
+					<input type="radio" id="win-type-1" name="winType" value="1">自摸
+				</td>
+                <td style="width:33%;text-align:left;">
+                    花/槓自摸&nbsp;
+                    <input type="number" id="flower-gong" name="flowerGong" class="group1" style="width:23%;" value="0" disabled>
+                </td>
+				<td style="width:6%;font-weight:bold;text-align:right;">
+                    莊:&nbsp;
+				</td>
+				<td style="width:40%;">
+					<input type="checkbox" id="jon-1" name="jon1" value="3">莊
+					<input type="checkbox" id="jon-2" name="jon2" value="3">食莊
+					<select style="display:none;" id="jon" disabled></select>
+					連&nbsp;<input type="number" id="jon-number" name="jonNumber" class="group3" style="width:19%;" value="0" disabled>
+				</td>
+            </tr>
+		</table>
+		<table class="col-12" style="vertical-align:central;margin:2px 0px 0px 0px;color:white;">
+            <tr>
+                <td style="width:6%;"><input type="text" style="width:0%;visibility:hidden;"></td>
+                <td style="width:15%;padding:0px;">
+                    <input type="radio" id="win-type-2" name="winType" value="2">出沖
+                </td>
+				<td style="width:20%;padding:0px;">
+                    <select style="width:100%;" class="group2" id="loser" disabled></select>
+                </td>
+                <td style="width:20%;text-align:center;">
+                    <input type="checkbox" id="gong" class="group2" name="gong" disabled>搶槓
+                </td>
+				<td style="width:15%;text-align:center;">
+					<input type="checkbox" id="hear" name="hear">聽
+				</td>
+                <td style="width:24%;text-align:center;">
+                    <input type="checkbox" id="multi">一炮多響
+                </td>
+			</tr>
+		</table>
+		<!--<div class="container-fluid col-12" style="color:white;">-->
+		<div style="color:white;margin:0px 0px 0px 0px;">
+			<div id="flowers" class="row-fluid flex nopadding">
+				<div><img id="flower-plum-1" name="71" style="padding-left: 13%; padding-right:13%;" src="image/71.png"></div>
+				<div><img id="flower-orchid-2" name="72" style="padding-left: 13%; padding-right:13%;" src="image/72.png"></div>
+				<div><img id="flower-chrysanthemum-3" name="73" style="padding-left: 13%; padding-right:13%;" src="image/73.png"></div>
+				<div><img id="flower-bamboo-4" name="74" style="padding-left: 13%; padding-right:13%;" src="image/74.png"></div>
+				<div></div>
+				<div><img id="season-spring-1" name="81" style="padding-left: 13%; padding-right:13%;" src="image/81.png"></div>
+				<div><img id="season-summer-2" name="82" style="padding-left: 13%; padding-right:13%;" src="image/82.png"></div>
+				<div><img id="season-autumn-3" name="83" style="padding-left: 13%; padding-right:13%;" src="image/83.png"></div>
+				<div><img id="season-winter-4" name="84" style="padding-left: 13%; padding-right:13%;" src="image/84.png"></div>
+			</div>
+			<div id="sets" style="margin:2px 0px 0px 0px;">
+				<div class="row-fluid flex">
+					<div class="col-xs-4 border border-dark" id="set-1">
+						<div class="text-center row" style="margin:6px 0px 2px 0px;">
+							<div><input type="checkbox" id="set-1-gong" name="set1Gong"><text>槓</text></div>
+							<div><input type="checkbox" id="set-1-open" name="set1Open"><text>落地</text></div>
+						</div>
+						<div class="row">
+							<div><img id="1" name="" class="selectedRed" style="padding-left: 13%; padding-right:13%;" src="image/face-down.png"></div>
+							<div><img id="2" name="" style="padding-left: 13%; padding-right:13%;" src="image/face-down.png"></div>
+							<div><img id="3" name="" style="padding-left: 13%; padding-right:13%;" src="image/face-down.png"></div>
+						</div>
+					</div>
+					<div class="col-xs-4 border border-dark" id="set-2">
+						<div class="text-center row" style="margin:6px 0px 2px 0px;">
+							<div><input type="checkbox" id="set-2-gong" name="set2Gong"><text>槓</text></div>
+							<div><input type="checkbox" id="set-2-open" name="set2Open"><text>落地</text></div>
+						</div>
+						<div class="row">
+							<div><img id="4" name="" style="padding-left: 13%; padding-right:13%;" src="image/face-down.png"></div>
+							<div><img id="5" name="" style="padding-left: 13%; padding-right:13%;" src="image/face-down.png"></div>
+							<div><img id="6" name="" style="padding-left: 13%; padding-right:13%;" src="image/face-down.png"></div>
+						</div>
+					</div>
+					<div class="col-xs-4 border border-dark" id="set-3">
+						<div class="text-center row" style="margin:6px 0px 2px 0px;">
+							<div><input type="checkbox" id="set-3-gong" name="set3Gong"><text>槓</text></div>
+							<div><input type="checkbox" id="set-3-open" name="set3Open"><text>落地</text></div>
+						</div>
+						<div class="row">
+							<div><img id="7" name="" style="padding-left: 13%; padding-right:13%;" src="image/face-down.png"></div>
+							<div><img id="8" name="" style="padding-left: 13%; padding-right:13%;" src="image/face-down.png"></div>
+							<div><img id="9" name="" style="padding-left: 13%; padding-right:13%;" src="image/face-down.png"></div>
+						</div>
+					</div>
+				</div>
+				<div class="row-fluid flex">
+					<div class="col-xs-4 border border-dark" id="set-4">
+						<div class="text-center row" style="margin:6px 0px 2px 0px;">
+							<div><input type="checkbox" id="set-4-gong" name="set4Gong"><text>槓</text></div>
+							<div><input type="checkbox" id="set-4-open" name="set4Open"><text>落地</text></div>
+						</div>
+						<div class="row">
+							<div><img id="10" name="" style="padding-left: 13%; padding-right:13%;" src="image/face-down.png"></div>
+							<div><img id="11" name="" style="padding-left: 13%; padding-right:13%;" src="image/face-down.png"></div>
+							<div><img id="12" name="" style="padding-left: 13%; padding-right:13%;" src="image/face-down.png"></div>
+						</div>
+					</div>
+					<div class="col-xs-4 border border-dark" id="set-5">
+						<div class="text-center row" style="margin:6px 0px 2px 0px;">
+							<div><input type="checkbox" id="set-5-gong" name="set5Gong"><text>槓</text></div>
+							<div><input type="checkbox" id="set-5-open" name="set5Open"><text>落地</text></div>
+						</div>
+						<div class="row">
+							<div><img id="13" name="" style="padding-left: 13%; padding-right:13%;" src="image/face-down.png"></div>
+							<div><img id="14" name="" style="padding-left: 13%; padding-right:13%;" src="image/face-down.png"></div>
+							<div><img id="15" name="" style="padding-left: 13%; padding-right:13%;" src="image/face-down.png"></div>
+						</div>
+					</div>
+					<div class="col-xs-4 border border-dark" id="set-6">
+						<div class="text-center row" style="margin:6px 0px 2px 0px;">
+							<div style="visibility:hidden;"><input type="checkbox" id="set-6-gong"><text>槓</text></div>
+							<div style="visibility:hidden;"><input type="checkbox" id="set-6-open"><text>落地</text></div>
+						</div>
+						<div class="row">
+							<div><img id="16" name="" style="padding-left: 13%; padding-right:13%;" src="image/face-down.png"></div>
+							<div><img id="17" name="" style="padding-left: 13%; padding-right:13%;" src="image/face-down.png"></div>
+							<div style="visibility:hidden;"><img id="dummy-tile" name="" style="padding-left: 13%; padding-right:13%;" src="image/face-down.png"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div style="margin:8px 0px 0px 0px;" >
+				<div class="row col-12 nopadding">
+					<div style="width:55%;">
+						<button id="button-calc" onclick="onClickCalc(-1); return false;" type="submit" class="btn-xs btn-primary display-7">計算</button>
+						<button id="button-reset" onclick="onClickReset(); return false;" type="submit" class="btn-xs btn-primary display-7">重設</button>
+						<button id="button-finish" onclick="onClickFinish(); return false;" type="submit" class="btn-xs btn-primary display-7">完成</button>
+					</div>
+					<div style="width:45%;">
+						<text style="color:lightpink;" id="message"></text>
+						<input type="number" style="display:none;" id="totalPoints"></input>
+						<input type="number" style="display:none;" id="totalPointsWithoutJon"></input>
+					</div>
+				</div>
+				<div class="row col-12 nopadding">
+					<h6 id="label-1"><small>長按輸入食糊牌</small></h6>
+				</div>
+			</div>
+			<div id="tiles">
+				<div id="pin" class="row-fluid flex col-12 nopadding">
+					<div><img id="pin1" name="21" style="padding-left: 13%; padding-right:13%;" src="image/21.png"></div>
+					<div><img id="pin2" name="22" style="padding-left: 13%; padding-right:13%;" src="image/22.png"></div>
+					<div><img id="pin3" name="23" style="padding-left: 13%; padding-right:13%;" src="image/23.png"></div>
+					<div><img id="pin4" name="24" style="padding-left: 13%; padding-right:13%;" src="image/24.png"></div>
+					<div><img id="pin5" name="25" style="padding-left: 13%; padding-right:13%;" src="image/25.png"></div>
+					<div><img id="pin6" name="26" style="padding-left: 13%; padding-right:13%;" src="image/26.png"></div>
+					<div><img id="pin7" name="27" style="padding-left: 13%; padding-right:13%;" src="image/27.png"></div>
+					<div><img id="pin8" name="28" style="padding-left: 13%; padding-right:13%;" src="image/28.png"></div>
+					<div><img id="pin9" name="29" style="padding-left: 13%; padding-right:13%;" src="image/29.png"></div>
+				</div>
+				<div id="bamboo" class="row-fluid flex col-12 nopadding">
+					<div><img id="bamboo1" name="31" style="padding-left: 13%; padding-right:13%;" src="image/31.png"></div>
+					<div><img id="bamboo2" name="32" style="padding-left: 13%; padding-right:13%;" src="image/32.png"></div>
+					<div><img id="bamboo3" name="33" style="padding-left: 13%; padding-right:13%;" src="image/33.png"></div>
+					<div><img id="bamboo4" name="34" style="padding-left: 13%; padding-right:13%;" src="image/34.png"></div>
+					<div><img id="bamboo5" name="35" style="padding-left: 13%; padding-right:13%;" src="image/35.png"></div>
+					<div><img id="bamboo6" name="36" style="padding-left: 13%; padding-right:13%;" src="image/36.png"></div>
+					<div><img id="bamboo7" name="37" style="padding-left: 13%; padding-right:13%;" src="image/37.png"></div>
+					<div><img id="bamboo8" name="38" style="padding-left: 13%; padding-right:13%;" src="image/38.png"></div>
+					<div><img id="bamboo9" name="39" style="padding-left: 13%; padding-right:13%;" src="image/39.png"></div>
+				</div>
+				<div id="man" class="row-fluid flex col-12 nopadding">
+					<div><img id="man1" name="41" style="padding-left: 13%; padding-right:13%;" src="image/41.png"></div>
+					<div><img id="man2" name="42" style="padding-left: 13%; padding-right:13%;" src="image/42.png"></div>
+					<div><img id="man3" name="43" style="padding-left: 13%; padding-right:13%;" src="image/43.png"></div>
+					<div><img id="man4" name="44" style="padding-left: 13%; padding-right:13%;" src="image/44.png"></div>
+					<div><img id="man5" name="45" style="padding-left: 13%; padding-right:13%;" src="image/45.png"></div>
+					<div><img id="man6" name="46" style="padding-left: 13%; padding-right:13%;" src="image/46.png"></div>
+					<div><img id="man7" name="47" style="padding-left: 13%; padding-right:13%;" src="image/47.png"></div>
+					<div><img id="man8" name="48" style="padding-left: 13%; padding-right:13%;" src="image/48.png"></div>
+					<div><img id="man9" name="49" style="padding-left: 13%; padding-right:13%;" src="image/49.png"></div>
+				</div>
+				<div id="wind-dragon" class="row-fluid flex col-12 nopadding">
+					<div></div>
+					<div><img id="wind-east" name="51" style="padding-left: 13%; padding-right:13%;" src="image/51.png"></div>
+					<div><img id="wind-south" name="53" style="padding-left: 13%; padding-right:13%;" src="image/53.png"></div>
+					<div><img id="wind-west" name="55" style="padding-left: 13%; padding-right:13%;" src="image/55.png"></div>
+					<div><img id="wind-north" name="57" style="padding-left: 13%; padding-right:13%;" src="image/57.png"></div>
+					<div><img id="dragon-chun" name="61" style="padding-left: 13%; padding-right:13%;" src="image/61.png"></div>
+					<div><img id="dragon-green" name="63" style="padding-left: 13%; padding-right:13%;" src="image/63.png"></div>
+					<div><img id="dragon-haku" name="65" style="padding-left: 13%; padding-right:13%;" src="image/65.png"></div>
+					<div></div>
+				</div>
+			</div>
+			<div id="results">
+				<div class="row-fluid flex col-12 nopadding">
+					<div class="nopadding"><img id="result0" src=""></div>
+					<div class="nopadding"><img id="result1" src=""></div>
+					<div class="nopadding"><img id="result2" src=""></div>
+					<div class="nopadding"><img id="result3" src=""></div>
+					<div class="nopadding"><img id="result4" src=""></div>
+					<div class="nopadding"><img id="result5" src=""></div>
+					<div class="nopadding"><img id="result6" src=""></div>
+					<div class="nopadding"><img id="result7" src=""></div>
+					<div class="nopadding"><img id="result8" src=""></div>
+					<div class="nopadding"><img id="result9" src=""></div>
+					<div class="nopadding"><img id="result10" src=""></div>
+					<div class="nopadding"><img id="result11" src=""></div>
+					<div class="nopadding"><img id="result12" src=""></div>
+					<div class="nopadding"><img id="result13" src=""></div>
+					<div class="nopadding"><img id="result14" src=""></div>
+					<div class="nopadding"><img id="result15" src=""></div>
+				</div>
+				<div id="gameTiles">
+				</div>
+				<div class="row-fluid flex col-12 nopadding display-7" style="margin:0px 0px 0px 0px;color:white;">
+					<div class="col-xs-4">
+						<table style="width:90%;font-size:14px;">
+							<tbody id="table-result-points-1"></tbody>
+						</table>
+					</div>
+					<div class="col-xs-4">
+						<table style="width:90%;font-size:14px;">
+							<tbody id="table-result-points-2"></tbody>
+						</table>
+					</div>
+					<div class="col-xs-4">
+						<table style="width:90%;font-size:14px;">
+							<tbody id="table-result-points-3"></tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+
+    <!-- Bootstrap Modal -->
+    <!-- For extra options -->
+    <div class="modal fade" id="extraOptionsModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content display-7 col-12">
+                <div id="extra-options" style="margin:10px 0px 0px 0px;">
+                    <div>
+                        <input style="width:5%;" type="checkbox" id="in-seven" name="inSeven"/><label style="width:20%;">七只內</label>
+                        <input style="width:5%;" type="checkbox" id="in-ten" name="inTen"/><label style="width:20%;">十只內</label>
+                    </div>
+                    <div>
+                        <input style="width:5%;" type="checkbox" id="seven-get-one" name="sevenGetOne"/><label style="width:20%;">七搶一</label>
+                    </div>
+                    <div>
+                        <input style="width:5%;" type="checkbox" id="river-fish" name="riverFish"/><label style="width:20%;">河底撈魚</label>
+                        <input style="width:5%;" type="checkbox" id="sea-fish" name="seaFish"/><label style="width:20%;">海底撈魚</label>
+                        <input style="width:5%;" type="checkbox" id="sea-moon" name="seaMoon"/><label style="width:20%;">海底撈月</label>
+                    </div>
+                    <div>
+                        <input style="width:5%;" type="checkbox" id="sky-hear" name="skyHear"/><label style="width:20%;">天聽</label>
+                        <input style="width:5%;" type="checkbox" id="earth-hear" name="earthHear"/><label style="width:20%;">地聽</label>
+                        <input style="width:5%;" type="checkbox" id="human-hear" name="humanHear"/><label style="width:20%;">人聽</label>
+                    </div>
+                    <div>
+                        <input style="width:5%;" type="checkbox" id="sky-game" name="skyGame"/><label style="width:20%;">天糊</label>
+                        <input style="width:5%;" type="checkbox" id="earth-game" name="earthGame"/><label style="width:20%;">地糊</label>
+                        <input style="width:5%;" type="checkbox" id="human-game" name="humanGame"/><label style="width:20%;">人糊</label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="confirm" class="btn-xs btn-primary display-7" data-dismiss="modal">確定</button>
+                        <!--<button type="button" id="cancel" class="btn-xs btn-secondary display-7" data-dismiss="modal">取消</button>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<!-- For confirm of patterns -->
+	<div class="modal fade" id="patternConfirmModal" tabindex="-1" role="dialog" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <div class="modal-body display-7">
+			<div>糊牌</div>
+		  	<div id="div-patterns"></div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+
+	<script src="assets/web/assets/jquery/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/theme/js/script.js"></script>
+    <script src="assets/web/assets/game_validation.js"></script>
+	<script src="assets/web/assets/environment.js"></script>
+    <script type="text/javascript">
+	    $(document).ready(function () {
+            if (appCategory == 'free' || appCategory == 'paid') {
+				//Disable cut copy paste
+				$('body').bind('cut copy paste', function (e) {
+					e.preventDefault();
+				});
+
+				//Disable mouse right click
+				$("body").on("contextmenu",function(e){
+					return false;
+				});
+			}
+
+			$('#e-winner-label').text((sessionStorage.getItem('e-player-input') == null ? '東' : sessionStorage.getItem('e-player-input')));
+			$('#s-winner-label').text((sessionStorage.getItem('s-player-input') == null ? '南' : sessionStorage.getItem('s-player-input')));
+			$('#w-winner-label').text((sessionStorage.getItem('w-player-input') == null ? '西' : sessionStorage.getItem('w-player-input')));
+			$('#n-winner-label').text((sessionStorage.getItem('n-player-input') == null ? '北' : sessionStorage.getItem('n-player-input')));
+
+			$('#loser').append($('<option>', {
+                value: ('e-loser'),
+                text: (sessionStorage.getItem('e-player-input') == null ? '東' : sessionStorage.getItem('e-player-input'))
+            }));
+
+			$('#loser').append($('<option>', {
+                value: ('s-loser'),
+                text: (sessionStorage.getItem('s-player-input') == null ? '南' : sessionStorage.getItem('s-player-input'))
+            }));
+
+			$('#loser').append($('<option>', {
+                value: ('w-loser'),
+                text: (sessionStorage.getItem('w-player-input') == null ? '西' : sessionStorage.getItem('w-player-input'))
+            }));
+
+			$('#loser').append($('<option>', {
+                value: ('n-loser'),
+                text: (sessionStorage.getItem('n-player-input') == null ? '北' : sessionStorage.getItem('n-player-input'))
+            }));
+
+			$('#jon').append($('<option>', {
+                value: ('e-jon'),
+                text: (sessionStorage.getItem('e-player-input') == null ? '東' : sessionStorage.getItem('e-player-input'))
+            }));
+
+			$('#jon').append($('<option>', {
+                value: ('s-jon'),
+                text: (sessionStorage.getItem('s-player-input') == null ? '南' : sessionStorage.getItem('s-player-input'))
+            }));
+
+			$('#jon').append($('<option>', {
+                value: ('w-jon'),
+                text: (sessionStorage.getItem('w-player-input') == null ? '西' : sessionStorage.getItem('w-player-input'))
+            }));
+
+			$('#jon').append($('<option>', {
+                value: ('n-jon'),
+                text: (sessionStorage.getItem('n-player-input') == null ? '北' : sessionStorage.getItem('n-player-input'))
+			}));
+			
+			//set only when call from record.html
+			if (sessionStorage.getItem("calcUsingPointHtml") == "start") {
+				$('#' + localStorage.getItem('currentWind')).prop('checked', true);
+				$('#' + localStorage.getItem('currentPosition')).prop('checked', true);
+			}
+
+			//Preset for multi case entry 
+			if (sessionStorage.getItem("RecordHtmlMulti") == "Yes") {
+				$('#multi').prop('checked', true);
+				$('#win-type-2').prop('checked', true);
+				$('#loser').prop('disabled', false);
+				if (sessionStorage.getItem("RecordHtmlMultiEastStatus") == "lose") {
+					$('#loser').val('e-loser');
+				}
+				else if (sessionStorage.getItem("RecordHtmlMultiSouthStatus") == "lose") {
+					$('#loser').val('s-loser');
+				}
+				else if (sessionStorage.getItem("RecordHtmlMultiWestStatus") == "lose") {
+					$('#loser').val('w-loser');
+				}
+				else if (sessionStorage.getItem("RecordHtmlMultiNorthStatus") == "lose") {
+					$('#loser').val('n-loser');
+				}
+			}
+
+			$('#tiles').toggle(true);
+			$('#results').toggle(false);
+		})
+
+		//Handle click and long press events in sets 
+		var longpress = false;
+		var presstimer = null;
+		var longtarget = null;
+		var handler = null;
+
+		var cancel = function(e) {
+			if (presstimer !== null) {
+				clearTimeout(presstimer);
+				presstimer = null;
+				handler = null;
+			}
+		};
+
+		var start = function(e) {
+			if (e.type === 'click' && e.button !== 0) {
+				return false;
+			}
+
+			longpress = false;
+			handler = this;
+
+			if (presstimer === null) {
+				presstimer = setTimeout(function() {
+					setLastTile(handler.id);
+					longpress = true;
+				}, 400);
+			}
+
+			return false;
+		};
+
+		$('#sets').find('img').click(function () {
+			if (presstimer !== null) {
+				clearTimeout(presstimer);
+				presstimer = null;
+				handler = null;
+			}
+
+			if (longpress) {
+				return false;
+			}
+
+			setCurrentTile(this.id);
+		});
+
+		$('#sets').find('img').each(function () {
+			this.addEventListener('mousedown', start);
+			this.addEventListener('touchstart', start);
+			this.addEventListener('mouseout', cancel);
+			this.addEventListener('touchend', cancel);
+			this.addEventListener('touchleave', cancel);
+			this.addEventListener('touchcancel', cancel);
+		});
+
+		$('#tiles').find('img').click(function () {
+			var selected = getCurrentTile();
+			$('#' + selected).attr("src", this.src);
+			$('#' + selected).attr("name", this.name);
+
+			var nextTile = (parseInt(selected) == 17 ? 1 : parseInt(selected) + 1);
+			setCurrentTile(nextTile);
+		})
+
+		function setCurrentTile (number) {
+			$('#sets').find('img').each(function() {
+				$(this).removeClass('selectedRed');
+			});
+
+			$('#' + number).addClass('selectedRed');
+		}
+
+		function getCurrentTile () {
+			var number;
+
+			$('#sets').find('img').each(function() {
+				if ($(this).hasClass('selectedRed')) {
+					number = this.id;
+				};
+			});
+
+			return number;
+		}
+
+		function setLastTile (number) {
+			$('#sets').find('img').each(function() {
+				$(this).removeClass('selectedAqua');
+			});
+
+			$('#' + number).addClass('selectedAqua');
+		}
+
+		function getLastTilePosition () {
+			var number;
+
+			$('#sets').find('img').each(function() {
+				if ($(this).hasClass('selectedAqua')) {
+					number = this.id;
+				};
+			});
+
+			return number;
+		}
+		//Handle click and long press events in sets 
+
+		//Handle pre-input 
+		$('#win-type-1').on('click', function() {
+			$('input.group1').prop('disabled', true);
+			$('input.group2').prop('disabled', true);
+			$('select.group2').prop('disabled', true);
+			$('input.group' + $(this).val()).prop('disabled', false);
+			$('select.group' + $(this).val()).prop('disabled', false);
+
+			setJon();
+		})
+
+		$('#win-type-2').on('click', function() {
+			$('input.group1').prop('disabled', true);
+			$('input.group2').prop('disabled', true);
+			$('select.group2').prop('disabled', true);
+			$('input.group' + $(this).val()).prop('disabled', false);
+			$('select.group' + $(this).val()).prop('disabled', false);
+
+			setJon();
+		})
+
+		$('#jon-1').on('click', function() {
+			if ($(this).is(":checked")) {
+				$('#jon-number').prop('disabled', false);
+				$('#jon-number').val(getConsecutiveWin('winner'));
+				$('#jon-2').prop('checked', false);
+			}
+			else {
+				$('#jon-number').prop('disabled', true);
+			};
+		})
+
+		$('#jon-2').on('click', function() {
+			if ($(this).is(":checked")) {
+				$('#jon-number').prop('disabled', false);
+				$('#jon-number').val(getConsecutiveWin('loser'));
+				$('#jon-1').prop('checked', false);
+			}
+			else {
+				$('#jon-number').prop('disabled', true);
+			};
+		})
+
+		$('#main').find('input[name="winner"], input[name="position"]').on('click', function() {
+			setJon();
+		})
+
+		$("#loser").change(function() {
+			setJon();
+		})
+
+		//其他 
+		$('#in-seven').on('click', function() {
+			if ($(this).is(":checked")) {
+				$('#in-ten').prop('checked', false);
+			}
+		})
+
+		$('#in-ten').on('click', function() {
+			if ($(this).is(":checked")) {
+				$('#in-seven').prop('checked', false);
+			}
+		})
+
+		$('#river-fish').on('click', function() {
+			if ($(this).is(":checked")) {
+				$('#sea-fish').prop('checked', false);
+				$('#sea-moon').prop('checked', false);
+			}
+		})
+
+		$('#sea-fish').on('click', function() {
+			if ($(this).is(":checked")) {
+				$('#river-fish').prop('checked', false);
+				$('#sea-moon').prop('checked', false);
+			}
+		})
+
+		$('#sea-moon').on('click', function() {
+			if ($(this).is(":checked")) {
+				$('#river-fish').prop('checked', false);
+				$('#sea-fish').prop('checked', false);
+			}
+		})
+
+		$('#sky-hear').on('click', function() {
+			if ($(this).is(":checked")) {
+				$('#earth-hear').prop('checked', false);
+				$('#human-hear').prop('checked', false);
+
+				//地胡 不再計天聽
+				if ($('#earth-game').is(":checked")) $(this).prop('checked', false);
+				//人胡 不再計天聽
+				if ($('#human-game').is(":checked")) $(this).prop('checked', false);
+			}
+		})
+
+		$('#earth-hear').on('click', function() {
+			if ($(this).is(":checked")) {
+				$('#sky-hear').prop('checked', false);
+				$('#human-hear').prop('checked', false);
+
+				//人胡 不再計地聽
+				if ($('#human-game').is(":checked")) $(this).prop('checked', false);
+			}
+		})
+
+		$('#human-hear').on('click', function() {
+			if ($(this).is(":checked")) {
+				$('#sky-hear').prop('checked', false);
+				$('#earth-hear').prop('checked', false);
+
+				//人胡 不再計人聽
+				if ($('#human-game').is(":checked")) $(this).prop('checked', false);
+			}
+		})
+
+		$('#sky-game').on('click', function() {
+			if ($(this).is(":checked")) {
+				$('#earth-game').prop('checked', false);
+				$('#human-game').prop('checked', false);
+			}
+		})
+
+		$('#earth-game').on('click', function() {
+			if ($(this).is(":checked")) {
+				$('#sky-game').prop('checked', false);
+				$('#human-game').prop('checked', false);
+
+				//地胡 不再計天聽
+				$('#sky-hear').prop('checked', false);
+			}
+		})
+
+		$('#human-game').on('click', function() {
+			if ($(this).is(":checked")) {
+				$('#sky-game').prop('checked', false);
+				$('#earth-game').prop('checked', false);
+
+				//人胡 不再計門清、天聽、地聽、人聽
+				$('#sky-hear').prop('checked', false);
+				$('#earth-hear').prop('checked', false);
+				$('#human-hear').prop('checked', false);
+			}
+		})
+		//Handle pre-input
+
+		$('#flowers').find('img').click(function () {
+			if ($(this).hasClass('selectedBlue')) {
+				$(this).removeClass('selectedBlue');
+			}
+			else {
+				$(this).addClass('selectedBlue');
+			};
+		})
+
+		function clearFlowers () {
+			$('#flowers').find('img').each(function() {
+				$(this).removeClass('selectedBlue');
+			});
+		}
+
+		function clearSets () {
+			$('#sets').find('img').each(function() {
+				$(this).attr("src", "image/face-down.png");
+				$(this).attr("name", "");
+				$(this).removeClass('selectedAqua');
+			});
+		}
+
+		function onClickOthers () {
+			$('#extraOptionsModal').modal('show');
+		}
+		
+		function onClickReset () {
+		    $('#main').find('input').each(function () {
+		        if (this.type == 'radio' || this.type == 'checkbox')
+    		        $(this).prop('checked', false);
+    		    else if (this.type = 'number' && this.id == 'flower-gong')
+  		            $(this).val(0);
+    		    else if (this.type = 'number' && this.id == 'jon-number')
+  		            $(this).val(0);
+		    });
+
+		    $('#main').find('select').each(function () {
+		        if (this.id == 'loser')
+		        	$(this).prop('disabled', true);
+		    });
+
+			$('input.group1').prop('disabled', true);
+			$('input.group2').prop('disabled', true);
+			$('input.group3').prop('disabled', true);
+
+		    //Clear all checkbox in extra options
+		    $('#extra-options').find('input[type=checkbox]').each(function () {
+		        $(this).prop('checked', false);
+		    });
+
+			$('#message').text('');
+
+			clearFlowers();
+			clearSets();
+			setCurrentTile(1);
+
+			$('#tiles').toggle(true);
+			$('#results').toggle(false);
+		}
+
+		function onClickFinish() {
+			if (sessionStorage.getItem("calcUsingPointHtml") == "start") {
+				//save result 
+				sessionStorage.setItem("PointHtmlTotalPoints", $('#totalPoints').val());
+				sessionStorage.setItem("PointHtmlTotalPointsWithoutJon", $('#totalPointsWithoutJon').val());
+
+				sessionStorage.setItem("PointHtmlWinType", getWinType());
+
+				$('#main').find('input[name="winner"]').each(function() {
+					if ($(this).is(":checked"))
+						sessionStorage.setItem("PointHtmlWinner", this.id);
+				});
+
+				if ($('#win-type-2').is(":checked"))
+					sessionStorage.setItem("PointHtmlLoser", $('#loser').children("option:selected").val());
+				else 
+					sessionStorage.setItem("PointHtmlLoser", "");
+
+				if ($('#jon-2').is(":checked"))
+					sessionStorage.setItem("PointHtmlJon", $('#jon').children("option:selected").val());
+				else 
+					sessionStorage.setItem("PointHtmlJon", "");
+
+				if ($('#multi').is(":checked"))
+					sessionStorage.setItem("PointHtmlMulti", "Yes");
+				else
+					sessionStorage.setItem("PointHtmlMulti", "No");
+
+				sessionStorage.setItem("calcUsingPointHtml", "return");
+			}
+
+			window.history.back();
+		}
+
+		function setJon () {
+			//if winner = position, set jon-1 and enable jon-number 
+			//else if win-type-1, set jon-2 and jon = position and enable jon-number
+			//else if win-type-2 and loser = position, set jon-2 and jon = position and enable jon-number
+			var winner, position, winType, loser;
+
+			winner = '';
+			$('#main').find('input[name="winner"]').each(function() {
+				if ($(this).is(":checked"))
+					winner = String(this.id).charAt(0);
+			});
+
+			position = '';
+			$('#main').find('input[name="position"]').each(function() {
+				if ($(this).is(":checked"))
+					position = String(this.id).charAt(0);
+			});
+
+			winType = getWinType();
+
+			loser = String($('#loser').children("option:selected").val()).charAt(0);
+
+			//clear settings 
+			$('#jon-1').prop('checked', false);
+			$('#jon-2').prop('checked', false);
+			$('#jon-number').prop('disabled', true);
+
+			if (winner != '' && position != '' && winner == position) {
+				$('#jon-1').prop('checked', true);
+				$('#jon-number').prop('disabled', false);
+				$('#jon-number').val(getConsecutiveWin('winner'));
+			}
+			else if (winType == "win-type-1") {
+				$('#jon-2').prop('checked', true);
+				$('#jon').val(position + '-jon');
+				$('#jon-number').prop('disabled', false);
+				$('#jon-number').val(getConsecutiveWin('loser'));
+			}
+			else if (winType == "win-type-2" && loser == position) {
+				$('#jon-2').prop('checked', true);
+				$('#jon').val(position + '-jon');
+				$('#jon-number').prop('disabled', false);
+				$('#jon-number').val(getConsecutiveWin('loser'));
+			}
+		}
+
+		function getWinType () {
+			var winType = '';
+			$('#main').find('input[name="winType"]').each(function() {
+				if ($(this).is(":checked"))
+					winType = this.id;
+			});
+
+			return winType;
+		}
+
+		function getConsecutiveWin (type) {
+			var pos = '';
+			if (type == 'winner') {
+				$('#main').find('input[name="winner"]').each(function() {
+					if ($(this).is(":checked"))
+						pos = String(this.id).charAt(0);
+				});
+			}
+			else if (type == 'loser') {
+				$('#main').find('input[name="position"]').each(function() {
+					if ($(this).is(":checked"))
+						pos = String(this.id).charAt(0);
+				});
+			}
+
+			var result = sessionStorage.getItem(pos + '-consecutive-win');
+			if (result == null || result == '') result = '0';
+
+			return parseInt(result);
+		}
+
+        var allPins = ['21','22','23','24','25','26','27','28','29'];
+        var allBamboos = ['31','32','33','34','35','36','37','38','39'];
+        var allMans = ['41','42','43','44','45','46','47','48','49'];
+        var allWinds = ['51','53','55','57'];
+        var allDragons = ['61','63','65'];
+        var allTiles = [];
+		allTiles.concat(allPins, allBamboos, allMans, allWinds, allDragons);
+
+		var allFlowers = ['71','72','73','74'];
+		var allSeasons = ['81','82','83','84'];
+
+		var allEnds = ['21','29','31','39','41','49'];
+		var allEndsDragonsWinds = allEnds.concat(allDragons, allWinds).sort();
+		var allDragonsWinds = allDragons.concat(allWinds);
+
+		var all258s = ['22','25','28','32','35','38','42','45','48'];
+		var allSideEats = ['23','27','33','37','43','47'];
+
+		function onClickCalc (patternClicked) {
+		//
+		//On screen pre-valiations
+		//
+			if (!$("input[name='winType']:checked").val()) {
+				$('#message').text('請輸入食法');
+				return false;
+			};
+
+			if (!$("input[name='wind']:checked").val()) {
+				$('#message').text('請輸入風');
+				return false;
+			};
+
+			if (!$("input[name='position']:checked").val()) {
+				$('#message').text('請輸入位');
+				return false;
+			};
+
+			if (!$("input[name='winner']:checked").val()) {
+				$('#message').text('請輸入勝方');
+				return false;
+			}
+
+			var winner = '';
+			$('#main').find('input[name="winner"]').each(function() {
+				if ($(this).is(":checked"))
+					winner = this.id.charAt(0);
+			});
+
+			var loser = '';
+			if ($('#win-type-2').is(":checked"))
+				loser = String($('#loser').children("option:selected").val()).charAt(0);
+
+			if (winner != "" && winner == loser) {
+				$('#message').text('勝方跟負方輸入相同');
+				return false;
+			}
+
+			var chooseAll = true;
+			var hasLastTile = false;
+			$('#sets').find('img').each(function() {
+				if (this.name == '' && this.id != 'dummy-tile') {
+					chooseAll = false;
+				};
+				if ($(this).hasClass('selectedAqua')) {
+					hasLastTile = true;
+				}
+			});
+
+			if (!chooseAll) {
+				$('#message').text('請選擇全部牌');
+				return false;
+			};
+
+			if (!hasLastTile) {
+				$('#message').text('請選擇食糊牌');
+				return false;
+			};
+
+			$('#message').text('');
+
+		//
+		// Format game object for submission 
+		//
+			var game = new Object();
+
+		    $('#main').find('input').each(function () {
+		        if (this.name == 'winType' && $(this).is(":checked")) {
+					game.winType = this.id;
+				};
+		        if (this.name == 'flowerGong') {
+					game.flowerGong = this.value;
+				};
+		        if (this.name == 'gong') {
+					game.gong = ($(this).is(":checked") ? '1' : '0');
+				};
+		        if (this.name == 'jon1') {
+					game.jon1 = ($(this).is(":checked") ? '1' : '0');
+				};
+		        if (this.name == 'jon2') {
+					game.jon2 = ($(this).is(":checked") ? '1' : '0');
+				};
+		        if (this.name == 'jonNumber') {
+					game.jonNumber = this.value;
+				};
+		        if (this.name == 'hear') {
+					game.hear = ($(this).is(":checked") ? '1' : '0');
+				};
+		        if (this.name == 'wind' && $(this).is(":checked")) {
+					game.wind = this.id;
+				};
+		        if (this.name == 'position' && $(this).is(":checked")) {
+					game.position = this.id;
+				};
+		        if (this.name == 'winner' && $(this).is(":checked")) {
+					game.winner = this.id;
+				};
+
+		        if (this.name == 'set1Gong') {
+					game.set1Gong = ($(this).is(":checked") ? '1' : '0');
+				};
+		        if (this.name == 'set1Open') {
+					game.set1Open = ($(this).is(":checked") ? '1' : '0');
+				};
+		        if (this.name == 'set2Gong') {
+					game.set2Gong = ($(this).is(":checked") ? '1' : '0');
+				};
+		        if (this.name == 'set2Open') {
+					game.set2Open = ($(this).is(":checked") ? '1' : '0');
+				};
+		        if (this.name == 'set3Gong') {
+					game.set3Gong = ($(this).is(":checked") ? '1' : '0');
+				};
+		        if (this.name == 'set3Open') {
+					game.set3Open = ($(this).is(":checked") ? '1' : '0');
+				};
+		        if (this.name == 'set4Gong') {
+					game.set4Gong = ($(this).is(":checked") ? '1' : '0');
+				};
+		        if (this.name == 'set4Open') {
+					game.set4Open = ($(this).is(":checked") ? '1' : '0');
+				};
+		        if (this.name == 'set5Gong') {
+					game.set5Gong = ($(this).is(":checked") ? '1' : '0');
+				};
+		        if (this.name == 'set5Open') {
+					game.set5Open = ($(this).is(":checked") ? '1' : '0');
+				};
+			});
+			
+			//Check winner position 
+			if (game.position.charAt(0) == 'e') {
+				game.winnerPosition = game.winner.charAt(0);
+			}
+			else if (game.position.charAt(0) == 's') {
+				if (game.winner.charAt(0) == 'e') game.winnerPosition = 'n';
+				else if (game.winner.charAt(0) == 's') game.winnerPosition = 'e';
+				else if (game.winner.charAt(0) == 'w') game.winnerPosition = 's';
+				else if (game.winner.charAt(0) == 'n') game.winnerPosition = 'w';
+			}
+			else if (game.position.charAt(0) == 'w') {
+				if (game.winner.charAt(0) == 'e') game.winnerPosition = 'w';
+				else if (game.winner.charAt(0) == 's') game.winnerPosition = 'n';
+				else if (game.winner.charAt(0) == 'w') game.winnerPosition = 'e';
+				else if (game.winner.charAt(0) == 'n') game.winnerPosition = 's';
+			}
+			else if (game.position.charAt(0) == 'n') {
+				if (game.winner.charAt(0) == 'e') game.winnerPosition = 's';
+				else if (game.winner.charAt(0) == 's') game.winnerPosition = 'w';
+				else if (game.winner.charAt(0) == 'w') game.winnerPosition = 'n';
+				else if (game.winner.charAt(0) == 'n') game.winnerPosition = 'e';
+			}
+
+			var flowers = [];
+			$('#flowers').find('img').each(function() {
+				if ($(this).hasClass('selectedBlue')) {
+					flowers.push(this.name);
+				};
+			});
+			game.flowers = flowers.sort();
+
+			var tiles = [];
+			$('#sets').find('img').each(function() {
+				if (this.id != 'dummy-tile') {
+					tiles.push(this.name);
+				};
+			});
+			game.tiles = tiles;
+
+			game.lastTilePosition = getLastTilePosition();
+			game.lastTile = game.tiles[parseInt(game.lastTilePosition) - 1];
+
+		    $('#extraOptionsModal').find('input').each(function () {
+		        if (this.name == 'inSeven') {
+					game.inSeven = ($(this).is(":checked") ? '1' : '0');
+				};
+		        if (this.name == 'inTen') {
+					game.inTen = ($(this).is(":checked") ? '1' : '0');
+				};
+		        if (this.name == 'sevenGetOne') {
+					game.sevenGetOne = ($(this).is(":checked") ? '1' : '0');
+				};
+		        if (this.name == 'riverFish') {
+					game.riverFish = ($(this).is(":checked") ? '1' : '0');
+				};
+		        if (this.name == 'seaFish') {
+					game.seaFish = ($(this).is(":checked") ? '1' : '0');
+				};
+		        if (this.name == 'seaMoon') {
+					game.seaMoon = ($(this).is(":checked") ? '1' : '0');
+				};
+		        if (this.name == 'skyHear') {
+					game.skyHear = ($(this).is(":checked") ? '1' : '0');
+				};
+		        if (this.name == 'earthHear') {
+					game.earthHear = ($(this).is(":checked") ? '1' : '0');
+				};
+		        if (this.name == 'humanHear') {
+					game.humanHear = ($(this).is(":checked") ? '1' : '0');
+				};
+		        if (this.name == 'skyGame') {
+					game.skyGame = ($(this).is(":checked") ? '1' : '0');
+				};
+		        if (this.name == 'earthGame') {
+					game.earthGame = ($(this).is(":checked") ? '1' : '0');
+				};
+		        if (this.name == 'humanGame') {
+					game.humanGame = ($(this).is(":checked") ? '1' : '0');
+				};
+		    });
+
+			//Submit to server side to process if necessary
+			//var jsonString = JSON.stringify(game);
+
+		//
+		// Process 
+		//
+			// Post validations
+			//1. Check eat and pong patterns for open tiles
+			//2. Check gong pattern
+			//3. Check any tile occurs more than 4 times
+			//4. Compile close tiles
+			//5. Look for tiles to win
+
+			var eatHead = [1,2,3];
+			var eatMiddle = [4,5,6];
+			var eatTail = [7,8,9];
+			var oneDragon = eatHead.concat(eatMiddle, eatTail).sort();
+
+			//use completeSet and game.tiles to check the patterns
+			var completeSet = [];
+
+			var incorrectInput = '';
+
+			//check open tiles pattern
+            //form closeTiles (for not open and not gong tiles)
+            var closeTiles = [];
+            if (game.set1Open == '1') {
+                if (!isPong(game.tiles.slice(0,3)) && !isEat(game.tiles.slice(0,3))) incorrectInput = '第一組:落地牌不是碰/上';
+				else if (parseInt(game.lastTilePosition) == 1 || parseInt(game.lastTilePosition) == 2 || parseInt(game.lastTilePosition) == 3) incorrectInput = '第一組:食糊牌在落地牌內';
+                else if (game.set1Gong == '1' && !isPong(game.tiles.slice(0,3))) incorrectInput = '第一組:不是槓牌';
+				else insertCompleteSet(completeSet, game.tiles.slice(0,3), game.set1Open, game.set1Gong);
+            }
+            else {
+                if (game.set1Gong == '1') {
+                    if (!isPong(game.tiles.slice(0,3))) incorrectInput = '第一組:不是槓牌';
+					else insertCompleteSet(completeSet, game.tiles.slice(0,3), game.set1Open, game.set1Gong);
+                }
+                else {
+                    if (parseInt(game.lastTilePosition) != 1) closeTiles.push(game.tiles[0]);
+                    if (parseInt(game.lastTilePosition) != 2) closeTiles.push(game.tiles[1]);
+                    if (parseInt(game.lastTilePosition) != 3) closeTiles.push(game.tiles[2]);
+                };
+            };
+
+            if (game.set2Open == '1') {
+                if (!isPong(game.tiles.slice(3,6)) && !isEat(game.tiles.slice(3,6))) incorrectInput = '第二組:落地牌不是碰/上';
+                else if (parseInt(game.lastTilePosition) == 4 || parseInt(game.lastTilePosition) == 5 || parseInt(game.lastTilePosition) == 6) incorrectInput = '第二組:食糊牌在落地牌內';
+                else if (game.set2Gong == '1' && !isPong(game.tiles.slice(3,6))) incorrectInput = '第二組:不是槓牌';
+				else insertCompleteSet(completeSet, game.tiles.slice(3,6), game.set2Open, game.set2Gong);
+			}
+            else {
+                if (game.set2Gong == '1') {
+                    if (!isPong(game.tiles.slice(3,6))) incorrectInput = '第二組:不是槓牌';
+					else insertCompleteSet(completeSet, game.tiles.slice(3,6), game.set2Open, game.set2Gong);
+                }
+                else {
+                    if (parseInt(game.lastTilePosition) != 4) closeTiles.push(game.tiles[3]);
+                    if (parseInt(game.lastTilePosition) != 5) closeTiles.push(game.tiles[4]);
+                    if (parseInt(game.lastTilePosition) != 6) closeTiles.push(game.tiles[5]);
+                };
+            };
+
+            if (game.set3Open == '1') {
+                if (!isPong(game.tiles.slice(6,9)) && !isEat(game.tiles.slice(6,9))) incorrectInput = '第三組:落地牌不是碰/上';
+                else if (parseInt(game.lastTilePosition) == 7 || parseInt(game.lastTilePosition) == 8 || parseInt(game.lastTilePosition) == 9) incorrectInput = '第三組:食糊牌在落地牌內';
+                else if (game.set3Gong == '1' && !isPong(game.tiles.slice(6,9))) incorrectInput = '第三組:不是槓牌';
+				else insertCompleteSet(completeSet, game.tiles.slice(6,9), game.set3Open, game.set3Gong);
+			}
+            else {
+                if (game.set3Gong == '1') {
+                    if (!isPong(game.tiles.slice(6,9))) incorrectInput = '第三組:不是槓牌';
+					else insertCompleteSet(completeSet, game.tiles.slice(6,9), game.set3Open, game.set3Gong);
+                }
+                else {
+                    if (parseInt(game.lastTilePosition) != 7) closeTiles.push(game.tiles[6]);
+                    if (parseInt(game.lastTilePosition) != 8) closeTiles.push(game.tiles[7]);
+                    if (parseInt(game.lastTilePosition) != 9) closeTiles.push(game.tiles[8]);
+                };
+            };
+
+            if (game.set4Open == '1') {
+                if (!isPong(game.tiles.slice(9,12)) && !isEat(game.tiles.slice(9,12))) incorrectInput = '第四組:落地牌不是碰/上';
+                else if (parseInt(game.lastTilePosition) == 10 || parseInt(game.lastTilePosition) == 11 || parseInt(game.lastTilePosition) == 12) incorrectInput = '第四組:食糊牌在落地牌內';
+                else if (game.set4Gong == '1' && !isPong(game.tiles.slice(9,12))) incorrectInput = '第四組:不是槓牌';
+				else insertCompleteSet(completeSet, game.tiles.slice(9,12), game.set4Open, game.set4Gong);
+            }
+            else {
+                if (game.set4Gong == '1') {
+                    if (!isPong(game.tiles.slice(9,12))) incorrectInput = '第四組:不是槓牌';
+					else insertCompleteSet(completeSet, game.tiles.slice(9,12), game.set4Open, game.set4Gong);
+                }
+                else {
+                    if (parseInt(game.lastTilePosition) != 10) closeTiles.push(game.tiles[9]);
+                    if (parseInt(game.lastTilePosition) != 11) closeTiles.push(game.tiles[10]);
+                    if (parseInt(game.lastTilePosition) != 12) closeTiles.push(game.tiles[11]);
+                };
+            };
+
+            if (game.set5Open == '1') {
+                if (!isPong(game.tiles.slice(12,15)) && !isEat(game.tiles.slice(12,15))) incorrectInput = '第五組:落地牌不是碰/上';
+                else if (parseInt(game.lastTilePosition) == 13 || parseInt(game.lastTilePosition) == 14 || parseInt(game.lastTilePosition) == 15) incorrectInput = '第五組:食糊牌在落地牌內';
+                else if (game.set5Gong == '1' && !isPong(game.tiles.slice(12,15))) incorrectInput = '第五組:不是槓牌';
+				else insertCompleteSet(completeSet, game.tiles.slice(12,15), game.set5Open, game.set5Gong);
+			}
+            else {
+                if (game.set5Gong == '1') {
+                    if (!isPong(game.tiles.slice(12,15))) incorrectInput = '第五組:不是槓牌';
+					else insertCompleteSet(completeSet, game.tiles.slice(12,15), game.set5Open, game.set5Gong);
+                }
+                else {
+                    if (parseInt(game.lastTilePosition) != 13) closeTiles.push(game.tiles[12]);
+                    if (parseInt(game.lastTilePosition) != 14) closeTiles.push(game.tiles[13]);
+                    if (parseInt(game.lastTilePosition) != 15) closeTiles.push(game.tiles[14]);
+                };
+            };
+
+            if (parseInt(game.lastTilePosition) != 16) closeTiles.push(game.tiles[15]);
+            if (parseInt(game.lastTilePosition) != 17) closeTiles.push(game.tiles[16]);
+
+            //ocurrence more than 4 times
+            if (countMoreThan4(game, completeSet)) incorrectInput = '同一只牌出現多於四次';
+
+            if (incorrectInput != '') {
+                $('#message').text(incorrectInput);
+                return false;
+            };
+
+            //Look for all possible tile to win
+            var validation = new GameValidation(closeTiles);
+			validation.process();
+
+			if (! validation.allPossibleTiles.includes(game.lastTile)) {
+                $('#message').text('不能糊牌');
+                return false;
+			}
+
+			//Only show in the first time
+			if (patternClicked == -1) {
+				if (appCategory == 'private') {
+					//Prompt to show all possible tiles and patterns
+					$('#div-patterns').empty();
+
+					for (var i = 0; i < validation.allPossibleTiles.length; i ++) {
+						var div = '<div id="result' + i + '" class="row-fluid flex col-12 nopadding">';
+						var tiles = validation.allPossiblePatterns[i].toString().split(',');
+						div = div + '<div class="nopadding"><img src="image/' + validation.allPossibleTiles[i] + '.png"></div>';
+						div = div + '<div class="nopadding"><img src=""></div>';
+						for (var j = 0; j < tiles.length; j ++) {
+							div = div + '<div class="nopadding"><img src="image/' + tiles[j] + '.png"></div>';
+						}
+
+						div = div + '</div>';
+						$('#div-patterns').append(div);
+					}
+
+					$('#patternConfirmModal').modal('show');
+				}
+
+				var allDistinctPossibleTiles = arrayUnique(validation.allPossibleTiles);
+				//Format result 
+				$('#results').find('img').each(function() {
+					this.src = '';
+					$(this).removeClass('selectedAqua');
+				});
+				for (var i = 0; i < allDistinctPossibleTiles.length; i ++) {
+					$('#result' + i).attr('src','image/' + allDistinctPossibleTiles[i] + '.png');
+					if (allDistinctPossibleTiles[i] == game.lastTile) {
+						$('#result' + i).addClass('selectedAqua');
+					}
+				}
+			}
+
+			//Format result pattern 
+			$('#gameTiles').empty();
+
+			var allPossibleCompleteSet = [];
+			for (var i = 0; i < validation.allPossiblePatterns.length; i ++) {
+				if (validation.allPossibleTiles[i] == game.lastTile) {
+					var div = '<div id="pattern' + i + '" name="pattern" row="' + i + '" class="row-fluid flex col-12 nopadding">';
+					var tiles = validation.allPossiblePatterns[i].toString().split(',');
+					for (var j = 0; j < tiles.length; j ++) {
+						div = div + '<div class="nopadding"><img src="image/' + tiles[j] + '.png"></div>';
+					}
+					for (var j = 0; j < completeSet.length; j ++) {
+						//if open or gong
+						if (completeSet[j][1] == '1' || completeSet[j][2] == '1') {
+							div = div + '<div class="nopadding"><img src="image/' + completeSet[j][0][0] + '.png"></div>';
+							div = div + '<div class="nopadding"><img src="image/' + completeSet[j][0][1] + '.png"></div>';
+							div = div + '<div class="nopadding"><img src="image/' + completeSet[j][0][2] + '.png"></div>';
+						}
+					}
+
+					div = div + '</div>';
+					$('#gameTiles').append(div);
+
+					$('#pattern' + i).click(function () {
+						var patternIndex = parseInt($(this).attr('row'));
+						onClickCalc(patternIndex);
+					});
+				}
+
+				var possibleCompleteSet = completeSet.slice();
+				if (validation.allIsSpecials[i] == '0') {
+					for (var k = 0; k < validation.allPossiblePatterns[i].length; k ++) {
+						insertCompleteSet(possibleCompleteSet, validation.allPossiblePatterns[i][k], '0', '0');
+					}
+				}
+				else {
+					possibleCompleteSet = [];
+				}
+
+				allPossibleCompleteSet.push(possibleCompleteSet);
+			}
+
+			var resultPattern = [];
+			var specialPattern = 0;
+			if (patternClicked == -1) {
+				//Look up the first match pattern
+				var patternIndex = validation.allPossibleTiles.indexOf(game.lastTile);
+				if (patternIndex != -1) {
+					$('#gameTiles').find('div[name="pattern"]').each(function() {
+						$(this).removeClass('selectedRed');
+					});
+					$('#pattern' + patternIndex).addClass('selectedRed');
+
+					specialPattern = validation.allSpecialPatterns[patternIndex];
+					resultPattern = validation.allPossiblePatterns[patternIndex];
+					completeSet = allPossibleCompleteSet[patternIndex];
+				}
+			}
+			else {
+				$('#gameTiles').find('div[name="pattern"]').each(function() {
+					$(this).removeClass('selectedRed');
+				});
+				$('#pattern' + patternClicked).addClass('selectedRed');
+
+				specialPattern = validation.allSpecialPatterns[patternClicked];
+				resultPattern = validation.allPossiblePatterns[patternClicked];
+				completeSet = allPossibleCompleteSet[patternClicked];
+			}
+
+		//
+		//Check all patterns and calculate points of the game
+		//
+		// Make use of objects game, validation and variables resultPattern, completeSet
+		//
+            var results = [];
+
+			//////////////////////////////////////////花類, 字類
+			//無字花 C004
+			//無花 C001
+			//無字 D001
+            if (game.flowers.length == 0 && ! hasDragonWind(game.tiles)) results.push('C004:');
+            else if (game.flowers.length == 0) results.push('C001:');
+            else if (! hasDragonWind(game.tiles)) results.push('D001:');
+
+			//七搶一 C006
+            if (game.sevenGetOne == '1') results.push('C006:');
+
+			//八隻花 C007
+			//一壹花 C005
+			//正花 C003
+			//不正花 C002
+			var flowersSlice = game.flowers.slice();
+			if (flowersSlice.length == 8) results.push('C007:');
+			else {
+				if (flowersSlice.includes('71') && flowersSlice.includes('72') && flowersSlice.includes('73') && flowersSlice.includes('74')) {
+					results.push('C005:');
+					flowersSlice.splice(0,4); //不再計不正花, 正花
+				}
+				else if (flowersSlice.includes('81') && flowersSlice.includes('82') && flowersSlice.includes('83') && flowersSlice.includes('84')) {
+					results.push('C005:');
+					flowersSlice = flowersSlice.reverse();
+					flowersSlice.splice(0,4); //不再計不正花, 正花
+				}
+
+				var countC002 = 0;
+				var countC003 = 0;
+				for (var i = 0; i < flowersSlice.length; i ++) {
+					if (flowersSlice[i] == '71' || flowersSlice[i] == '81') {
+						if (game.winnerPosition == 'e') countC003 ++;
+						else countC002 ++;
+					}
+					else if (flowersSlice[i] == '72' || flowersSlice[i] == '82') {
+						if (game.winnerPosition == 's') countC003 ++;
+						else countC002 ++;
+					}
+					else if (flowersSlice[i] == '73' || flowersSlice[i] == '83') {
+						if (game.winnerPosition == 'w') countC003 ++;
+						else countC002 ++;
+					}
+					else if (flowersSlice[i] == '74' || flowersSlice[i] == '84') {
+						if (game.winnerPosition == 'n') countC003 ++;
+						else countC002 ++;
+					}
+				}
+				if (countC002 > 0) results.push('C002:' + countC002);
+				if (countC003 > 0) results.push('C003:' + countC003);
+			}
+
+			//雙番字 D004
+			//正字 D003
+			//不正字 D002
+            if (game.tiles.count('51') == 3) {
+                if (game.wind == 'e-wind' && game.winnerPosition == 'e') results.push('D004:東');
+				else if (game.wind == 'e-wind' || game.winnerPosition == 'e') results.push('D003:東');
+                else results.push('D002:東');
+            }
+
+            if (game.tiles.count('53') == 3) {
+                if (game.wind == 's-wind' && game.winnerPosition == 's') results.push('D004:南');
+				else if (game.wind == 's-wind' || game.winnerPosition == 's') results.push('D003:南');
+                else results.push('D002:南');
+            }
+
+            if (game.tiles.count('55') == 3) {
+                if (game.wind == 'w-wind' && game.winnerPosition == 'w') results.push('D004:西');
+				else if (game.wind == 'w-wind' || game.winnerPosition == 'w') results.push('D003:西');
+                else results.push('D002:西');
+            }
+
+            if (game.tiles.count('57') == 3) {
+                if (game.wind == 'n-wind' && game.winnerPosition == 'n') results.push('D004:北');
+				else if (game.wind == 'n-wind' || game.winnerPosition == 'n') results.push('D003:北');
+                else results.push('D002:北');
+            }
+
+			//中發白 D005
+            if (game.tiles.count('61') == 3) {
+                results.push('D005:中');
+            }
+
+            if (game.tiles.count('63') == 3) {
+                results.push('D005:發');
+            }
+
+            if (game.tiles.count('65') == 3) {
+                results.push('D005:白');
+            }
+
+			//////////////////////////////////////////槓類
+			//明槓 E001
+			//暗槓 E002
+			for (var i = 0; i < completeSet.length; i ++) {
+				if (completeSet[i][2] == '1') {
+					if (completeSet[i][1] == '1') results.push('E001:');
+					else results.push('E002:');
+				}
+			}
+
+			//花／槓上自摸 E003
+			//花／槓上 x N 自摸 E004
+			//搶槓 E005
+            if (game.winType == 'win-type-1' && parseInt(game.flowerGong) == 1) results.push('E003:');
+            else if (game.winType == 'win-type-1' && parseInt(game.flowerGong) > 1) results.push('E004:' + game.flowerGong);
+
+            if (game.winType == 'win-type-2' && game.gong == '1') results.push('E005:');
+
+			//////////////////////////////////////////相逢類
+			//三相逢 F002
+			//四相逢 F003
+			//五相逢 F004
+			//相逢 F001
+			//compose a list of eat pattern
+			var eatPatterns = [];
+			for (var i = 0; i < completeSet.length; i ++) {
+				if (completeSet[i][3] == 'eat') eatPatterns.push(completeSet[i][5].join(''));
+			}
+
+			var eatPatternResults = countOccurence(eatPatterns);
+			for (var j = 0; j < eatPatternResults[0].length; j ++) {
+				if (eatPatternResults[1][j] >= 2) {
+					var isPin = false, isBamboo = false, isMan = false, isAllCloseSet = true;
+					var pinEatCount = 0, bambooEatCount = 0, manEatCount = 0;
+					var containLastTile = false;
+					var eatPatternTiles = [];
+					//loop back to check if it is all close sets
+					for (var k = 0; k < completeSet.length; k ++) {
+						if (completeSet[k][3] == 'eat' && completeSet[k][5].join('') == eatPatternResults[0][j]) {
+							eatPatternTiles.push(completeSet[k][0][0]);
+							eatPatternTiles.push(completeSet[k][0][1]);
+							eatPatternTiles.push(completeSet[k][0][2]);
+
+							if (completeSet[k][0].includes(game.lastTile)) containLastTile = true;
+
+							if (completeSet[k][1] == '1') isAllCloseSet = false;
+							
+							if (completeSet[k][4] == 'pin') {
+								isPin = true;
+								pinEatCount ++;
+							}
+							else if (completeSet[k][4] == 'bamboo') {
+								isBamboo = true;
+								bambooEatCount ++;
+							}
+							else if (completeSet[k][4] == 'man') {
+								isMan = true;
+								manEatCount ++;
+							}
+						}
+					}
+
+					//如果食糊牌在相逄內 又是出沖 不計相逄又沒有其他食糊牌在手 不計暗相逄
+					if (containLastTile && game.winType != 'win-type-1' && 
+						eatPatternTiles.count(game.lastTile) == closeTiles.count(game.lastTile) + 1)
+						isAllCloseSet = false;
+
+					var countF001 = 0;
+					if (isPin && isBamboo && isMan) {
+						if (eatPatternResults[1][j] == 3) {
+							if (isAllCloseSet) results.push('F002:暗');
+							else results.push('F002:');
+						}
+						else if (eatPatternResults[1][j] == 4) {
+							if (isAllCloseSet) results.push('F003:暗');
+							else results.push('F003:');
+						}
+						else if (eatPatternResults[1][j] == 5) {
+							if (isAllCloseSet) results.push('F004:暗');
+							else results.push('F004:');
+						}
+					}
+					else if (isPin && isBamboo) countF001 = pinEatCount * bambooEatCount;
+					else if (isPin && isMan)    countF001 = pinEatCount * manEatCount;
+					else if (isMan && isBamboo) countF001 = manEatCount * bambooEatCount;
+
+					for (var l = 0; l < countF001; l ++) {
+						results.push('F001:');
+					}
+				}
+			}
+
+			//////////////////////////////////////////般高類
+			//般高 G001
+			//三般高 G002
+			//四般高 G003
+			//compose a list of eat pattern
+			var eatSameCategoryPatterns = [];
+			for (var i = 0; i < completeSet.length; i ++) {
+				if (completeSet[i][3] == 'eat') eatSameCategoryPatterns.push(completeSet[i][0].join(''));
+			}
+
+			var eatSameCategoryPatternResults = countOccurence(eatSameCategoryPatterns);
+			for (var j = 0; j < eatSameCategoryPatternResults[0].length; j ++) {
+				if (eatSameCategoryPatternResults[1][j] >= 2) {
+					var isAllCloseSet = true;
+					var containLastTiles = false;
+					//loop back to check if it is all close sets
+					for (var k = 0; k < completeSet.length; k ++) {
+						if (completeSet[k][3] == 'eat' && completeSet[k][0].join('') == eatSameCategoryPatternResults[0][j]) {
+							if (completeSet[k][1] == '1') isAllCloseSet = false;
+
+							if (completeSet[k][0].includes(game.lastTile)) containLastTile = true;
+						}
+					}
+
+					//如果食糊牌在般高內 又是出沖 不計般高又沒有其他食糊牌在手 不計暗般高
+					if (containLastTile && game.winType != 'win-type-1' && 
+						eatSameCategoryPatternResults[1][j] == closeTiles.count(game.lastTile) + 1)
+						isAllCloseSet = false;
+
+					if (eatSameCategoryPatternResults[1][j] == 2) {
+						//如果是四相逢或五相逢 不再計般高
+						if (! containElement(results, 'F003') && ! containElement(results, 'F004')) results.push('G001:');
+					}
+					else if (eatSameCategoryPatternResults[1][j] == 3) {
+						//如果是五相逢 不再計三般高
+						if (! containElement(results, 'F004')) {
+							if (isAllCloseSet) results.push('G002:暗');
+							else results.push('G002:');
+						}
+					}
+					else if (eatSameCategoryPatternResults[1][j] == 4) {
+						if (isAllCloseSet) results.push('G003:暗');
+						else results.push('G003:');
+					}
+				}
+			}
+
+			//////////////////////////////////////////兄弟類
+			//大三兄弟 H003
+			//小三兄弟 H002
+			//兄弟 H001
+			var pongDigitTiles = [];
+			var digitPairTile = 0;			
+			for (var i = 0; i < completeSet.length; i ++) {
+				if (! hasDragonWind(completeSet[i][0])) {
+					if (completeSet[i][3] == 'pong') pongDigitTiles.push(completeSet[i][5][0]);
+					else if (completeSet[i][3] == 'pairs') digitPairTile = completeSet[i][5][0];
+				}
+			}
+
+			var pongDigitResult = countOccurence(pongDigitTiles);
+			for (var j = 0; j < pongDigitResult[0].length; j ++) {
+				if (pongDigitResult[1][j] == 3) results.push('H003:');
+				else if (pongDigitResult[1][j] == 2 && pongDigitResult[0][j] == digitPairTile) results.push('H002:');
+				else if (pongDigitResult[1][j] == 2 && pongDigitResult[0][j] != digitPairTile) results.push('H001:');
+			}
+
+			//////////////////////////////////////////姊妹類
+			//大三姊妹 I002
+			//小三姊妹 I001
+			var pongTilesForConsecutive = [];
+			var pairTile = '';
+			for (var i = 0; i < completeSet.length; i ++) {
+				if ((completeSet[i][3] == 'pong' || completeSet[i][3] == 'pairs') && ! hasDragonWind(completeSet[i][0])) 
+					pongTilesForConsecutive.push(completeSet[i][0][0]);
+				if (completeSet[i][3] == 'pairs') pairTile = completeSet[i][0][0];
+			}
+			pongTilesForConsecutive.sort();
+
+			var pongConsecutiveCount = 0;
+			var pongConsecutiveHasPairs = false;
+			for (var j = 0; j < pongTilesForConsecutive.length - 1; j ++) {
+				if ((parseInt(pongTilesForConsecutive[j + 1]) - parseInt(pongTilesForConsecutive[j])) == 1) {
+					pongConsecutiveCount ++;
+					if (pongTilesForConsecutive[j + 1] == pairTile || pongTilesForConsecutive[j] == pairTile) pongConsecutiveHasPairs = true;
+				}
+				else {
+					//3 consecutive counts means 大三姊妹
+					//4 consecutive counts means 2 x 大三姊妹
+					//5 consecutive counts means 3 x 大三姊妹
+					if (pongConsecutiveCount >= 2 && ! pongConsecutiveHasPairs) {
+						for (var k = 0; k < pongConsecutiveCount - 1; k ++) {
+							results.push('I002:');
+						}
+					}
+					//3 consecutive counts include pairs means 小三姊妹
+					//4 consecutive counts include pairs means 小三姊妹 + 大三姊妹
+					//5 consecutive counts include pairs means 小三姊妹 + 2 x 大三姊妹
+					//6 consecutive counts include pairs means 小三姊妹 + 3 x 大三姊妹
+					else if (pongConsecutiveCount >= 2 && pongConsecutiveHasPairs) {
+						results.push('I001:');
+
+						for (var k = 0; k < pongConsecutiveCount - 2; k ++) {
+							results.push('I002:');
+						}
+					}
+
+					pongConsecutiveCount = 0;
+					pongConsecutiveHasPairs = false;
+				}
+			}
+			//Call the same logic if it does not run in previous for loop 
+			//3 consecutive counts means 大三姊妹
+			//4 consecutive counts means 2 x 大三姊妹
+			//5 consecutive counts means 3 x 大三姊妹
+			if (pongConsecutiveCount >= 2 && ! pongConsecutiveHasPairs) {
+				for (var k = 0; k < pongConsecutiveCount - 1; k ++) {
+					results.push('I002:');
+				}
+			}
+			//3 consecutive counts include pairs means 小三姊妹
+			//4 consecutive counts include pairs means 小三姊妹 + 大三姊妹
+			//5 consecutive counts include pairs means 小三姊妹 + 2 x 大三姊妹
+			//6 consecutive counts include pairs means 小三姊妹 + 3 x 大三姊妹
+			else if (pongConsecutiveCount >= 2 && pongConsecutiveHasPairs) {
+				results.push('I001:');
+
+				for (var k = 0; k < pongConsecutiveCount - 2; k ++) {
+					results.push('I002:');
+				}
+			}
+
+			//////////////////////////////////////////平胡類
+			var eatCount = 0;
+			for (var i = 0; i < completeSet.length; i ++) {
+				if (completeSet[i][3] == 'eat') eatCount ++;
+			}
+
+			//無字花大平胡 K002
+			//平胡 K001
+			if (eatCount == 5) {
+				if (game.flowers.length == 0 && ! hasDragonWind(game.tiles)) {
+					//不再計無字花
+					//results = removeElement(results, 'C004');
+					results.push('K002:');
+				}
+				else results.push('K001:');
+			}
+
+			//////////////////////////////////////////暗間類
+			var closePongCount = 0;
+			var notCountO004 = false;
+			for (var i = 0; i < completeSet.length; i ++) {
+				//if gong
+				if (completeSet[i][2] == '1') closePongCount ++;
+				//if close set and pong
+				else if (completeSet[i][1] == '0' && completeSet[i][3] == 'pong') {
+					if (! completeSet[i][0].includes(game.lastTile)) closePongCount ++;
+					else if (completeSet[i][0].includes(game.lastTile) && game.winType == 'win-type-1') closePongCount ++;
+					//如果不是自摸但手上有三只牌 (一對加另外一只) 都可變暗間 但不再計對碰
+					else if (completeSet[i][0].includes(game.lastTile) && game.winType != 'win-type-1' && closeTiles.count(game.lastTile) == 3) {
+						closePongCount ++;
+						notCountO004 = true;
+					}
+				}
+			}
+
+			//兩暗簡 J001
+			//三暗簡 J002
+			//四暗簡 J003
+			//簡簡胡 J005
+			//五暗簡 J004
+			if (closePongCount == 2) results.push('J001:');
+			else if (closePongCount == 3) results.push('J002:');
+			else if (closePongCount == 4) results.push('J003:');
+			else if (closePongCount == 5) {
+				if (resultPattern.length == 6 && game.winType == 'win-type-1') {
+					//不再計 門清一摸五、對對胡
+					//have problem if remove here because it still not yet added
+					//results = removeElement(results, 'O007');
+					//results = removeElement(results, 'U001');
+					results.push('J005:');
+				}
+				else results.push('J004:');
+			}
+
+			//////////////////////////////////////////四歸類
+			//四歸一 M001
+			//四歸三 M002
+			//四歸四 M003
+			var occurence = countOccurence(game.tiles);
+			for (var i = 0; i < occurence[0].length; i ++) {
+				if (occurence[1][i] == 4) {
+					var tile = occurence[0][i];
+					var tileCount = 0;
+					var allCloseSet = true;
+					for (var j = 0; j < completeSet.length; j ++) {
+						if (completeSet[j][0].includes(tile)) {
+							tileCount ++;
+							if (completeSet[j][1] == '1') allCloseSet = false;
+						}
+					}
+					//如果是出沖牌 不計暗四歸 
+					if (tile == game.lastTile && game.winType != 'win-type-1') allCloseSet = false;
+
+					if (tileCount == 2) {
+						if (allCloseSet) results.push('M001:暗');
+						else results.push('M001:');
+					}
+					else if (tileCount == 3) {
+						if (allCloseSet) results.push('M002:暗');
+						else results.push('M002:');
+					}
+					else if (tileCount == 4) {
+						if (allCloseSet) results.push('M003:暗');
+						else results.push('M003:');
+					}
+				}
+			}
+
+			//////////////////////////////////////////聽牌 N001
+			if (game.hear == '1') results.push('N001:');
+			
+			//////////////////////////////////////////胡牌形式類
+			//獨獨 O001
+			//假獨 O002
+			allDistinctPossibleTiles = arrayUnique(validation.allPossibleTiles);
+			if (allDistinctPossibleTiles.length == 1) results.push('O001:');
+			else if (allDistinctPossibleTiles.length > 1) {
+				//if last tile is in pairs or last tile is at the side or middle of any eat in close tile
+				//if it is normal niku with more than one possible tiles
+				var isVirtualOne = false;
+				for (var i = 0; i < completeSet.length; i ++) {
+					if (completeSet[i][0].includes(game.lastTile)) {
+
+						if (completeSet[i][3] == 'pairs') isVirtualOne = true;
+						else if (completeSet[i][3] == 'eat' && completeSet[i][1] == '0') {
+							if ((isEqual(completeSet[i][5], eatHead) || isEqual(completeSet[i][5], eatTail)) && allSideEats.includes(game.lastTile)) isVirtualOne = true;
+							if (completeSet[i][0].indexOf(game.lastTile) == 1) isVirtualOne = true;
+						}
+					}
+				}
+				if (specialPattern == 3) isVirtualOne = true;
+
+				if (isVirtualOne) results.push('O002:');
+			}
+			
+			//將眼 O003
+			var pairs = [];
+			for (var i = 0; i < completeSet.length; i ++) {
+				if (completeSet[i][3] == 'pairs') pairs = completeSet[i][0];
+			}
+			//If niku, pong is the pairs
+			if (specialPattern == 3 || specialPattern == 4) 
+				pairs = new Array(findFirstPongTile(game.tiles), findFirstPongTile(game.tiles));
+
+			if (tilesContain(pairs, all258s)) results.push('O003:');
+
+			//對碰 O004
+			//If last tile contains in pong sets of close tiles 
+			for (var i = 0; i < completeSet.length; i ++) {
+				if (completeSet[i][1] == '0' && completeSet[i][3] == 'pong') {
+					if (completeSet[i][0].includes(game.lastTile)) results.push('O004:');
+				}
+			}
+
+			//門清一摸五 O007
+			//門清 O006
+			//自摸 O005
+			if ((game.set1Open == '0' || game.set1Gong == '1') &&
+				(game.set2Open == '0' || game.set2Gong == '1') &&
+				(game.set3Open == '0' || game.set3Gong == '1') &&
+				(game.set4Open == '0' || game.set4Gong == '1') &&
+				(game.set5Open == '0' || game.set5Gong == '1')) {
+				if (game.winType == 'win-type-1') results.push('O007:');
+				else results.push('O006:');
+			}
+			else if (game.winType == 'win-type-1') results.push('O005:');
+
+			//河底撈魚 O008
+			//海底撈魚 O009
+			//海底撈月 O010
+			if (game.riverFish == '1') results.push('O008:');
+			else if (game.seaFish == '1') results.push('O009:');
+			else if (game.seaMoon == '1') results.push('O010:');
+
+			//缺一門 O012
+			if (! hasDragonWind(game.tiles)) {
+				if ((hasPin(game.tiles) && hasBamboo(game.tiles) && ! hasMan(game.tiles)) ||
+					(hasPin(game.tiles) && ! hasBamboo(game.tiles) && hasMan(game.tiles)) ||
+					(! hasPin(game.tiles) && hasBamboo(game.tiles) && hasMan(game.tiles))) {
+					results.push('O012:');
+				}
+			}
+
+			//大七門齊 O016
+			//大五門齊 O014
+			//小七門齊 O015
+			//小五門齊 O013
+			if ((specialPattern == 0 || specialPattern == 3 || specialPattern == 4) && 
+			    hasPin(game.tiles) && hasBamboo(game.tiles) && hasMan(game.tiles) && hasWind(game.tiles) && hasDragon(game.tiles)) {
+				if (getCategory(game.tiles, allPins).length >= 3 && getCategory(game.tiles, allBamboos).length >= 3 && getCategory(game.tiles, allMans).length >= 3 &&
+					getCategory(game.tiles, allWinds).length >= 3 && getCategory(game.tiles, allDragons).length >= 3) {
+					if (hasFlower(game.flowers) && hasSeason(game.flowers)) 
+						results.push('O016:');
+					else
+						results.push('O014:');
+				}
+				else {
+					if (hasFlower(game.flowers) && hasSeason(game.flowers)) 
+						results.push('O015:');
+					else
+						results.push('O013:');
+				}
+			}
+
+			//////////////////////////////////////////莊類
+			//莊 P001
+			//拉莊 P002
+			if (game.jon1 == '1' || game.jon2 == '1') {
+				if (game.jonNumber == 0) results.push('P001:');
+				else if (game.jonNumber > 0) results.push('P002:' + game.jonNumber);
+			}
+
+			//////////////////////////////////////////求類
+			//半求 Q001
+			//全求 Q002
+			if (game.set1Open == '1' && game.set2Open == '1' && game.set3Open == '1' && game.set4Open == '1' && game.set5Open == '1') {
+				if (game.winType == 'win-type-1') {
+					results.push('Q001:');
+				}
+				else if (game.winType == 'win-type-2') {
+					results.push('Q002:');
+				}
+			}
+
+			//////////////////////////////////////////速食類
+			//七隻內 R001
+			//十隻內 R002
+			if (game.inSeven == '1') results.push('R001:');
+			else if (game.inTen == '1') results.push('R002:');
+
+			//////////////////////////////////////////龍類
+			//最多只計一條清龍和一條雜龍
+			//暗清龍 L004
+			//明清龍 L003
+			//暗雜龍 L002
+			//明雜龍 L001
+			var isPinDragon = [false, false, false];
+			var isPinDragonClose = [false, false, false];
+			var isBambooDragon = [false, false, false];
+			var isBambooDragonClose = [false, false, false];
+			var isManDragon = [false, false, false];
+			var isManDragonClose = [false, false, false];
+			var containLastTile = false;
+			var isAllCloseSet = true;
+			for (var i = 0; i < completeSet.length; i ++) {
+				if (completeSet[i][3] == 'eat') {
+					if (completeSet[i][4] == 'pin' && isEqual(completeSet[i][5], eatHead)) {
+						isPinDragon[0] = true;
+						if (completeSet[i][1] == '0') isPinDragonClose[0] = true;
+						if (completeSet[i][0].includes(game.lastTile)) containLastTile = true;
+					}
+					else if (completeSet[i][4] == 'pin' && isEqual(completeSet[i][5], eatMiddle)) {
+						isPinDragon[1] = true;
+						if (completeSet[i][1] == '0') isPinDragonClose[1] = true;
+						if (completeSet[i][0].includes(game.lastTile)) containLastTile = true;
+					}
+					else if (completeSet[i][4] == 'pin' && isEqual(completeSet[i][5], eatTail)) {
+						isPinDragon[2] = true;
+						if (completeSet[i][1] == '0') isPinDragonClose[2] = true;
+						if (completeSet[i][0].includes(game.lastTile)) containLastTile = true;
+					}
+					else if (completeSet[i][4] == 'bamboo' && isEqual(completeSet[i][5], eatHead)) {
+						isBambooDragon[0] = true;
+						if (completeSet[i][1] == '0') isBambooDragonClose[0] = true;
+						if (completeSet[i][0].includes(game.lastTile)) containLastTile = true;
+					}
+					else if (completeSet[i][4] == 'bamboo' && isEqual(completeSet[i][5], eatMiddle)) {
+						isBambooDragon[1] = true;
+						if (completeSet[i][1] == '0') isBambooDragonClose[1] = true;
+						if (completeSet[i][0].includes(game.lastTile)) containLastTile = true;
+					}
+					else if (completeSet[i][4] == 'bamboo' && isEqual(completeSet[i][5], eatTail)) {
+						isBambooDragon[2] = true;
+						if (completeSet[i][1] == '0') isBambooDragonClose[2] = true;
+						if (completeSet[i][0].includes(game.lastTile)) containLastTile = true;
+					}
+					else if (completeSet[i][4] == 'man' && isEqual(completeSet[i][5], eatHead)) {
+						isManDragon[0] = true;
+						if (completeSet[i][1] == '0') isManDragonClose[0] = true;
+						if (completeSet[i][0].includes(game.lastTile)) containLastTile = true;
+					}
+					else if (completeSet[i][4] == 'man' && isEqual(completeSet[i][5], eatMiddle)) {
+						isManDragon[1] = true;
+						if (completeSet[i][1] == '0') isManDragonClose[1] = true;
+						if (completeSet[i][0].includes(game.lastTile)) containLastTile = true;
+					}
+					else if (completeSet[i][4] == 'man' && isEqual(completeSet[i][5], eatTail)) {
+						isManDragon[2] = true;
+						if (completeSet[i][1] == '0') isManDragonClose[2] = true;
+						if (completeSet[i][0].includes(game.lastTile)) containLastTile = true;
+					}
+				}
+			}
+
+			//如果食糊牌在龍內 又是出沖 又只有一隻食糊牌在手 只計明龍
+			if (containLastTile && game.winType != 'win-type-1' && closeTiles.count(game.lastTile) == 0) isAllCloseSet = false;
+
+			if (isPinDragon[0] && isPinDragon[1] && isPinDragon[2]) {
+				if (isPinDragonClose[0] && isPinDragonClose[1] && isPinDragonClose[2] && isAllCloseSet) results.push('L004:');
+				else results.push('L003:');
+			}
+			else if (isBambooDragon[0] && isBambooDragon[1] && isBambooDragon[2]) {
+				if (isBambooDragonClose[0] && isBambooDragonClose[1] && isBambooDragonClose[2] && isAllCloseSet) results.push('L004:');
+				else results.push('L003:');
+			}
+			else if (isManDragon[0] && isManDragon[1] && isManDragon[2]) {
+				if (isManDragonClose[0] && isManDragonClose[1] && isManDragonClose[2] && isAllCloseSet) results.push('L004:');
+				else results.push('L003:');
+			}
+
+			if (isPinDragon[0] && isBambooDragon[1] && isManDragon[2]) {
+				if (isPinDragonClose[0] && isBambooDragonClose[1] && isManDragonClose[2] && isAllCloseSet) results.push('L002:');
+				else results.push('L001:');
+			}
+			else if	(isPinDragon[0] && isManDragon[1] && isBambooDragon[2]) {
+				if (isPinDragonClose[0] && isManDragonClose[1] && isBambooDragonClose[2] && isAllCloseSet) results.push('L002:');
+				else results.push('L001:');
+			}
+			else if (isBambooDragon[0] && isPinDragon[1] && isManDragon[2]) {
+				if (isBambooDragonClose[0] && isPinDragonClose[1] && isManDragonClose[2] && isAllCloseSet) results.push('L002:');
+				else results.push('L001:');
+			}
+			else if (isBambooDragon[0] && isManDragon[1] && isPinDragon[2]) {
+				if (isBambooDragonClose[0] && isManDragonClose[1] && isPinDragonClose[2] && isAllCloseSet) results.push('L002:');
+				else results.push('L001:');
+			}
+			else if (isManDragon[0] && isPinDragon[1] && isBambooDragon[2]) {
+				if (isManDragonClose[0] && isPinDragonClose[1] && isBambooDragonClose[2] && isAllCloseSet) results.push('L002:');
+				else results.push('L001:');
+			}
+			else if (isManDragon[0] && isBambooDragon[1] && isPinDragon[2]) {
+				if (isManDragonClose[0] && isBambooDragonClose[1] && isPinDragonClose[2] && isAllCloseSet) results.push('L002:');
+				else results.push('L001:');
+			}
+
+			//////////////////////////////////////////么類
+			//老少上 S001
+			var pinHeadEatCount = 0;
+			var pinTailEatCount = 0;
+			var bambooHeadEatCount = 0;
+			var bambooTailEatCount = 0;
+			var manHeadEatCount = 0;
+			var manTailEatCount = 0;
+			for (var i = 0; i < completeSet.length; i ++) {
+				if (completeSet[i][3] == 'eat') {
+					if (completeSet[i][4] == 'pin' && isEqual(completeSet[i][5], eatHead)) pinHeadEatCount ++;
+					else if (completeSet[i][4] == 'pin' && isEqual(completeSet[i][5], eatTail)) pinTailEatCount ++;
+					else if (completeSet[i][4] == 'bamboo' && isEqual(completeSet[i][5], eatHead)) bambooHeadEatCount ++;
+					else if (completeSet[i][4] == 'bamboo' && isEqual(completeSet[i][5], eatTail)) bambooTailEatCount ++;
+					else if (completeSet[i][4] == 'man' && isEqual(completeSet[i][5], eatHead)) manHeadEatCount ++;
+					else if (completeSet[i][4] == 'man' && isEqual(completeSet[i][5], eatTail)) manTailEatCount ++;
+				}
+			}
+			//如有一條龍不再計老少上
+			var pinHeadTailEatCount = pinHeadEatCount * pinTailEatCount;
+			if (isPinDragon[0] && isPinDragon[1] && isPinDragon[2] && pinHeadTailEatCount > 0) pinHeadTailEatCount --;
+
+			var bambooHeadTailEatCount = bambooHeadEatCount * bambooTailEatCount;
+			if (isBambooDragon[0] && isBambooDragon[1] && isBambooDragon[2] && bambooHeadTailEatCount > 0) bambooHeadTailEatCount --;
+
+			var manHeadTailEatCount = manHeadEatCount * manTailEatCount;
+			if (isManDragon[0] && isManDragon[1] && isManDragon[2] && manHeadTailEatCount > 0) manHeadTailEatCount --;
+
+			var headTailEatCount = pinHeadTailEatCount + bambooHeadTailEatCount + manHeadTailEatCount;
+			for (var i = 0; i < headTailEatCount; i ++) results.push('S001:');
+
+			//老少碰 S002
+			var pongTilesforEnds = [];
+			for (var i = 0; i < completeSet.length; i ++) {
+				if (completeSet[i][3] == 'pong') pongTilesforEnds.push(completeSet[i][0][0]);
+			}
+			if (pongTilesforEnds.includes('21') && pongTilesforEnds.includes('29')) results.push('S002:');
+			if (pongTilesforEnds.includes('31') && pongTilesforEnds.includes('39')) results.push('S002:');
+			if (pongTilesforEnds.includes('41') && pongTilesforEnds.includes('49')) results.push('S002:');
+
+			//斷么 S003
+			if (! tilesContain(game.tiles, allEndsDragonsWinds)) {
+				results.push('S003:');
+			}
+
+			//全帶么 S005
+			//半帶么 S004
+			if (specialPattern == 0) {
+				var isAllEnds = true;
+				var isAllEndsDragonsWinds = true;
+				for (var i = 0; i < completeSet.length; i ++) {
+					if (! tilesContain(completeSet[i][0], allEnds)) isAllEnds = false;
+					if (! tilesContain(completeSet[i][0], allEndsDragonsWinds)) isAllEndsDragonsWinds = false;
+				}
+
+				if (isAllEnds) {
+					results.push('S005:');
+				}
+				else if (isAllEndsDragonsWinds && tilesContain(game.tiles, allEnds) && hasDragonWind(game.tiles)) {
+					results.push('S004:');
+				}
+			}
+			else if (specialPattern == 3 || specialPattern == 4) {
+				if (getCategory(game.tiles, allEnds).length == 17) {
+					results.push('S005:');
+				}
+				else if (getCategory(game.tiles, allEndsDragonsWinds).length == 17 && 
+				         tilesContain(game.tiles, allEnds) && hasDragonWind(game.tiles)) {
+					results.push('S004:');
+				}				
+			}
+
+			//全么 S007
+			//花么 S006
+			if (specialPattern == 0 && eatCount == 0) {
+				if (getCategory(game.tiles, allEnds).length == 17) {
+					results.push('S007:');
+				}
+				else if (getCategory(game.tiles, allEndsDragonsWinds).length == 17 && 
+				         tilesContain(game.tiles, allEnds) && hasDragonWind(game.tiles)) {
+					results.push('S006:');
+				}
+			}
+
+			//十三么 S008
+			if (specialPattern == 1) {
+				results.push('S008:');
+			}
+
+			//////////////////////////////////////////三元四喜類
+			var windCount = 0;
+			var dragonCount = 0;
+			var hasWindPairs = false;
+			var hasDragonPairs = false;
+			for (var i = 0; i < completeSet.length; i ++) {
+				if (completeSet[i][4] == 'wind') {
+					windCount ++;
+					if (completeSet[i][3] == 'pairs') hasWindPairs = true;
+				}
+				if (completeSet[i][4] == 'dragon') {
+					dragonCount ++;
+					if (completeSet[i][3] == 'pairs') hasDragonPairs = true;
+				}
+			}
+
+			//小三元 T001
+			//大三元 T002
+			if (dragonCount == 3) {
+				if (hasDragonPairs) results.push('T001:');
+				else results.push('T002:');
+			}
+
+			//小三風 T003
+			//小四喜 T005
+			//大三風 T004
+			//大四喜 T006		
+			if (windCount >= 3) {
+				if (hasWindPairs) {
+					if (windCount == 3) results.push('T003:');
+					else if (windCount == 4) results.push('T005:');
+				}
+				else {
+					if (windCount == 3) results.push('T004:');
+					else if (windCount == 4) results.push('T006:');
+				}
+			}
+
+			//////////////////////////////////////////大牌類
+			//對對胡 U001
+			if (specialPattern == 0 && eatCount == 0) results.push('U001:');
+
+			//混一色 U002
+			//清一色 U003
+			if (hasDragonWind(game.tiles) &&
+				((hasPin(game.tiles) && ! hasBamboo(game.tiles) && ! hasMan(game.tiles)) ||
+				 (! hasPin(game.tiles) && hasBamboo(game.tiles) && ! hasMan(game.tiles)) ||
+				 (! hasPin(game.tiles) && ! hasBamboo(game.tiles) && hasMan(game.tiles))
+				)
+			   ) {
+				results.push('U002:');
+			}
+			else if (getCategory(game.tiles, allPins).length == 17 || getCategory(game.tiles, allBamboos).length == 17 || 
+					 getCategory(game.tiles, allMans).length == 17 || getCategory(game.tiles, allDragonsWinds).length == 17) { 
+				results.push('U003:');
+			}
+
+			//////////////////////////////////////////不正常胡牌類
+			//嚦咕嚦咕 V001
+			//嚦咕八飛 V002
+			if (specialPattern == 3 || specialPattern == 4) {
+				if (specialPattern == 3) results.push('V001:');
+				else if (specialPattern == 4) results.push('V002:');
+				
+				//嚦咕四歸一 V003
+				var occurence = countOccurence(game.tiles);
+				for (var i = 0; i < occurence[0].length; i ++) {
+					if (occurence[1][i] == 4) results.push('V003:');
+				}
+				//嚦咕連對 V004
+				var consecutive = countConsecutive3OrMore(occurence[0]);
+				for (var j = 0; j < consecutive.length; j ++) {
+					results.push('V004:' + consecutive[j]);
+				}
+			}
+
+			//十六不搭三相逢 V007
+			//十六不搭暗雜龍 V006
+			//十六不搭 V005
+			if (specialPattern == '2') {
+				//retrieve digits for allPins, allBamboos, allMans
+				var pinTiles    = getCategory(game.tiles, allPins);
+				var bambooTiles = getCategory(game.tiles, allBamboos);
+				var manTiles    = getCategory(game.tiles, allMans);
+
+				pinTiles    = arrayUnique(pinTiles);
+				bambooTiles = arrayUnique(bambooTiles);
+				manTiles    = arrayUnique(manTiles);
+
+				pinTiles    = retrieveDigits(pinTiles).sort();
+				bambooTiles = retrieveDigits(bambooTiles).sort();
+				manTiles    = retrieveDigits(manTiles).sort();
+
+				if (isEqual(pinTiles, bambooTiles) && isEqual(bambooTiles, manTiles) && isEqual(pinTiles, manTiles)) 
+					results.push('V007:');
+				else if (isEqual(pinTiles.concat(bambooTiles, manTiles).sort(), oneDragon))
+					results.push('V006:');
+				else 
+					results.push('V005:');
+			}
+
+			//////////////////////////////////////////奇牌類
+			//天聽 W004
+			//地聽 W005
+			//人聽 W006
+			if (game.skyHear == '1') results.push('W004:');
+			else if (game.earthHear == '1') results.push('W005:');
+			else if (game.humanHear == '1') results.push('W006:');
+
+			//天胡 W001
+			//地胡 W002
+			//人胡 W003
+			if (game.skyGame == '1') results.push('W001:');
+			else if (game.earthGame == '1') results.push('W002:');
+			else if (game.humanGame == '1') results.push('W003:');
+
+		//
+		//Remove contradict elements
+		//
+			//暗間食糊牌 不再計對碰 
+			if (notCountO004) results = removeElement(results, 'O004');
+			//對碰 不再計假獨 (如有)
+			else if (containElement(results, 'O004')) results = removeElement(results, 'O002');
+
+			//無字花大平胡 不再計無字花
+			if (containElement(results, 'K002')) results = removeElement(results, 'C004');
+			//簡簡胡 不再計門清一摸五、對對胡
+			if (containElement(results, 'J005')) {
+				results = removeElement(results, 'O007'); 
+				results = removeElement(results, 'U001');
+			}
+			//缺一門 不再計無字
+			if (containElement(results, 'O012')) results = removeElement(results, 'D001');
+			//花／槓上自摸 花／槓上 x N 自摸 不再計自摸
+			if (containElement(results, 'E003') || containElement(results, 'E004')) results = removeElement(results, 'O005');
+			//全求 不再計自摸、獨獨
+			if (containElement(results, 'Q001')) {
+				results = removeElement(results, 'O005'); 
+				results = removeElement(results, 'O001');
+			}
+			//半求 不再計獨獨
+			if (containElement(results, 'Q002')) results = removeElement(results, 'O001'); 
+			//斷么 不再計無字
+			if (containElement(results, 'S003')) results = removeElement(results, 'D001');
+			//全帶么 不再計無字
+			if (containElement(results, 'S005')) results = removeElement(results, 'D001');
+			//全么 不再計老少碰、兄弟碰、對對胡、全帶么
+			if (containElement(results, 'S007')) {
+				results = removeElement(results, 'S002'); 
+				results = removeElement(results, 'S005'); 
+				results = removeElement(results, 'H001');
+				results = removeElement(results, 'H002'); 
+				results = removeElement(results, 'H003');
+				results = removeElement(results, 'U001');
+			}
+			//花么 不再計對對胡、半帶么
+			if (containElement(results, 'S006')) {
+				results = removeElement(results, 'S004'); 
+				results = removeElement(results, 'U001');
+			}
+			//十三么 不再計門清，如自摸不計門清一摸五，只計自摸
+			if (containElement(results, 'S008')) {
+				results = removeElement(results, 'O006');
+				if (containElement(results, 'O007')) {
+					results = removeElement(results, 'O007');
+					results.push('O005:');
+				}
+			}
+			//小三元 大三元 不再計中發白碰
+			if (containElement(results, 'T001') || containElement(results, 'T002')) results = removeElement(results, 'D005');
+			//小三風 小四喜 大三風 大四喜 不再計東南西北碰
+			if (containElement(results, 'T003') || containElement(results, 'T004') || 
+			    containElement(results, 'T005') || containElement(results, 'T006')) {
+				results = removeElement(results, 'D002');
+				results = removeElement(results, 'D003');
+				results = removeElement(results, 'D004');
+			}
+			//清一色 不再計無字
+			if (containElement(results, 'U003')) {
+				results = removeElement(results, 'D001');
+			}
+			//嚦咕嚦咕 嚦咕八飛 不再計門清，如自摸不計門清一摸五，只計自摸
+			if (containElement(results, 'V001') || containElement(results, 'V002')) {
+				results = removeElement(results, 'O006');
+				if (containElement(results, 'O007')) {
+					results = removeElement(results, 'O007');
+					results.push('O005:');
+				}				
+			}
+			//十六不搭 十六不搭三相逢 十六不搭暗雜龍 不再計門清，如自摸不計門清一摸五，只計自摸
+			if (containElement(results, 'V005') || containElement(results, 'V006') || containElement(results, 'V007')) {
+				results = removeElement(results, 'O006');
+				if (containElement(results, 'O007')) {
+					results = removeElement(results, 'O007');
+					results.push('O005:');
+				}				
+			}
+			//天聽 地聽 人聽 不再計門清
+			if (containElement(results, 'W004') || containElement(results, 'W005') || containElement(results, 'W006')) results = removeElement(results, 'O006');
+			//天胡 不再計門清一摸五
+			if (containElement(results, 'W001')) results = removeElement(results, 'O007');
+			//地胡 不再計門清一摸五、天聽
+			if (containElement(results, 'W002')) {results = removeElement(results, 'O007'); results = removeElement(results, 'W004');}
+			//人胡 不再計門清、天聽、地聽、人聽
+			if (containElement(results, 'W003')) {
+				results = removeElement(results, 'O006'); 
+				results = removeElement(results, 'W004');
+				results = removeElement(results, 'W005'); 
+				results = removeElement(results, 'W006');
+			}
+
+
+		//
+		//Last checking 
+		//
+			//////////////////////////////////////////胡牌形式類
+			//大雞胡 O011
+			if (results.length == 1 && (containElement(results, 'C001') || containElement(results, 'C002'))) {
+				results = [];
+				results.push('O011:');
+			}
+			//////////////////////////////////////////底
+			//底 B001
+			results.push('B001:');
+
+			results.sort();
+
+		//
+		// Construct results
+		//
+			$("#table-result-points-1").empty();
+			$("#table-result-points-2").empty();
+			$("#table-result-points-3").empty();
+
+			var totalPoints = 0;
+			var totalPointsWithoutJon = 0;
+			var totalCount = 0;
+			
+			for (var i = 0; i < results.length; i ++) {
+				var code = results[i].split(':')[0];
+				var parm = results[i].split(':')[1];
+				var points = localStorage.getItem(code);
+				var protect = localStorage.getItem(code + 'protect');
+
+				//Skip items with point blank or 0 (except protect = 'Y')
+				if (protect == 'Y' || (points != '' && parseInt(points) > 0)) {
+					//Hard-code formula
+					//花／槓上 x N 自摸
+					if (code == 'E004') points = 10 * (parseInt(parm) - 1);
+					//拉莊
+					else if (code == 'P002') points = 2 * parseInt(parm) + 1;
+					//嚦咕連對
+					else if (code == 'V004') points = 5 * (parseInt(parm) - 2);
+					//三相逢 四相逢 五相逢
+					//三般高 四般高
+					//四歸一 四歸三 四歸四
+					else if (code == 'F002' || code == 'F003' || code == 'F004' || 
+							 code == 'G002' || code == 'G003' || 
+							 code == 'M001' || code == 'M002' || code == 'M003') {
+						if (parm == '暗') points = parseInt(points) * 2;
+					}
+					//不正花 正花 
+					else if (code == 'C002' || code == 'C003') points = parseInt(points) * parseInt(parm);
+
+					var tr = $('<tr/>');
+					tr.append('<td style="width:80%;">' + localStorage.getItem(code + 'name') + ' ' + parm + '</td>');
+					tr.append('<td style="width:20%;text-align:right;">' + points + '</td>');
+					
+					totalPoints = totalPoints + parseInt(points);
+					if (code != 'P001' && code != 'P002') totalPointsWithoutJon = totalPointsWithoutJon + parseInt(points);
+					totalCount ++;
+
+					//minimum list 5 items each column 
+					if (totalCount <= 5) $("#table-result-points-1").append(tr);
+					else if (totalCount <= 5 * 2) $("#table-result-points-2").append(tr);
+					else $("#table-result-points-3").append(tr);
+				}
+			}
+
+			//自摸加食莊要細分
+			if (game.winType == 'win-type-1' && game.jon2 == '1')
+				$('#message').text('總番數 : ' + totalPointsWithoutJon + ' (莊) ' + totalPoints);
+			else
+				$('#message').text('總番數 : ' + totalPoints);
+
+			$('#totalPoints').val(totalPoints);
+			$('#totalPointsWithoutJon').val(totalPointsWithoutJon);
+
+			$('#tiles').toggle(false);
+			$('#results').toggle(true);
+		}
+
+        function isPong(arr) {
+            if (arr[0] == arr[1] && arr[1] == arr[2] && arr[0] == arr[2]) return true;
+
+            return false;
+        }
+
+        function isEat(arr) {
+			if (hasDragonWind(arr)) return false;
+
+            var result = arr.sort();
+            if ((parseInt(result[0]) + 1) == parseInt(result[1]) && (parseInt(result[1]) + 1) == parseInt(result[2])) return true;
+
+            return false;
+		}
+		
+		//return the first pong tile
+		function findFirstPongTile(arr) {
+			var result = countOccurence(arr);
+			for (var i = 0; i < result[1].length; i ++) {
+				if (result[1][i] == 3) return result[0][i];
+			}
+
+			return "";
+		}
+
+        function countMoreThan4(game, set) {
+			var fullTiles = game.tiles.slice(0,17);
+			
+			for (var i = 0; i < set.length; i ++) {
+				if (set[i][2] == '1') fullTiles.push(set[i][0][0]);
+			}
+			fullTiles = fullTiles.sort();
+
+			var occurence = countOccurence(fullTiles);
+
+        	function filterMoreThan4(value) {
+            	return value > 4;
+        	}
+			return occurence[1].filter(filterMoreThan4).length > 0 ? true : false;
+		}
+		
+		function countOccurence(tiles) {
+			var element = [];
+			var occurence = [];
+			var result = [];
+			var array = tiles.slice().sort();
+
+            for (var i = 0; i < array.length; i++) {
+				if (! element.includes(array[i])) {
+					element.push(array[i]);
+					occurence.push(array.count(array[i]));
+				}
+			}
+
+			result.push(element);
+			result.push(occurence);
+
+			return result;
+		}
+
+		function countConsecutive3OrMore(tiles) {
+			var result = [];
+			var array = tiles.slice().sort();
+			var count = 1;
+
+            for (var i = 0; i < array.length - 1; i++) {
+				if ((parseInt(array[i + 1]) - parseInt(array[i])) == 1) 
+					count ++;
+				else {
+					if (count >= 3) result.push(count);
+					count = 1;
+				}
+			}
+			if (count >= 3) result.push(count);
+
+			return result;
+		}
+
+		function retrieveDigits(tiles) {
+			var result = [];
+			var array = tiles.slice().sort();
+			var digit = '';
+
+            for (var i = 0; i < array.length; i++) {
+				//count only allPins, allBamboos, allMans
+				if (! allDragonsWinds.includes(array[i])) {
+					digit = array[i].toString().split('').pop();
+					result.push(parseInt(digit));
+				}
+				else {
+					result.push(0);
+				}
+			}
+
+			return result;
+		}
+
+		function arrayUnique(array) {
+        	var a = array.concat();
+        	for(var i=0; i<a.length; ++i) {
+            	for(var j=i+1; j<a.length; ++j) {
+                	if(a[i] === a[j])
+                    	a.splice(j--, 1);
+	            }
+    	    }
+    
+	        return a.sort();
+    	}    
+
+		function hasPin(tiles) {
+			return tilesContain(tiles, allPins);
+		}
+
+		function hasBamboo(tiles) {
+			return tilesContain(tiles, allBamboos);
+		}
+
+		function hasMan(tiles) {
+			return tilesContain(tiles, allMans);
+		}
+
+		function hasWind(tiles) {
+			return tilesContain(tiles, allWinds);
+		}
+
+		function hasDragon(tiles) {
+			return tilesContain(tiles, allDragons);
+		}
+
+		function hasFlower(tiles) {
+			return tilesContain(tiles, allFlowers);
+		}
+
+		function hasSeason(tiles) {
+			return tilesContain(tiles, allSeasons);
+		}
+
+		function hasDragonWind(tiles) {
+			return tilesContain(tiles, allDragonsWinds);
+		}
+
+		function tilesContain(tiles, category) {
+			var results = getCategory(tiles, category);
+			if (results.length > 0) return true;
+			else return false;
+		}
+
+		function getCategory(tiles, category) {
+			var results = tiles.slice();
+
+        	function filterCategory(value) {
+            	return category.includes(value);
+        	}
+        	return results.filter(filterCategory);
+		}
+
+		function removeElement(array, element) {
+			function filterElement(value) {
+                return (value.split(':')[0] != element);
+            };
+			return array.filter(filterElement);
+		}
+
+		function containElement(array, element) {
+			var results = array.slice();
+
+			function filterElement(value) {
+                return (value.split(':')[0] == element);
+			};
+			results = results.filter(filterElement);
+
+			return (results.length > 0) ? true : false;
+		}
+
+		//structure 
+		// tile
+		// isOpen
+		// isGong
+		// type (eat,pong,pairs)
+		// category (pin,bamboo,man,wind,dragon)
+		// numbers for pin,bamboo,man
+		function insertCompleteSet(set, part, isOpen, isGong) {
+			var type = '', category = '', numbers = [];
+
+			if (isPong(part)) type = 'pong';
+			else if (isEat(part)) type = 'eat';
+			else if (part.length == 2 && part[0] == part[1]) type = 'pairs';
+
+			if (hasPin(part)) category = 'pin';
+			else if (hasBamboo(part)) category = 'bamboo';
+			else if (hasMan(part)) category = 'man';
+			else if (hasWind(part)) category = 'wind';
+			else if (hasDragon(part)) category = 'dragon';
+
+			if (category == 'pin' || category == 'bamboo' || category == 'man') {
+				numbers = retrieveDigits(part);
+			}
+
+			set.push(new Array(part.sort(), isOpen, isGong, type, category, numbers.sort()));
+		}
+
+		function isEqual(value, other) {
+			// Get the value type
+			var type = Object.prototype.toString.call(value);
+
+			// If the two objects are not the same type, return false
+			if (type !== Object.prototype.toString.call(other)) return false;
+
+			// If items are not an object or array, return false
+			if (['[object Array]', '[object Object]'].indexOf(type) < 0) return false;
+
+			// Compare the length of the length of the two items
+			var valueLen = type === '[object Array]' ? value.length : Object.keys(value).length;
+			var otherLen = type === '[object Array]' ? other.length : Object.keys(other).length;
+			if (valueLen !== otherLen) return false;
+
+			// Compare two items
+			var compare = function (item1, item2) {
+				// Get the object type
+				var itemType = Object.prototype.toString.call(item1);
+
+				// If an object or array, compare recursively
+				if (['[object Array]', '[object Object]'].indexOf(itemType) >= 0) {
+					if (!isEqual(item1, item2)) return false;
+				}
+				// Otherwise, do a simple comparison
+				else {
+					// If the two items are not the same type, return false
+					if (itemType !== Object.prototype.toString.call(item2)) return false;
+
+					// Else if it's a function, convert to a string and compare
+					// Otherwise, just compare
+					if (itemType === '[object Function]') {
+						if (item1.toString() !== item2.toString()) return false;
+					} else {
+						if (item1 !== item2) return false;
+					}
+				}
+			};
+
+			// Compare properties
+			if (type === '[object Array]') {
+				for (var i = 0; i < valueLen; i++) {
+					if (compare(value[i], other[i]) === false) return false;
+				}
+			} else {
+				for (var key in value) {
+					if (value.hasOwnProperty(key)) {
+						if (compare(value[key], other[key]) === false) return false;
+					}
+				}
+			}
+
+			// If nothing failed, return true
+			return true;
+		}
+
+        Array.prototype.count = function(obj){
+            var count = this.length;
+            if(typeof(obj) !== "undefined"){
+                var array = this.slice(0), count = 0; // clone array and reset count
+                for(i = 0; i < array.length; i++){
+                    if(array[i] == obj){
+                        count++;
+                    }
+                }
+            }
+            return count;
+		}
+	</script>
+</body>
+</html>

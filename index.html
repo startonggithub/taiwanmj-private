@@ -1,0 +1,741 @@
+﻿<!DOCTYPE html>
+<html >
+<head>
+  <!-- Site made with Mobirise Website Builder v4.8.2, https://mobirise.com -->
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Mobirise v4.8.2, mobirise.com">
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+  <link rel="shortcut icon" href="assets/images/mbr-122x82.jpg" type="image/x-icon">
+  <meta name="description" content="台牌規例及番數說明">
+  <title>Home</title>
+  <link rel="stylesheet" href="assets/web/assets/mobirise-icons-bold/mobirise-icons-bold.css">
+  <link rel="stylesheet" href="assets/tether/tether.min.css">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-grid.min.css">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap-reboot.min.css">
+  <link rel="stylesheet" href="assets/dropdown/css/style.css">
+  <link rel="stylesheet" href="assets/datatables/data-tables.bootstrap4.min.css">
+  <link rel="stylesheet" href="assets/theme/css/style.css">
+  <link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css" type="text/css">
+
+</head>
+<body>
+    <section class="menu cid-qTkzRZLJNu" once="menu" id="menu1-0">
+        <nav class="navbar navbar-expand beta-menu navbar-dropdown align-items-center navbar-fixed-top collapsed">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+            <div class="menu-logo">
+                <div class="navbar-brand">
+                    <!--<span class="navbar-logo">
+                        <a href="index.html">
+                            <img src="assets/images/mbr-122x82.jpg" alt="Mobirise" title="" style="height: 3.8rem;">
+                        </a>
+                    </span>-->
+                    <span class="navbar-caption-wrap"><a class="navbar-caption text-white" href="index.html">港式台牌</a></span>
+                </div>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav nav-dropdown nav-right" data-app-modern-menu="true">
+                    <li class="nav-item">
+                        <a class="nav-link link text-white display-4" href="index.html#table1-1"><span class="mbrib-browse mbr-iconfont mbr-iconfont-btn" style="font-size: 20px;"></span>番數表</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link link text-white display-4" href="index.html#table1-a"><span class="mbrib-bookmark mbr-iconfont mbr-iconfont-btn" style="font-size: 20px;"></span>規例說明</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link link text-white display-4" href="index.html#table1-b"><span class="mbrib-file mbr-iconfont mbr-iconfont-btn" style="font-size: 20px;"></span>番數說明及設定</a>
+                    </li>
+                    <li id="point-function" class="nav-item">
+                        <a class="nav-link link text-white display-4" href="point.html"><span class="mbrib-play mbr-iconfont mbr-iconfont-btn" style="font-size: 20px;"></span>計番器</a>
+                    </li>
+                    <li id="record-function" class="nav-item">
+                        <a class="nav-link link text-white display-4" href="record.html"><span class="mbrib-edit mbr-iconfont mbr-iconfont-btn" style="font-size: 20px;"></span>局數記錄</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link link text-white display-4" href="record_share.html"><span class="mbrib-share mbr-iconfont mbr-iconfont-btn" style="font-size: 20px;"></span>共享記錄</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link link text-white display-4" href="help.html"><span class="mbrib-question mbr-iconfont mbr-iconfont-btn" style="font-size: 20px;"></span>計番器/局數記錄/共享記錄介紹</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link link text-white display-4"><span class="mbrib-info mbr-iconfont mbr-iconfont-btn" style="font-size: 20px;"></span><text id="version"></text></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </section>
+
+    <section class="cid-r32CxlZEPS" id="table1-1">
+        <h2 class="mbr-section-title mbr-fonts-style align-center display-5">番數表</h2>
+        <div class="container-fluid">
+            <div class="row">
+                <table class="table table-striped table-bordered col-12" id="table-mini-points" cellspacing="0">
+                    <thead>
+                        <tr class="table-heads" style="font-weight: bold;">
+                            <th style="width: 42%;padding: 5px;">分類/名稱</th>
+                            <th style="width: 8%;padding: 5px;">番數</th>
+                            <th style="width: 42%;padding: 5px;">分類/名稱</th>
+                            <th style="width: 8%;padding: 5px;">番數</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="r001a" style="font-weight: bold;">花類</td>
+                            <td id="r001b"></td>
+                            <td id="r001c" style="font-weight: bold;">胡牌形式類</td>
+                            <td id="r001d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r002a">無花/不正花</td>
+                            <td id="r002b"></td>
+                            <td id="r002c">假獨/獨獨</td>
+                            <td id="r002d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r003a">正花</td>
+                            <td id="r003b"></td>
+                            <td id="r003c">將眼</td>
+                            <td id="r003d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r004a">無字花</td>
+                            <td id="r004b"></td>
+                            <td id="r004c">對碰</td>
+                            <td id="r004d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r005a">一臺花</td>
+                            <td id="r005b"></td>
+                            <td id="r005c">自摸</td>
+                            <td id="r005d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r006a">七搶一(可不糊)</td>
+                            <td id="r006b"></td>
+                            <td id="r006c">門清</td>
+                            <td id="r006d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r007a">八隻花</td>
+                            <td id="r007b"></td>
+                            <td id="r007c">門清一摸五</td>
+                            <td id="r007d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r008a" style="font-weight: bold;">字類</td>
+                            <td id="r008b"></td>
+                            <td id="r008c">河底撈魚</td>
+                            <td id="r008d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r009a">無字/不正字</td>
+                            <td id="r009b"></td>
+                            <td id="r009c">海底撈魚/月</td>
+                            <td id="r009d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r010a">正字</td>
+                            <td id="r010b"></td>
+                            <td id="r010c">大雞胡</td>
+                            <td id="r010d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r011a">雙番字</td>
+                            <td id="r011b"></td>
+                            <td id="r011c">缺一門</td>
+                            <td id="r011d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r012a">中發白</td>
+                            <td id="r012b"></td>
+                            <td id="r012c">小/大五門齊</td>
+                            <td id="r012d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r013a" style="font-weight: bold;">槓類</td>
+                            <td id="r013b"></td>
+                            <td id="r013c">小/大七門齊</td>
+                            <td id="r013d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r014a">明/暗槓</td>
+                            <td id="r014b"></td>
+                            <td id="r014c" style="font-weight: bold;">求/速食類</td>
+                            <td id="r014d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r015a">花/槓上自摸</td>
+                            <td id="r015b"></td>
+                            <td id="r015c">半/全求</td>
+                            <td id="r015d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r016a">花/槓上xN自摸</td>
+                            <td id="r016b"></td>
+                            <td id="r016c">十/七隻內</td>
+                            <td id="r016d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r017a">搶槓(只限明槓)</td>
+                            <td id="r017b"></td>
+                            <td id="r017c" style="font-weight: bold;">么類</td>
+                            <td id="r017d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r018a" style="font-weight: bold;">相逢/般高類</td>
+                            <td id="r018b"></td>
+                            <td id="r018c">老少上/碰</td>
+                            <td id="r018d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r019a">相逢</td>
+                            <td id="r019b"></td>
+                            <td id="r019c">斷么</td>
+                            <td id="r019d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r020a">三/四/五相逢(暗x2)</td>
+                            <td id="r020b"></td>
+                            <td id="r020c">半/全帶么</td>
+                            <td id="r020d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r021a">般高</td>
+                            <td id="r021b"></td>
+                            <td id="r021c">花/全么</td>
+                            <td id="r021d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r022a">三/四般高(暗x2)</td>
+                            <td id="r022b"></td>
+                            <td id="r022c">十三么</td>
+                            <td id="r022d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r023a" style="font-weight: bold;">兄弟/姊妹類</td>
+                            <td id="r023b"></td>
+                            <td id="r023c" style="font-weight: bold;">三元四喜類</td>
+                            <td id="r023d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r024a">兄弟</td>
+                            <td id="r024b"></td>
+                            <td id="r024c">小/大三元</td>
+                            <td id="r024d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r025a">小/大三兄弟</td>
+                            <td id="r025b"></td>
+                            <td id="r025c">小/大三風</td>
+                            <td id="r025d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r026a">小/大三姊妹</td>
+                            <td id="r026b"></td>
+                            <td id="r026c">小/大四喜</td>
+                            <td id="r026d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r027a" style="font-weight: bold;">莊類</td>
+                            <td id="r027b"></td>
+                            <td id="r027c" style="font-weight: bold;">大牌類</td>
+                            <td id="r027d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r028a">莊</td>
+                            <td id="r028b"></td>
+                            <td id="r028c">對對胡</td>
+                            <td id="r028d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r029a">連莊</td>
+                            <td id="r029b"></td>
+                            <td id="r029c">混一色</td>
+                            <td id="r029d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r030a" style="font-weight: bold;">暗間類</td>
+                            <td id="r030b"></td>
+                            <td id="r030c">清一色</td>
+                            <td id="r030d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r031a">兩暗間</td>
+                            <td id="r031b"></td>
+                            <td id="r031c" style="font-weight: bold;">不正常胡牌類</td>
+                            <td id="r031d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r032a">三/四/五暗間</td>
+                            <td id="r032b"></td>
+                            <td id="r032c">嚦咕嚦咕</td>
+                            <td id="r032d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r033a">簡簡胡(不可槓)</td>
+                            <td id="r033b"></td>
+                            <td id="r033c">嚦咕八飛</td>
+                            <td id="r033d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r034a" style="font-weight: bold;">平胡類</td>
+                            <td id="r034b"></td>
+                            <td id="r034c">嚦咕四歸一</td>
+                            <td id="r034d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r035a">平胡</td>
+                            <td id="r035b"></td>
+                            <td id="r035c">嚦咕三至八連對</td>
+                            <td id="r035d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r036a">無字花大平胡</td>
+                            <td id="r036b"></td>
+                            <td id="r036c">十六不搭</td>
+                            <td id="r036d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r037a" style="font-weight: bold;">龍類</td>
+                            <td id="r037b"></td>
+                            <td id="r037c">十六不搭暗雜龍</td>
+                            <td id="r037d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r038a">明/暗雜龍</td>
+                            <td id="r038b"></td>
+                            <td id="r038c">十六不搭三相逢</td>
+                            <td id="r038d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r039a">明/暗清龍</td>
+                            <td id="r039b"></td>
+                            <td id="r039c" style="font-weight: bold;">奇牌類</td>
+                            <td id="r039d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r040a" style="font-weight: bold;">四歸類</td>
+                            <td id="r040b"></td>
+                            <td id="r040c">天胡/地胡</td>
+                            <td id="r040d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r041a">四歸一/三/四(暗x2)</td>
+                            <td id="r041b"></td>
+                            <td id="r041c">人胡</td>
+                            <td id="r041d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r042a" style="font-weight: bold;">聽牌</td>
+                            <td id="r042b"></td>
+                            <td id="r042c">天聽</td>
+                            <td id="r042d"></td>
+                        </tr>
+                        <tr>
+                            <td id="r043a" style="font-weight: bold;">底</td>
+                            <td id="r043b"></td>
+                            <td id="r043c">地聽/人聽</td>
+                            <td id="r043d"></td>
+                        </tr>
+                        <tr>
+                            <td colspan=4 class="col-xs-12">賞則 : 暗槓/一臺花(收每人一個底), 打圍骰/一臺草(收每人半個底)</td>
+                        </tr>
+                        <tr>
+                            <td colspan=4 class="col-xs-12">罰則 : 追牌(付每人一個底), 打一二三/追唔到(付每人半個底), 詐糊(付每人三十番)</td>
+                        </tr>
+                        <tr>
+                            <td colspan=4 class="col-xs-12">1: 小相公/大相公/聽錯牌當企胡, 不可胡七搶一或花糊</td>
+                        </tr>
+                        <tr>
+                            <td colspan=4 class="col-xs-12">2: 明/暗槓當暗間</td>
+                        </tr>
+                        <tr>
+                            <td colspan=4 class="col-xs-12">3: 嚦咕可計將眼, 花類, 無字, 獨獨, 假獨, 海/河底撈魚/月, 缺一門, 小五/七門齊, 莊類, 速食類, 半帶么, 斷么, 混一色, 清一色, 奇牌類</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="cid-r38wS1rgBc" id="table1-a">
+        <h2 class="mbr-section-title mbr-fonts-style align-center display-5">規例說明</h2>
+        <div class="container-fluid">
+            <div class="row">
+                <table class="table table-striped table-bordered col-12" id="table-rules" cellspacing="0">
+                    <thead>
+                        <tr class="table-heads">
+                            <th style="padding: 5px;">規例</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-contents-rules"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="cid-r38wS1rgBc" id="table1-b">
+        <h2 class="mbr-section-title mbr-fonts-style align-center display-5">番數說明</h2>
+        <!--<button id="button-save" onclick="onClickSave(); return false;" type="submit" class="btn-xs btn-primary display-7">儲存</button>-->
+        <button id="button-reset" onclick="onClickReset(); return false;" type="submit" class="btn-xs btn-primary display-7" style="margin-left: 5px;">重設</button>
+        <text>&nbsp;(不計番數項目留空或輸入 0)</text>
+        <div class="container-fluid">
+            <div class="row">
+                <table class="table table-striped table-bordered col-12" id="table-points" cellspacing="0">
+                    <thead>
+                        <tr class="table-heads">
+                            <th style="width:25%;padding: 5px;">名稱</th>
+                            <th style="width:10%;padding: 5px;">番數</th>
+                            <th style="width:65%;padding: 5px;">詳細說明</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-contents-points"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+	<!-- For confirmation -->
+	<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <div class="modal-body display-5">
+			  <text id="confirm-message"></text>
+		  </div>
+		  <!--<div class="modal-footer">
+			<button type="button" id="close" class="btn-sm btn-secondary display-7" data-dismiss="modal">關閉</button>
+		  </div>-->
+		</div>
+	  </div>
+	</div>
+
+    <script src="assets/web/assets/jquery/jquery.min.js"></script>
+    <script src="assets/popper/popper.min.js"></script>
+    <script src="assets/tether/tether.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/smoothscroll/smooth-scroll.js"></script>
+    <script src="assets/dropdown/js/script.min.js"></script>
+    <script src="assets/touchswipe/jquery.touch-swipe.min.js"></script>
+    <script src="assets/datatables/jquery.data-tables.min.js"></script>
+    <script src="assets/datatables/data-tables.bootstrap4.min.js"></script>
+    <script src="assets/theme/js/script.js"></script>
+    <script src="assets/formoid/formoid.min.js"></script>
+    
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-firestore.js"></script>
+    <script src="assets/web/assets/common.js"></script>
+    <script src="assets/web/assets/environment.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#version').text(appVersion);
+
+            if (appCategory == 'free' || appCategory == 'paid') {
+                //Disable cut copy paste
+                $('body').bind('cut copy paste', function (e) {
+                    e.preventDefault();
+                });
+
+                //Disable mouse right click
+                $("body").on("contextmenu",function(e){
+                    return false;
+                });
+            }
+
+            if (appCategory == 'free') {
+                $('#point-function').remove();
+                $('#record-function').remove();
+            }
+
+            $('#table-mini-points td').css('padding', '5px');
+
+			constructRulesTable();    
+			constructPointsTable();
+        });
+
+		function constructRulesTable() {
+            var source = "";
+            collectionSettings.where("table", "==", "instructions")
+                .get()
+                .then(function(querySnapshot) {
+                    querySnapshot.forEach(function(doc) {
+                        source = doc.data().source;
+                    });
+                    loadRulesTable(source);
+                })
+                .catch(function(error) {
+                    console.log("Error get settings:", error);
+                });
+        }
+        
+        function loadRulesTable(source) {
+            if (source == "server") {
+                collectionInstructions
+                    .orderBy("seq").get()
+                    .then(function(querySnapshot) {
+                        querySnapshot.forEach(function(doc) {
+                            var tr = $('<tr/>');
+                            tr.append('<td style="padding: 5px;">' + nl2br(doc.data().desc) + '</td>');
+                            $("#table-contents-rules").append(tr);
+                        });
+                    })
+                    .catch(function(error) {
+                        console.log("Error get instructions:", error);
+                    });
+            }
+            else {
+	            $.ajax({
+	                type: 'GET',
+	                url: 'data/instructions.json',
+	                dataType: 'text',
+	                success: function (data) {
+						var json_obj = $.parseJSON(data);
+						for (var i in json_obj) {
+	                        var tr = $('<tr/>');
+	                        tr.append('<td style="padding: 5px;">' + nl2br(json_obj[i].desc) + '</td>');
+	                        $("#table-contents-rules").append(tr);
+						}
+	                }
+	            });
+			}
+        }
+
+		function constructPointsTable() {
+            var source = "";
+            collectionSettings.where("table", "==", "points")
+                .get()
+                .then(function(querySnapshot) {
+                    querySnapshot.forEach(function(doc) {
+                        source = doc.data().source;
+                    });
+                    loadPointsTable(source);
+                })
+                .catch(function(error) {
+                    console.log("Error get settings:", error);
+                });
+        }
+                
+		function loadPointsTable(source) {
+            if (source == "server") {
+                collectionPoints
+                    .orderBy("code").get()
+                    .then(function(querySnapshot) {
+                        querySnapshot.forEach(function(doc) {
+                            var tr = $('<tr/>');
+                            tr.append('<td style="padding: 5px;" name="name" id="' + doc.data().code + 'name">' + doc.data().name + '</td>');
+                            if (doc.data().protect == 'Y') {
+                                tr.append('<td style="padding: 5px;"><input type="hidden" id="' + doc.data().code + '" value="' + doc.data().point + '"><input type="hidden" name="protect" id="' + doc.data().code + 'protect" value="' + doc.data().protect + '">' + doc.data().point + '</td>');
+                            }
+                            else {
+                                tr.append('<td style="padding: 5px;"><input type="hidden" name="protect" id="' + doc.data().code + 'protect" value="' + doc.data().protect + '"><input type="number" style="width:100%;" id="' + doc.data().code + '" value="' + doc.data().point + '" onkeyup="saveRecords()"></td>');
+                            }
+                            tr.append('<td style="padding: 5px;">' + doc.data().desc + '</td>');
+                            $("#table-contents-points").append(tr);
+                        });
+
+                        saveAndRestoreData();
+                        refreshMiniPointsTable();
+                    })
+                    .catch(function(error) {
+                        console.log("Error get instructions:", error);
+                    });
+            }
+            else {
+                $.ajax({
+                    type: 'GET',
+                    url: 'data/points.json',
+                    dataType: 'text',
+                    success: function (data) {
+                        var json_obj = $.parseJSON(data);
+                        for (var i in json_obj) {
+                            var tr = $('<tr/>');
+                            tr.append('<td style="padding: 5px;" name="name" id="' + json_obj[i].code + 'name">' + json_obj[i].name + '</td>');
+                            if (json_obj[i].protect == 'Y') {
+                                tr.append('<td style="padding: 5px;"><input type="hidden" id="' + json_obj[i].code + '" value="' + json_obj[i].point + '"><input type="hidden" name="protect" id="' + json_obj[i].code + 'protect" value="' + json_obj[i].protect + '">' + json_obj[i].point + '</td>');
+                            }
+                            else {
+                                tr.append('<td style="padding: 5px;"><input type="hidden" name="protect" id="' + json_obj[i].code + 'protect" value="' + json_obj[i].protect + '"><input type="number" style="width:100%;" id="' + json_obj[i].code + '" value="' + json_obj[i].point + '" onkeyup="saveRecords()"></td>');
+                            }
+                            tr.append('<td style="padding: 5px;">' + json_obj[i].desc + '</td>');
+                            $("#table-contents-points").append(tr);
+                        }
+
+                        saveAndRestoreData();
+                        refreshMiniPointsTable();
+                    }
+                });
+            }
+        }
+        
+        function saveAndRestoreData() {
+			$('#table-contents-points tr').find('input').each(function(){
+				if (localStorage.getItem('savePointData') != null && localStorage.getItem('savePointData') == 'Yes') {
+					//Load data from local storage
+					$(this).val(localStorage.getItem(this.id));
+				}
+				else {
+					localStorage.setItem(this.id, this.value);
+				}
+			});
+
+			$('#table-contents-points tr').find('td[name="name"]').each(function(){
+                localStorage.setItem(this.id, $(this).html());
+			});
+
+			$('#table-contents-points tr').find('td[name="protect"]').each(function(){
+                localStorage.setItem(this.id, this.value);
+			});
+		}
+
+		function refreshMiniPointsTable() {
+			//Fill in mini-table. Part of them is hard-coded and will not be updated. 
+			$('#table-mini-points').find('td[id="r002b"]').text(localStorage.getItem('C001') + '/' + localStorage.getItem('C002'));
+			$('#table-mini-points').find('td[id="r002d"]').text(localStorage.getItem('O002') + '/' + localStorage.getItem('O001'));
+
+			$('#table-mini-points').find('td[id="r003b"]').text(localStorage.getItem('C003'));
+			$('#table-mini-points').find('td[id="r003d"]').text(localStorage.getItem('O003'));
+
+			$('#table-mini-points').find('td[id="r004b"]').text(localStorage.getItem('C004'));
+			$('#table-mini-points').find('td[id="r004d"]').text(localStorage.getItem('O004'));
+
+			$('#table-mini-points').find('td[id="r005b"]').text(localStorage.getItem('C005'));
+			$('#table-mini-points').find('td[id="r005d"]').text(localStorage.getItem('O005'));
+
+			$('#table-mini-points').find('td[id="r006b"]').text(localStorage.getItem('C006'));
+			$('#table-mini-points').find('td[id="r006d"]').text(localStorage.getItem('O006'));
+
+			$('#table-mini-points').find('td[id="r007b"]').text(localStorage.getItem('C007'));
+			$('#table-mini-points').find('td[id="r007d"]').text(localStorage.getItem('O007'));
+
+			$('#table-mini-points').find('td[id="r008d"]').text(localStorage.getItem('O008'));
+
+			$('#table-mini-points').find('td[id="r009b"]').text(localStorage.getItem('D001') + '/' + localStorage.getItem('D002'));
+			$('#table-mini-points').find('td[id="r009d"]').text(localStorage.getItem('O009') + '/' + localStorage.getItem('O010'));
+
+			$('#table-mini-points').find('td[id="r010b"]').text(localStorage.getItem('D003'));
+			$('#table-mini-points').find('td[id="r010d"]').text(localStorage.getItem('O011'));
+
+			$('#table-mini-points').find('td[id="r011b"]').text(localStorage.getItem('D004'));
+			$('#table-mini-points').find('td[id="r011d"]').text(localStorage.getItem('O012'));
+
+			$('#table-mini-points').find('td[id="r012b"]').text(localStorage.getItem('D005'));
+			$('#table-mini-points').find('td[id="r012d"]').text(localStorage.getItem('O013') + '/' + localStorage.getItem('O014'));
+
+			$('#table-mini-points').find('td[id="r013d"]').text(localStorage.getItem('O015') + '/' + localStorage.getItem('O016'));
+
+			$('#table-mini-points').find('td[id="r014b"]').text(localStorage.getItem('E001') + '/' + localStorage.getItem('E002'));
+
+			$('#table-mini-points').find('td[id="r015b"]').text(localStorage.getItem('E003'));
+			$('#table-mini-points').find('td[id="r015d"]').text(localStorage.getItem('Q001') + '/' + localStorage.getItem('Q002'));
+
+			$('#table-mini-points').find('td[id="r016b"]').text(localStorage.getItem('E004'));
+			$('#table-mini-points').find('td[id="r016d"]').text(localStorage.getItem('R002') + '/' + localStorage.getItem('R001'));
+
+			$('#table-mini-points').find('td[id="r017b"]').text(localStorage.getItem('E005'));
+
+			$('#table-mini-points').find('td[id="r018d"]').text(localStorage.getItem('S001') + '/' + localStorage.getItem('S002'));
+
+			$('#table-mini-points').find('td[id="r019b"]').text(localStorage.getItem('F001'));
+			$('#table-mini-points').find('td[id="r019d"]').text(localStorage.getItem('S003'));
+
+			$('#table-mini-points').find('td[id="r020b"]').text(localStorage.getItem('F002') + '/' + localStorage.getItem('F003') + '/' + localStorage.getItem('F004'));
+			$('#table-mini-points').find('td[id="r020d"]').text(localStorage.getItem('S004') + '/' + localStorage.getItem('S005'));
+
+			$('#table-mini-points').find('td[id="r021b"]').text(localStorage.getItem('G001'));
+			$('#table-mini-points').find('td[id="r021d"]').text(localStorage.getItem('S006') + '/' + localStorage.getItem('S007'));
+
+			$('#table-mini-points').find('td[id="r022b"]').text(localStorage.getItem('G002') + '/' + localStorage.getItem('G003'));
+			$('#table-mini-points').find('td[id="r022d"]').text(localStorage.getItem('S008'));
+
+			$('#table-mini-points').find('td[id="r024b"]').text(localStorage.getItem('H001'));
+			$('#table-mini-points').find('td[id="r024d"]').text(localStorage.getItem('T001') + '/' + localStorage.getItem('T002'));
+
+			$('#table-mini-points').find('td[id="r025b"]').text(localStorage.getItem('H002') + '/' + localStorage.getItem('H003'));
+			$('#table-mini-points').find('td[id="r025d"]').text(localStorage.getItem('T003') + '/' + localStorage.getItem('T004'));
+
+			$('#table-mini-points').find('td[id="r026b"]').text(localStorage.getItem('I001') + '/' + localStorage.getItem('I002'));
+			$('#table-mini-points').find('td[id="r026d"]').text(localStorage.getItem('T005') + '/' + localStorage.getItem('T006'));
+
+			$('#table-mini-points').find('td[id="r028b"]').text(localStorage.getItem('P001'));
+			$('#table-mini-points').find('td[id="r028d"]').text(localStorage.getItem('U001'));
+
+			$('#table-mini-points').find('td[id="r029b"]').text(localStorage.getItem('P002'));
+			$('#table-mini-points').find('td[id="r029d"]').text(localStorage.getItem('U002'));
+
+			$('#table-mini-points').find('td[id="r030d"]').text(localStorage.getItem('U003'));
+
+			$('#table-mini-points').find('td[id="r031b"]').text(localStorage.getItem('J001'));
+
+			$('#table-mini-points').find('td[id="r032b"]').text(localStorage.getItem('J002') + '/' + localStorage.getItem('J003') + '/' + localStorage.getItem('J004'));
+			$('#table-mini-points').find('td[id="r032d"]').text(localStorage.getItem('V001'));
+
+			$('#table-mini-points').find('td[id="r033b"]').text(localStorage.getItem('J005'));
+			$('#table-mini-points').find('td[id="r033d"]').text(localStorage.getItem('V002'));
+
+			$('#table-mini-points').find('td[id="r034d"]').text(localStorage.getItem('V003'));
+
+			$('#table-mini-points').find('td[id="r035b"]').text(localStorage.getItem('K001'));
+			$('#table-mini-points').find('td[id="r035d"]').text(localStorage.getItem('V004'));
+
+			$('#table-mini-points').find('td[id="r036b"]').text(localStorage.getItem('K002'));
+			$('#table-mini-points').find('td[id="r036d"]').text(localStorage.getItem('V005'));
+
+			$('#table-mini-points').find('td[id="r037d"]').text(localStorage.getItem('V006'));
+
+			$('#table-mini-points').find('td[id="r038b"]').text(localStorage.getItem('L001') + '/' + localStorage.getItem('L002'));
+			$('#table-mini-points').find('td[id="r038d"]').text(localStorage.getItem('V007'));
+
+			$('#table-mini-points').find('td[id="r039b"]').text(localStorage.getItem('L003') + '/' + localStorage.getItem('L004'));
+
+			$('#table-mini-points').find('td[id="r040d"]').text(localStorage.getItem('W001') + '/' + localStorage.getItem('W002'));
+
+			$('#table-mini-points').find('td[id="r041b"]').text(localStorage.getItem('M001') + '/' + localStorage.getItem('M002') + '/' + localStorage.getItem('M003'));
+			$('#table-mini-points').find('td[id="r041d"]').text(localStorage.getItem('W003'));
+
+			$('#table-mini-points').find('td[id="r042b"]').text(localStorage.getItem('N001'));
+			$('#table-mini-points').find('td[id="r042d"]').text(localStorage.getItem('W004'));
+
+			$('#table-mini-points').find('td[id="r043b"]').text(localStorage.getItem('B001'));
+			$('#table-mini-points').find('td[id="r043d"]').text(localStorage.getItem('W005') + '/' + localStorage.getItem('W006'));
+		}
+
+        function nl2br(s) { return s.replace(/\\n/g, "<br>"); }
+
+        //function onClickSave() {
+        function saveRecords() {
+			$('#table-contents-points tr').find('input').each(function(){
+				localStorage.setItem(this.id, this.value);
+			});
+
+			localStorage.setItem('savePointData', 'Yes');
+
+			//$('#confirm-message').text('儲存完成');
+			//$('#confirmModal').modal('show');
+
+			refreshMiniPointsTable();
+		}
+
+		function onClickReset() {
+			localStorage.setItem('savePointData', 'No');
+
+			$("#table-contents-points").empty();
+			constructPointsTable();
+
+			$('#confirm-message').text('重設完成');
+			$('#confirmModal').modal('show');
+            setTimeout(function () {
+                $('#confirmModal').modal('hide');
+            }, 1000);
+
+			refreshMiniPointsTable();
+		}
+    </script>
+</body>
+</html>

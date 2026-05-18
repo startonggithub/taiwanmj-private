@@ -1,0 +1,2411 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>記錄</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/theme/css/style.css">
+	<link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css" type="text/css">
+	<link rel="stylesheet" href="assets/web/assets/jquery/jquery-confirm.css" type="text/css">
+</head>
+<body style="zoom:0.8;">
+	<div id="master" class="container-fluid">
+		<div class="row">
+			<div id="topbar" class="fixed-top-right-div">
+				<button class="close-button" onclick="window.history.back();">X</button>
+			</div>
+		</div>
+
+		<div class="row" style="margin-top:5px;">
+			<table class="col-12" style="margin-left:10px;">
+				<thead>
+					<th style="width:73%;"></th>
+					<th style="width:27%;"></th>
+				</thead>
+				<tr>
+					<td colspan="2">
+						<label class="display-7 align-left" style="padding:0px;margin:0px;">識別碼</label>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="text" class="form-control" id="code" required="required" aria-required="true" readonly />
+					</td>
+					<td>
+						&nbsp;<button id="button-copy" onclick="onClickCopy(); return false;" type="submit" class="btn-xs btn-primary align-left">複製</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+	
+		<div id="top-buttons-1" class="row" style="margin-top:5px;">
+			<table class="col-12">
+				<thead>
+					<th style="width:20%;"></th>
+					<th style="width:20%;"></th>
+					<th style="width:20%;"></th>
+					<th style="width:20%;"></th>
+					<th style="width:20%;"></th>
+				</thead>
+				<tr>
+					<td class="align-center">
+						<span class="input-group-btn">
+							<button id="button-join" onclick="onClickJoin(); return false;" type="submit" class="btn-sm btn-primary">加入</button>
+						</span>
+					</td>
+					<td class="align-center">
+						<span class="input-group-btn">
+							<button id="button-swap" onclick="onClickSwap(); return false;" type="submit" class="btn-sm btn-primary" disabled>換位</button>
+						</span>
+					</td>
+					<td class="align-center">
+						<span class="input-group-btn">
+							<button id="button-adjust" onclick="onClickAdjust(); return false;" type="submit" class="btn-sm btn-primary" disabled>調整</button>
+						</span>
+					</td>
+					<td class="align-center">
+						<span class="input-group-btn">
+							<button id="button-reset" onclick="onClickReset(); return false;" type="submit" class="btn-sm btn-primary" disabled>重設</button>
+						</span>
+					</td>
+					<td class="align-center">
+						<span class="input-group-btn">
+							<button id="button-share" onclick="onClickShare(); return false;" type="submit" class="btn-sm btn-primary" disabled>分享</button>
+						</span>
+					</td>
+					<!--<td class="align-center">
+						<span class="input-group-btn">
+							<button id="button-back" onclick="window.history.back();" type="submit" class="btn-sm btn-primary">返回</button>
+						</span>
+					</td>-->
+				</tr>
+			</table>
+		</div>
+
+		<div id="top-buttons-2" class="row" style="margin-top:3px; margin-bottom:3px;visibility: hidden;">
+			<div class="col-12 align-center">
+				<div id="bottom-windposition" class="btn-group btn-group-lg btn-group-justified" data-toggle="buttons">
+					<label class="btn btn-primary btn-block" name="wind" id="e-wind"><input type="radio" style="display:none;">東風</label>
+					<label class="btn btn-primary btn-block" name="wind" id="s-wind"><input type="radio" style="display:none;">南風</label>
+					<label class="btn btn-primary btn-block" name="wind" id="w-wind"><input type="radio" style="display:none;">西風</label>
+					<label class="btn btn-primary btn-block" name="wind" id="n-wind"><input type="radio" style="display:none;">北風</label>
+				</div>
+				<text class="xlarge" id="wind-position"></text>
+			</div>
+		</div>
+
+		<div class="row">
+			<table class="table table-bordered table-secondary col-12 align-center" id="table-scores" cellspacing="0" cellpadding="0" style="border-collapse: collapse;table-layout: fixed;">
+				<thead id="table-scores-thead" style="background-color:#3399FF;color:white;">
+					<tr id="header-row-1" class="xlarge">
+						<th colspan="3" style="padding:5px;background-color:white;color:#3399FF;width:25%;"><text id="e-scores">0</text>&nbsp;<span id="e-consecutive-win-label" class="badge badge-pill badge-primary"></span><input type="hidden" id="e-consecutive-win" value="0"></th>
+						<th colspan="3" style="padding:5px;background-color:white;color:#3399FF;width:25%;"><text id="s-scores">0</text>&nbsp;<span id="s-consecutive-win-label" class="badge badge-pill badge-primary"></span><input type="hidden" id="s-consecutive-win" value="0"></th>
+						<th colspan="3" style="padding:5px;background-color:white;color:#3399FF;width:25%;"><text id="w-scores">0</text>&nbsp;<span id="w-consecutive-win-label" class="badge badge-pill badge-primary"></span><input type="hidden" id="w-consecutive-win" value="0"></th>
+						<th colspan="3" style="padding:5px;background-color:white;color:#3399FF;width:25%;"><text id="n-scores">0</text>&nbsp;<span id="n-consecutive-win-label" class="badge badge-pill badge-primary"></span><input type="hidden" id="n-consecutive-win" value="0"></th>
+					</tr>
+					<tr id="header-row-2" class="display-5">
+						<th colspan="3" id="e-position" style="padding:5px;width:25%;"></th>
+						<th colspan="3" id="s-position" style="padding:5px;width:25%;"></th>
+						<th colspan="3" id="w-position" style="padding:5px;width:25%;"></th>
+						<th colspan="3" id="n-position" style="padding:5px;width:25%;"></th>
+					</tr>
+					<tr id="header-row-3" >
+						<th id="es-pairs" style="padding:5px;width:8%;"></th>
+						<th id="ew-pairs" style="padding:5px;width:8%;"></th>
+						<th id="en-pairs" style="padding:5px;width:8%;"></th>
+						<th id="se-pairs" style="padding:5px;width:8%;"></th>
+						<th id="sw-pairs" style="padding:5px;width:8%;"></th>
+						<th id="sn-pairs" style="padding:5px;width:8%;"></th>
+						<th id="we-pairs" style="padding:5px;width:8%;"></th>
+						<th id="ws-pairs" style="padding:5px;width:8%;"></th>
+						<th id="wn-pairs" style="padding:5px;width:8%;"></th>
+						<th id="ne-pairs" style="padding:5px;width:8%;"></th>
+						<th id="ns-pairs" style="padding:5px;width:8%;"></th>
+						<th id="nw-pairs" style="padding:5px;width:8%;"></th>
+					</tr>
+				</thead>
+				<tbody id="table-scores-tbody"></tbody>
+			</table>
+		</div>
+
+		<div id="bottom-buttons-1" class="row">
+			<table class="col-12">
+				<thead>
+					<th style="width:20%;"></th>
+					<th style="width:20%;"></th>
+					<th style="width:20%;"></th>
+					<th style="width:20%;"></th>
+					<th style="width:20%;"></th>
+				</thead>
+				<tr>
+					<td class="align-center">
+						<span class="input-group-btn">
+							<button id="button-rewardpunish" onclick="onClickRewardPunish(); return false;" type="submit" class="btn-sm btn-primary" disabled>賞罰</button>
+						</span>
+					</td>
+					<td class="align-center">
+						<span class="input-group-btn">
+							<button id="button-add" onclick="onClickAdd(); return false;" type="submit" class="btn-sm btn-primary" disabled>加局</button>
+						</span>
+					</td>
+					<td class="align-center">
+						<span class="input-group-btn">
+							<button id="button-confirm" onclick="onClickConfirm(); return false;" type="submit" class="btn-sm btn-primary" disabled>確定</button>
+						</span>
+					</td>
+					<td class="align-center">
+						<span class="input-group-btn">
+							<button id="button-delete" onclick="onClickDelete(); return false;" type="submit" class="btn-sm btn-primary" disabled>刪除</button>
+						</span>
+					</td>
+					<td class="align-center">
+						<span class="input-group-btn">
+							<button id="button-game" onclick="onClickFinish(); return false;" type="submit" class="btn-sm btn-primary" disabled>完結</button>
+						</span>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="bottom-buttons-2" class="row" style="margin-top:8px;">
+			<table class="col-12">
+				<thead>
+					<th style="width:33%;"></th>
+					<th style="width:27%;"></th>
+					<th style="width:20%;"></th>
+					<th style="width:20%;"></th>
+				</thead>
+				<tr>
+					<td class="align-center" style="vertical-align: middle;">
+						<text class="display-5" style="vertical-align: middle;">玩家&nbsp;</text><select class="xlarge" style="width:65%;" id="player-select"></select>
+					</td>
+					<td class="align-center" style="vertical-align: middle;">
+						<label class="switch" style="vertical-align: middle;">
+							<input id="checkbox-calc" type="checkbox">
+							<span style="vertical-align: middle;" class="slider round"></span>
+						</label>
+						<text class="display-7" style="vertical-align: middle;">計番器</text>
+					</td>
+					<td class="align-center">
+						<span class="input-group-btn">
+							<button id="button-addjon" onclick="onClickAdjustJon('add'); return false;" type="submit" class="btn-sm btn-primary" disabled>加莊</button>
+						</span>
+					</td>
+					<td class="align-center">
+						<span class="input-group-btn">
+							<button id="button-minusjon" onclick="onClickAdjustJon('minus'); return false;" type="submit" class="btn-sm btn-primary" disabled>減莊</button>
+						</span>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<!--<div class="row" style="margin:0px 0px 0px 0px;">
+			<table class="col-12 xlarge" id="table-confirm-transaction-main">
+			</table>
+		</div>-->
+		<div class="row" style="margin-top: 5px;">
+			<table class="col-12 xlarge" id="table-confirm-transaction-main">
+				<thead>
+					<th style="width:25%;"></th>
+					<th style="width:75%;"></th>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</div>
+
+		<!-- Bootstrap Modal -->
+		<!-- For confirmation of each game after click ok -->
+		<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-body row" style="font-size: 50px;text-align: center;vertical-align: middle;">
+				  <table class="col-12">
+					<thead>
+					  <tr>
+						<th style="width:50%;"></th>
+						<th style="width:50%;"></th>
+					  </tr>
+					</thead>	
+					<tr>
+					  <td><text style="color:blue;" id="confirm-winner-label"></text></td>
+					  <td><text style="color:red;" id="confirm-loser-label"></text></td>
+					</tr>
+					<tr>
+					  <td style="white-space:pre-wrap; word-wrap:break-word; vertical-align: top;"><text id="confirm-winner-name"></text></td>
+					  <td style="white-space:pre-wrap; word-wrap:break-word; vertical-align: top;"><text id="confirm-loser-name"></text></td>
+					</tr>
+				  </table>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" id="confirm" class="btn-sm btn-primary display-7" data-dismiss="modal">確定</button>
+				<button type="button" id="cancel" class="btn-sm btn-secondary display-7" data-dismiss="modal">取消</button>
+			  </div>
+			</div>
+		  </div>
+		</div>
+
+		<!-- For confirmation to finalize the game -->
+		<div class="modal fade" id="gameConfirmModal" tabindex="-1" role="dialog" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-body display-5">
+				結束 ?
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" id="gameConfirmYes" class="btn-sm btn-primary display-7" data-dismiss="modal">是</button>
+				<button type="button" id="gameConfirmNo" class="btn-sm btn-secondary display-7" data-dismiss="modal">否</button>
+			  </div>
+			</div>
+		  </div>
+		</div>
+
+		<!-- Show confirm transaction -->
+		<div class="modal fade" id="confirmTransactionModal" tabindex="-1" role="dialog" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-body" style="font-size: xx-large;vertical-align: middle;">
+				<table id="table-confirm-transaction">
+				</table>
+			  </div>
+			  <!--<div class="modal-footer">
+				  <button type="button" id="closeConfirm" class="btn-sm btn-secondary display-7" data-dismiss="modal">關閉</button>
+			  </div>-->
+			</div>
+		  </div>
+		</div>
+
+		<!-- For confirmation to reset game -->
+		<div class="modal fade" id="resetConfirmModal" tabindex="-1" role="dialog" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-body display-5">
+				 重設 ?
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" id="resetConfirmYes" class="btn-sm btn-primary display-7" data-dismiss="modal">是</button>
+				<button type="button" id="resetConfirmNo" class="btn-sm btn-secondary display-7" data-dismiss="modal">否</button>
+			  </div>
+			</div>
+		  </div>
+		</div>
+
+		<!-- For alert to confirm the latest game first -->
+		<div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-body display-5">
+				  <text id="warning-message"></text>
+			  </div>
+			  <!--<div class="modal-footer">
+				<button type="button" id="closeAlert" class="btn-sm btn-secondary display-7" data-dismiss="modal">關閉</button>
+			  </div>-->
+			</div>
+		  </div>
+		</div>
+		
+		<!-- For input the reward / punish -->
+		<div class="modal fade" id="inputRewardPunishModal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div id="input-rewardpunish-body" class="container-fluid modal-body display-5">
+						<div class="row flex">
+							<div><text class="xlarge" id="e-player-name"></text></div>
+							<div><text class="xlarge" id="s-player-name"></text></div>
+							<div><text class="xlarge" id="w-player-name"></text></div>
+							<div><text class="xlarge" id="n-player-name"></text></div>
+						</div>
+						<div data-toggle="buttons">
+							<div class="row flex">
+								<div class="btn-group btn-group-lg btn-group-justified">
+									<label class="btn btn-primary btn-block" name="add" id="e-add"><input type="radio" style="display:none;"><h4>賞</h4></label>
+									<label class="btn btn-primary btn-block" name="add" id="s-add"><input type="radio" style="display:none;"><h4>賞</h4></label>
+									<label class="btn btn-primary btn-block" name="add" id="w-add"><input type="radio" style="display:none;"><h4>賞</h4></label>
+									<label class="btn btn-primary btn-block" name="add" id="n-add"><input type="radio" style="display:none;"><h4>賞</h4></label>
+								</div>
+							</div>
+							<div class="row flex">
+								<div class="btn-group btn-group-lg btn-group-justified">
+									<label class="btn btn-secondary btn-block" name="minus" id="e-minus"><input type="radio" style="display:none;"><h4>罰</h4></label>
+									<label class="btn btn-secondary btn-block" name="minus" id="s-minus"><input type="radio" style="display:none;"><h4>罰</h4></label>
+									<label class="btn btn-secondary btn-block" name="minus" id="w-minus"><input type="radio" style="display:none;"><h4>罰</h4></label>
+									<label class="btn btn-secondary btn-block" name="minus" id="n-minus"><input type="radio" style="display:none;"><h4>罰</h4></label>
+								</div>
+							</div>
+						</div>
+						<div class="row flex">每人付 / 給每人</div>
+						<div class="row flex">
+							<div data-toggle="buttons" class="btn-group btn-group-justified">
+								<div class="btn-group btn-group-lg">
+									<label class="btn btn-info btn-block" name="point" id="1"><input type="radio" style="display:none;"><h4>1</h4></label>
+									<label class="btn btn-info btn-block" name="point" id="2"><input type="radio" style="display:none;"><h4>2</h4></label>
+									<label class="btn btn-info btn-block" name="point" id="3"><input type="radio" style="display:none;"><h4>3</h4></label>
+									<label class="btn btn-info btn-block" name="point" id="4"><input type="radio" style="display:none;"><h4>4</h4></label>
+									<label class="btn btn-info btn-block" name="point" id="5"><input type="radio" style="display:none;"><h4>5</h4></label>
+								</div>
+								<div class="input-group">
+									<input type="number" class="form-control" style="font-size: xx-large;vertical-align: middle;" id="rewardpunish-point">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" id="rewardPunishConfirm" class="btn-sm btn-primary display-7" data-dismiss="modal" disabled>確定</button>
+						<button type="button" id="rewardPunishCancel" class="btn-sm btn-secondary display-7" data-dismiss="modal">取消</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- For input the adjustment -->
+		<div class="modal fade" id="inputAdjustModal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div id="input-adjust-body" class="container modal-body display-5">
+						<div class="row col-12 flex">
+							<div><text style="display:inline-block;color:red;" id="adjust-note">數字輸入總和必須為 0<br>不可同時設定兩個正方和兩個負方</text></div>
+						</div>
+						<div style="padding: 5px;" class="row flex">
+							<div class="align-self-center"><text class="xxlarge" id="e-player-name"></text></div>
+							<div class="input-group">
+								<input type="number" class="form-control" style="font-size: xx-large;vertical-align: middle;" id="e-adjust-point">
+							</div>
+						</div>
+						<div style="padding: 5px;" class="row flex">
+							<div class="align-self-center"><text class="xxlarge" id="s-player-name"></text></div>
+							<div class="input-group">
+								<input type="number" class="form-control" style="font-size: xx-large;vertical-align: middle;" id="s-adjust-point">
+							</div>
+						</div>
+						<div style="padding: 5px;" class="row flex">
+							<div class="align-self-center"><text class="xxlarge" id="w-player-name"></text></div>
+							<div class="input-group">
+								<input type="number" class="form-control" style="font-size: xx-large;vertical-align: middle;" id="w-adjust-point">
+							</div>
+						</div>
+						<div style="padding: 5px;" class="row flex">
+							<div class="align-self-center"><text class="xxlarge" id="n-player-name"></text></div>
+							<div class="input-group">
+								<input type="number" class="form-control" style="font-size: xx-large;vertical-align: middle;" id="n-adjust-point">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" id="adjustConfirm" class="btn-sm btn-primary display-7" data-dismiss="modal" disabled>確定</button>
+						<button type="button" id="adjustCancel" class="btn-sm btn-secondary display-7" data-dismiss="modal">取消</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- For input the game -->
+		<div class="modal fade" id="inputGameModal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div id="input-game-body" class="container modal-body display-5">
+						<div class="row flex">
+							<div class="col-12 btn-group btn-group-lg btn-group-justified" data-toggle="buttons">
+								<label class="btn btn-info btn-block" name="mode" id="self"><input type="radio" style="display:none;"><h5>自摸</h5></label>
+								<label class="btn btn-info btn-block" name="mode" id="eat"><input type="radio" style="display:none;"><h5>出沖</h5></label>
+								<label class="btn btn-info btn-block" name="mode" onclick="onClickMulti(); return false;" id="multi"><input type="radio" style="display:none;"><h5>一炮多響</h5></label>
+							</div>
+						</div>
+						<div class="row flex">
+							<div class="col-12"><text style="display:inline-block;color:red;" id="game-note"></text></div>
+						</div>
+						<div style="padding: 5px;" class="row flex">
+							<div class="align-self-center"><text class="xxlarge" id="e-player-name"></text></div>
+							<div class="btn-group btn-group-lg btn-group-justified" data-toggle="buttons">
+								<label class="btn btn-primary btn-block" name="win" id="e-win"><input type="radio" style="display:none;"><h4>勝</h4></label>
+								<label class="btn btn-primary btn-block" name="lose" id="e-lose"><input type="radio" style="display:none;"><h4>負</h4></label>
+							</div>
+							<div class="input-group">
+								<input type="number" class="form-control" style="font-size: xx-large;vertical-align: middle;" id="e-point">
+							</div>
+						</div>
+						<div style="padding: 5px;" class="row flex">
+							<div class="align-self-center"><text class="xxlarge" id="s-player-name"></text></div>
+							<div class="btn-group btn-group-lg btn-group-justified" data-toggle="buttons">
+								<label class="btn btn-primary btn-block" name="win" id="s-win"><input type="radio" style="display:none;"><h4>勝</h4></label>
+								<label class="btn btn-primary btn-block" name="lose" id="s-lose"><input type="radio" style="display:none;"><h4>負</h4></label>
+							</div>
+							<div class="input-group">
+								<input type="number" class="form-control" style="font-size: xx-large;vertical-align: middle;" id="s-point">
+							</div>
+						</div>
+						<div style="padding: 5px;" class="row flex">
+							<div class="align-self-center"><text class="xxlarge" id="w-player-name"></text></div>
+							<div class="btn-group btn-group-lg btn-group-justified" data-toggle="buttons">
+								<label class="btn btn-primary btn-block" name="win" id="w-win"><input type="radio" style="display:none;"><h4>勝</h4></label>
+								<label class="btn btn-primary btn-block" name="lose" id="w-lose"><input type="radio" style="display:none;"><h4>負</h4></label>
+							</div>
+							<div class="input-group">
+								<input type="number" class="form-control" style="font-size: xx-large;vertical-align: middle;" id="w-point">
+							</div>
+						</div>
+						<div style="padding: 5px;" class="row flex">
+							<div class="align-self-center"><text class="xxlarge" id="n-player-name"></text></div>
+							<div class="btn-group btn-group-lg btn-group-justified" data-toggle="buttons">
+								<label class="btn btn-primary btn-block" name="win" id="n-win"><input type="radio" style="display:none;"><h4>勝</h4></label>
+								<label class="btn btn-primary btn-block" name="lose" id="n-lose"><input type="radio" style="display:none;"><h4>負</h4></label>
+							</div>
+							<div class="input-group">
+								<input type="number" class="form-control" style="font-size: xx-large;vertical-align: middle;" id="n-point">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" id="gameConfirm" class="btn-sm btn-primary display-7" data-dismiss="modal" disabled>確定</button>
+						<button type="button" id="gameCancel" class="btn-sm btn-secondary display-7" data-dismiss="modal">取消</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- For input the name -->
+		<div class="modal fade" id="inputNameModal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div id="input-name-body" class="container modal-body">
+						<div style="padding: 5px;" class="row flex">
+							<div class="col-xs-3"><text class="xxlarge">東</text></div>
+							<div class="col-xs-9"><input class="form-control" style="font-size: xx-large;vertical-align: middle;" type="text" id="e-player-input"/></div>
+						</div>
+						<div style="padding: 5px;" class="row flex">
+							<div class="col-xs-3"><text class="xxlarge">南</text></div>
+							<div class="col-xs-9"><input class="form-control" style="font-size: xx-large;vertical-align: middle;" type="text" id="s-player-input"/></div>
+						</div>
+						<div style="padding: 5px;" class="row flex">
+							<div class="col-xs-3"><text class="xxlarge">西</text></div>
+							<div class="col-xs-9"><input class="form-control" style="font-size: xx-large;vertical-align: middle;" type="text" id="w-player-input"/></div>
+						</div>
+						<div style="padding: 5px;" class="row flex">
+							<div class="col-xs-3"><text class="xxlarge">北</text></div>
+							<div class="col-xs-9"><input class="form-control" style="font-size: xx-large;vertical-align: middle;" type="text" id="n-player-input"/></div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" id="nameConfirm" class="btn-sm btn-primary display-7" data-dismiss="modal">確定</button>
+						<button type="button" id="nameCancel" class="btn-sm btn-secondary display-7" data-dismiss="modal">取消</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="assets/web/assets/jquery/jquery.min.js"></script>
+	<script src="assets/web/assets/jquery/jquery-confirm.js"></script>
+	<!--<script src="assets/web/assets/jquery/jquery.floatThead.js"></script>-->
+	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+
+	<script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-firestore.js"></script>
+	<script src="assets/web/assets/common.js"></script>
+	<script src="assets/web/assets/environment.js"></script>
+
+	<script type="text/javascript">
+		var rowNumberFrom = 1;
+		var rowNumberTo = 0;
+		var winnerList = '';
+		var winnerName = '';
+		var loserList = '';
+		var loserName = '';
+
+		var uuid = localStorage.getItem('gameDataId');
+
+		var snapShotTransaction;
+
+		//force reload to fix the problem of not loading sometimes after back from point screen in Safari case 
+		window.onpageshow = function(event) {
+			if (event.persisted) {
+				window.location.reload()
+			}
+		};
+
+		$(document).ready(function () {
+			initialize();
+		})
+
+		function initialize () {
+			if (appCategory == 'free' || appCategory == 'paid') {
+				//Disable mouse right click
+				$('body').on('contextmenu',function(e){
+					return false;
+				});
+			}
+
+			resize();
+			window.addEventListener('resize', resize);
+
+			$('#' + localStorage.getItem('currentWind')).addClass('active');
+			$('#' + localStorage.getItem('currentPosition')).addClass('highlightedBlue');
+
+			setWindPosition();
+
+			//Clean up null storage 
+			if (localStorage.length == 1 && localStorage.getItem(0) == null) localStorage.clear();
+
+			//Construct page if information saved before 
+			if (localStorage.getItem('gameDataId') != null) {
+				for (var i = 0; i < allPlayers.length; i ++) {
+					$('#' + allPlayers[i] + '-player-input').val(localStorage.getItem(allPlayers[i] + '-player-input'));
+					$('#' + allPlayers[i] + '-scores').text(localStorage.getItem(allPlayers[i] + '-scores'));
+					if (parseInt($('#' + allPlayers[i] + '-scores').text()) >= 0) $('#' + allPlayers[i] + '-scores').css('color','#3399FF');
+					else $('#' + allPlayers[i] + '-scores').css('color','red');
+
+					var consecutiveWin = localStorage.getItem(allPlayers[i] + '-consecutive-win');
+					if (consecutiveWin == null || consecutiveWin == '') consecutiveWin = '0';
+					$('#' + allPlayers[i] + '-consecutive-win').val(parseInt(consecutiveWin));
+					$('#' + allPlayers[i] + '-consecutive-win-label').text(consecutiveWin == '0' ? '' : '連 ' + consecutiveWin);
+				}
+
+				addPlayers();
+
+				//Reset global row number
+				rowNumberFrom = localStorage.getItem('rowNumberFrom') == null ? 1 : parseInt(localStorage.getItem('rowNumberFrom'));
+				rowNumberTo = localStorage.getItem('rowNumberTo') == null ? 0 : parseInt(localStorage.getItem('rowNumberTo'));
+
+				for (var i = rowNumberFrom; i <= rowNumberTo; i++) {
+					addRow(i, localStorage.getItem(i + '#mode'), 'Y');
+				}
+
+				for (var i = rowNumberFrom; i <= rowNumberTo; i++) {
+					//set values
+					$('#table-scores #' + i + ' #winner-list').val(localStorage.getItem(i + '#winner-list'));
+					$('#table-scores #' + i + ' #loser-list').val(localStorage.getItem(i + '#loser-list'));
+
+					for (var j = 0; j < allPairs.length; j++) { 
+						restoreRow (i, allPairs[j]);
+
+						//set protect fields
+						if ($('#table-scores #' + i + ' #' + allPairs[j] + '-score').val() == '' || parseInt($('#table-scores #' + i + ' #' + allPairs[j] + '-score').val()) <= 0 || $('#table-scores #' + i + ' #' + allPairs[j] + '-confirm').val() == 'Y') {
+							markProtect(i, allPairs[j]);
+						};
+
+						//set topup fields
+						if ($('#table-scores #' + i + ' #' + allPairs[j] + '-score').val() == '0' || parseInt($('#table-scores #' + i + ' #' + allPairs[j] + '-win').val()) > 1) {
+							$('#table-scores #' + i + ' #' + allPairs[j] + '-score').css('color','blue');						
+						};
+
+						//set revenge fields
+						if ($('#table-scores #' + i + ' #' + allPairs[j] + '-rev').val() == 'Y') {
+							$('#table-scores #' + i + ' #' + allPairs[j] + '-score').css('color', 'red');
+						};
+					}
+				}
+
+				markWinnerLoser();
+
+				//document.getElementById('bottom-buttons').scrollIntoView();	//scroll to bottom 
+			}
+			else {
+				onClickJoin();
+			}
+
+			if (localStorage.getItem('checkbox-calc') == 'true') $('#checkbox-calc').prop('checked', true);
+			
+			//if return from point.html, call onClickAdd() to update the points
+			if (sessionStorage.getItem('calcUsingPointHtml') == 'return') {
+				onClickAdd();
+			}
+		}
+
+		function restoreRow(r, c) {
+			$('#table-scores #' + r + ' #' + c + '-score').val(localStorage.getItem(r + '#' + c + '-score'));
+			$('#table-scores #' + r + ' #' + c + '-score-original').val(localStorage.getItem(r + '#' + c + '-score-original'));
+			$('#table-scores #' + r + ' #' + c + '-confirm').val(localStorage.getItem(r + '#' + c + '-confirm'));
+			$('#table-scores #' + r + ' #' + c + '-win').val(localStorage.getItem(r + '#' + c + '-win'));
+			$('#table-scores #' + r + ' #' + c + '-rev').val(localStorage.getItem(r + '#' + c + '-rev'));
+		}
+
+		function anythingInCommon(stra, strb) {
+			if (strb.length < stra.length) 
+				return anythingInCommon(strb, stra);
+
+			for (var i = 0, len = stra.length; i < len; i++) {
+				if (strb.indexOf(stra[i]) != -1)
+					return true;
+			}
+			return false;
+		}
+
+		function getExcludePlayerList (list, exclude) {
+			var result = [];
+			for (var i = 0; i < list.length; i ++) {
+				if (list[i] != exclude) 
+					result.push(list[i]);
+			}
+
+			return result;
+		}
+
+		function getSubPairs(player, flag) {
+			var result = [];
+			for (var i = 0; i < allPairs.length; i ++) {
+				if (flag == 'prefix') {
+					if (player == String(allPairs[i]).charAt(0)) {
+						result.push(allPairs[i]);
+					}
+				}
+				else if (flag == 'suffix') {
+					if (player == String(allPairs[i]).charAt(1)) {
+						result.push(allPairs[i]);							
+					}						
+				}
+			}
+
+			return result;
+		}
+
+		function onClickCopy() {
+			Clipboard.copy($('#code').val());
+		}
+
+		function onClickJoin() {
+			$('#inputNameModal').modal('show');
+		}
+
+		$('#inputNameModal .modal-footer button').on('click', function(event) {
+			var button = $(event.target);
+
+			$(this).closest('.modal').on('hidden.bs.modal', function() {
+				if (button[0].id == 'nameConfirm') {
+					addPlayers();
+				}
+
+				$(this).off('hidden.bs.modal');	//avoid accumulated call
+			});
+		})
+
+		function onClickSwap() {
+			if ($('#table-scores tr:last #row-confirm').val() == 'N') {
+				$('#warning-message').text('請先確認局數');
+				$('#alertModal').modal('show');
+				setTimeout(function () {
+					$('#alertModal').modal('hide');
+				}, 2000);
+				return;
+			}
+
+			//Swap between e and s, w and n
+			resetConsecutiveWin();
+
+			for (var i = 1; i <= rowNumberTo; i++) {
+				for (var j = 0; j < swapPairs.length; j ++) {
+					var fieldScore0 = i + '#' + swapPairs[j][0] + '-score';
+					var fieldScoreOriginal0 = i + '#' + swapPairs[j][0] + '-score-original';
+					var fieldConfirm0 = i + '#' + swapPairs[j][0] + '-confirm';
+					var fieldWin0 = i + '#' + swapPairs[j][0] + '-win';
+					var fieldRev0 = i + '#' + swapPairs[j][0] + '-rev';
+
+					var fieldScore1 = i + '#' + swapPairs[j][1] + '-score';
+					var fieldScoreOriginal1 = i + '#' + swapPairs[j][1] + '-score-original';
+					var fieldConfirm1 = i + '#' + swapPairs[j][1] + '-confirm';
+					var fieldWin1 = i + '#' + swapPairs[j][1] + '-win';
+					var fieldRev1 = i + '#' + swapPairs[j][1] + '-rev';
+
+					swapStorageValue(fieldScore0, fieldScore1);
+					swapStorageValue(fieldScoreOriginal0, fieldScoreOriginal1);
+					swapStorageValue(fieldConfirm0, fieldConfirm1);
+					swapStorageValue(fieldWin0, fieldWin1);
+					swapStorageValue(fieldRev0, fieldRev1);
+				}
+
+				var fieldWinnerList = i + '#winner-list';
+				var fieldLoserList = i + '#loser-list';
+				var winnerListSwap = localStorage.getItem(fieldWinnerList);
+				var loserListSwap = localStorage.getItem(fieldLoserList);
+				
+				for (var k = 0; k < swapPlayers.length; k ++) {
+
+					if (anythingInCommon(winnerListSwap, swapPlayers[k][0]))
+						winnerListSwap = winnerListSwap.replace(swapPlayers[k][0], swapPlayers[k][1]);
+					if (anythingInCommon(loserListSwap, swapPlayers[k][0]))
+						loserListSwap = loserListSwap.replace(swapPlayers[k][0], swapPlayers[k][1]);
+				}
+				localStorage.setItem(fieldWinnerList, winnerListSwap);
+				localStorage.setItem(fieldLoserList, loserListSwap);
+			}
+
+			for (var i = 0; i < swapPlayers.length; i ++) {
+				swapStorageValue(swapPlayers[i][0] + '-player-input', swapPlayers[i][1] + '-player-input');
+				swapStorageValue(swapPlayers[i][0] + '-scores', swapPlayers[i][1] + '-scores');
+			}
+
+			//refresh screen 
+			$('#table-scores').children('tbody').empty();
+			initialize();
+
+			sendServer(true, true);
+		}
+
+		function swapStorageValue(from, to) {
+			var fromValue = localStorage.getItem(from);
+			var toValue = localStorage.getItem(to);
+
+			localStorage.setItem(from, toValue);
+			localStorage.setItem(to, fromValue);
+		}
+
+		function addPlayers() {
+			if ($('#e-player-input').val() == '' || $('#s-player-input').val() == '' || $('#w-player-input').val() == '' || $('#n-player-input').val() == '') {
+				$('#warning-message').text('請輸入全部名字');
+				$('#alertModal').modal('show');
+				setTimeout(function () {
+					$('#alertModal').modal('hide');
+				}, 2000);
+				return;
+			}
+
+			for (var i = 0; i < allPlayers.length; i ++) {
+				$('#' + allPlayers[i] + '-position').text($('#' + allPlayers[i] + '-player-input').val());
+				
+				var list = getExcludePlayerList(allPlayers, allPlayers[i]);
+				for (var j = 0; j < list.length; j ++) {
+					$('#' + list[j] + allPlayers[i] + '-pairs').text($('#' + allPlayers[i] + '-player-input').val());
+				}
+			}
+
+			//add here to redraw table 
+			//$('#table-scores').floatThead();	
+			//$('#table-scores').floatThead('reflow');
+
+			$('#top-buttons-1, #bottom-buttons-1, #bottom-buttons-2').find('button').each(function () {
+				$(this).attr('disabled', false);
+			})
+			$('#top-buttons-2').css('visibility', 'visible');
+
+			//reset wind and position and scores only when no save data 
+			if (localStorage.getItem('gameDataId') == null) {
+				uuid = getUUID();
+				localStorage.setItem('gameDataId', uuid);
+				
+				$('#e-position').addClass('highlightedBlue');
+				$('#e-wind').addClass('active');
+
+				localStorage.setItem('currentWind','e-wind');
+				localStorage.setItem('currentPosition','e-position');
+
+				localStorage.setItem('rowNumberFrom',1);
+				localStorage.setItem('rowNumberTo',0);
+
+				for (var i = 0; i < allPlayers.length; i ++) {
+					localStorage.setItem(allPlayers[i] + '-scores',0);
+				}
+
+				collectionRooms.doc(uuid).set({ 'uuid': uuid, 
+												'currentWind': 'e-wind', 
+												'currentPosition': 'e-position', 
+												'rowNumberFrom': 1, 
+												'rowNumberTo': 0, 
+												'e-scores': 0,
+												's-scores': 0,
+												'w-scores': 0,
+												'n-scores': 0,
+												'lastUpdateTime': getDateyyyymmddHHmmss()
+											}, { merge: true });
+
+				setWindPosition();
+			}
+
+			for (var i = 0; i < allPlayers.length; i ++) {
+				localStorage.setItem(allPlayers[i] + '-player-input', $('#' + allPlayers[i] + '-player-input').val());
+			}
+
+			collectionRooms.doc(uuid).set({ 'e-player-input': $('#e-player-input').val(),
+											's-player-input': $('#s-player-input').val(),
+											'w-player-input': $('#w-player-input').val(),
+											'n-player-input': $('#n-player-input').val(),
+											'lastUpdateTime': getDateyyyymmddHHmmss()
+										}, { merge: true });
+			
+			$('#code').val(uuid);
+
+			var selected = $('#player-select').children("option:selected").val();
+			if (selected == null) {
+				selected = localStorage.getItem('selectedPlayer');
+				if (selected == null) selected = '';
+			}
+
+			$('#player-select').empty();
+
+			$('#player-select').append($('<option>', {value: (''), text: ('全部')}));
+			for (var i = 0; i < allPlayers.length; i ++) {
+				$('#player-select').append($('<option>', {value: (allPlayers[i]), text: ($('#' + allPlayers[i] + '-player-input').val())}));
+			}
+
+			$("#player-select").val(selected);
+			startSnapShotTransaction(selected);
+		}
+
+		function startSnapShotTransaction (selectedPlayer) {
+			//stop previous monitor
+			if (snapShotTransaction != null) snapShotTransaction();
+
+			localStorage.setItem('selectedPlayer', selectedPlayer);
+
+			$('#table-confirm-transaction-main').hide();
+			//retrieve all if set blank by default 
+			if (selectedPlayer != '') {
+				snapShotTransaction = collectionTransactions
+					.where('uuid', '==', uuid).where('players', 'array-contains', selectedPlayer).orderBy('timestamp')
+					.onSnapshot(function(querySnapshot) {
+						$('#table-confirm-transaction-main > tbody:last-child').empty();
+						querySnapshot.forEach(function(doc) {
+							var transactionUuid = doc.data().transactionUuid;
+							if ($('#' + transactionUuid).length == 0)
+								$('#table-confirm-transaction-main > tbody:last-child').prepend('<tr><td class="align-center" style="font-size: large; vertical-align: middle; color: DarkGray;">' + 
+									formatDateddMMHHmm(doc.data().timestamp) + '</td><td><text id="' + transactionUuid + '" class="align-left ' + (doc.data().marked ? 'strike' : '') + 
+									'" onclick="onTransactionClick(this,' + doc.data().marked + ');" style="color:' + (doc.data().pay == selectedPlayer ? 'red' : 'blue') + ';">' + doc.data().detail + '</text></td></tr>');
+						})
+						$('#table-confirm-transaction-main').show();
+					});
+			}
+			else {
+				snapShotTransaction = collectionTransactions
+					.where('uuid', '==', uuid).orderBy('timestamp')
+					.onSnapshot(function(querySnapshot) {
+						$('#table-confirm-transaction-main > tbody:last-child').empty();
+						querySnapshot.forEach(function(doc) {
+							var transactionUuid = doc.data().transactionUuid;
+							if ($('#' + transactionUuid).length == 0)
+								$('#table-confirm-transaction-main > tbody:last-child').prepend('<tr><td class="align-center" style="font-size: large; vertical-align: middle; color: DarkGray;">' + 
+									formatDateddMMHHmm(doc.data().timestamp) + '</td><td><text id="' + transactionUuid + '" class="align-left ' + (doc.data().marked ? 'strike' : '') + 
+									'" onclick="onTransactionClick(this,' + doc.data().marked + ');">' + doc.data().detail + '</text></td></tr>');
+						})
+						$('#table-confirm-transaction-main').show();
+					});
+			}
+		}
+
+		function onTransactionClick(element, marked) {
+			collectionTransactions.doc(element.id).set ({marked: (marked ? false : true)}, { merge: true });
+			if (marked) $(element).removeClass('strike');
+			else $(element).addClass('strike');
+		}
+		
+		$("#player-select").change(function () {
+			var selected = $('#player-select').children("option:selected").val();
+			if (selected == null) selected = '';
+			startSnapShotTransaction(selected);
+		});
+
+		$('#checkbox-calc').on('click', function(){
+			localStorage.setItem('checkbox-calc', $('#checkbox-calc').is(':checked'));
+		})
+
+		$('#table-scores-thead tr[id=header-row-2]').find('th').click(function () {
+			resetConsecutiveWin();
+
+			for (var i = 0; i < allPlayers.length; i ++) {
+				$('#' + allPlayers[i] + '-position').removeClass('highlightedBlue');
+			}
+
+			$(this).addClass('highlightedBlue');
+
+			localStorage.setItem('currentPosition', this.id);
+			collectionRooms.doc(uuid).set({'currentPosition': this.id, 'lastUpdateTime': getDateyyyymmddHHmmss()}, { merge: true });
+			setWindPosition();
+		})
+
+		$('label[name=wind]').click(function () {
+			localStorage.setItem('currentWind', this.id);
+			collectionRooms.doc(uuid).set({'currentWind': this.id, 'lastUpdateTime': getDateyyyymmddHHmmss()}, { merge: true });
+			setWindPosition();
+		})
+
+		function setWindPosition() {
+			var windPosition = $('#' + localStorage.getItem('currentWind')).text();
+			if (localStorage.getItem('currentPosition') == 'e-position') {
+				windPosition = windPosition + '東局';
+			}
+			else if (localStorage.getItem('currentPosition') == 's-position') {
+				windPosition = windPosition + '南局';
+			}
+			else if (localStorage.getItem('currentPosition') == 'w-position') {
+				windPosition = windPosition + '西局';
+			}
+			else if (localStorage.getItem('currentPosition') == 'n-position') {
+				windPosition = windPosition + '北局';
+			}
+
+			$('#wind-position').text(windPosition);
+		}
+
+		function onClickRewardPunish() {
+			for (var i = 0; i < allPlayers.length; i ++) {
+				$('#input-rewardpunish-body #' + allPlayers[i] + '-player-name').text($('#' + allPlayers[i] + '-player-input').val());
+			}
+
+			$('#rewardpunish-point').val('');
+			$('#input-rewardpunish-body').find('label').each(function(){
+				$(this).removeClass('active');
+			});
+			$('#rewardPunishConfirm').prop('disabled', true);
+
+			$('#inputRewardPunishModal').modal('show');
+		}
+
+		$('#input-rewardpunish-body label').on('click', rewardPunishTimeout);
+		$('#input-rewardpunish-body input').on('keyup', rewardPunishTimeout);
+
+		function rewardPunishTimeout() {
+			setTimeout(() => {
+				var player = '', direction = '';
+				$('#input-rewardpunish-body').find('label[name=add],label[name=minus]').each(function(){
+					if ($(this).hasClass('active')) {
+						player = this.id.charAt(0);
+						direction = $(this).attr('name');
+					}
+				});
+
+				var point = $('#rewardpunish-point').val();
+				$('#input-rewardpunish-body').find('label[name=point]').each(function(){
+					if ($(this).hasClass('active')) {
+						point = $(this).text();
+					}
+				});
+
+				if (player != '' && point != '' && direction != '') {
+					$('#rewardPunishConfirm').prop('disabled', false);
+				}
+			}, 150);
+		}
+
+		$('#inputRewardPunishModal .modal-footer button').on('click', function(event) {
+			var button = $(event.target);
+
+			$(this).closest('.modal').on('hidden.bs.modal', function() {
+				if (button[0].id == 'rewardPunishConfirm') {
+					var player = '', direction = '';
+					$('#input-rewardpunish-body').find('label[name=add],label[name=minus]').each(function(){
+						if ($(this).hasClass('active')) {
+							player = this.id.charAt(0);
+							direction = $(this).attr('name');
+						}
+					});
+					var point = $('#rewardpunish-point').val();
+					$('#input-rewardpunish-body').find('label[name=point]').each(function(){
+						if ($(this).hasClass('active')) {
+							point = $(this).text();
+						}
+					});
+
+					if (player != '' && point != '' && direction != '') {
+						rowNumberTo++
+						addRow(rowNumberTo, 'rewardPunish', 'N');
+
+						var list = [];
+						if (direction == 'add') {
+							list = getSubPairs(player, 'prefix');
+						}
+						else if (direction == 'minus') {
+							list = getSubPairs(player, 'suffix');
+						}
+						for (var i = 0; i < list.length; i ++) {
+							$('#table-scores #' + rowNumberTo + ' #' + list[i] + '-score').val(parseInt(point));
+						}
+
+						//skip confirmation popup
+						//onClickConfirm();
+						processConfirm();
+
+						sendServer(true, false);
+					}
+				}
+
+				$(this).off('hidden.bs.modal');	//avoid accumulated call
+			});
+		})
+
+		function onClickAdjust() {
+			for (var i = 0; i < allPlayers.length; i ++) {
+				$('#input-adjust-body #' + allPlayers[i] + '-player-name').text($('#' + allPlayers[i] + '-player-input').val());
+				$('#input-adjust-body #' + allPlayers[i] + '-adjust-point').val('');
+			}
+			$('#adjustConfirm').prop('disabled', true);
+
+			$('#inputAdjustModal').modal('show');
+		}
+
+		$('#input-adjust-body input').on('keyup', adjustTimeout);
+
+		function adjustTimeout() {
+			setTimeout(() => {
+				var sum = 0;
+				var isAllBlank = true;
+				var creditList = '';
+				var debitList = '';
+				$('#input-adjust-body').find('input').each(function() {
+					if (this.value != '') isAllBlank = false;
+
+					var point = parseInt(this.value == '' ? '0' : this.value);
+					sum += point;
+
+					if (point > 0) creditList += this.id.charAt(0);
+					else if (point < 0) debitList += this.id.charAt(0);
+				});
+
+				if (sum != 0 || isAllBlank || (creditList.length > 1 && debitList.length > 1)) 
+					$('#adjustConfirm').prop('disabled', true);
+				else 
+					$('#adjustConfirm').prop('disabled', false);
+			}, 150);
+		}
+
+		$('#inputAdjustModal .modal-footer button').on('click', function(event) {
+			var button = $(event.target);
+
+			$(this).closest('.modal').on('hidden.bs.modal', function() {
+				if (button[0].id == 'adjustConfirm') {
+/*
+					$('#input-adjust-body').find('input').each(function(){
+						var point = parseInt(this.value == '' ? '0' : this.value);
+						adjustScoreDirect(this.id.charAt(0), point);
+					});
+*/				
+					rowNumberTo++
+					addRow(rowNumberTo, 'adjust', 'N');
+
+					var creditList = '';
+					var debitList = '';
+					$('#input-adjust-body').find('input').each(function() {
+						var point = parseInt(this.value == '' ? '0' : this.value);
+						if (point > 0) creditList += this.id.charAt(0);
+						else if (point < 0) debitList += this.id.charAt(0);
+					});
+
+					if (creditList.length == 1) {
+						for (var i = 0; i < debitList.length; i ++) {
+							$('#table-scores #' + rowNumberTo + ' #' + creditList[0] + debitList[i] + '-score').val(Math.abs(parseInt($('#input-adjust-body #' + debitList[i] + '-adjust-point').val())));
+						}
+					}
+					else if (debitList.length == 1) {
+						for (var i = 0; i < creditList.length; i ++) {
+							$('#table-scores #' + rowNumberTo + ' #' + creditList[i] + debitList[0] + '-score').val(Math.abs(parseInt($('#input-adjust-body #' + creditList[i] + '-adjust-point').val())));
+						}
+					}
+
+					//skip confirmation popup
+					//onClickConfirm();
+					processConfirm();
+
+					sendServer(true, false);	
+				}
+
+				$(this).off('hidden.bs.modal');	//avoid accumulated call
+			});
+		})
+
+		function onClickAdd() {
+			if ($('#table-scores tr:last #row-confirm').val() == 'N') {
+				$('#warning-message').text('請先確認局數');
+				$('#alertModal').modal('show');
+				setTimeout(function () {
+					$('#alertModal').modal('hide');
+				}, 2000);
+				return;
+			}
+
+			if ($('#checkbox-calc').is(':checked') && sessionStorage.getItem('calcUsingPointHtml') != 'return') {
+				sessionStorage.setItem('calcUsingPointHtml', 'start');
+				for (var i = 0; i < allPlayers.length; i ++) {
+					sessionStorage.setItem(allPlayers[i] + '-player-input', $('#' + allPlayers[i] + '-player-input').val());
+					sessionStorage.setItem(allPlayers[i] + '-consecutive-win', $('#' + allPlayers[i] + '-consecutive-win').val());
+				}
+
+				window.open('point.html', '_self');
+
+				return;
+			}
+
+			for (var i = 0; i < allPlayers.length; i ++) {
+				$('#input-game-body #' + allPlayers[i] + '-player-name').text($('#' + allPlayers[i] + '-player-input').val());
+			}
+
+			$('#game-note').text(' ');
+			$('#input-game-body').find('input').each(function(){
+				$(this).val('');
+			});
+			$('#input-game-body').find('label').each(function(){
+				$(this).removeClass('active');
+			});
+			$('#gameConfirm').prop('disabled', true);
+
+			if (sessionStorage.getItem('calcUsingPointHtml') == 'return') {
+				//set result return from point.html
+				if (sessionStorage.getItem('PointHtmlMulti') == 'Yes') {
+					$('#multi').addClass('active');
+				}
+				else if (sessionStorage.getItem('PointHtmlWinType') == 'win-type-1') {
+					$('#self').addClass('active');
+				}
+				else if (sessionStorage.getItem('PointHtmlWinType') == 'win-type-2') {
+					$('#eat').addClass('active');
+				}
+
+				//Preset value save for Multi case
+				if (sessionStorage.getItem('PointHtmlMulti') == 'Yes') {
+					if (sessionStorage.getItem('RecordHtmlMultiEastStatus') == 'win') {
+						$('#e-win').addClass('active');
+					}
+					else if (sessionStorage.getItem('RecordHtmlMultiEastStatus') == 'lose') {
+						$('#e-lose').addClass('active');
+					}
+
+					if (sessionStorage.getItem('RecordHtmlMultiSouthStatus') == 'win') {
+						$('#s-win').addClass('active');
+					}
+					else if (sessionStorage.getItem('RecordHtmlMultiSouthStatus') == 'lose') {
+						$('#s-lose').addClass('active');
+					}
+
+					if (sessionStorage.getItem('RecordHtmlMultiWestStatus') == 'win') {
+						$('#w-win').addClass('active');
+					}
+					else if (sessionStorage.getItem('RecordHtmlMultiWestStatus') == 'lose') {
+						$('#w-lose').addClass('active');
+					}
+
+					if (sessionStorage.getItem('RecordHtmlMultiNorthStatus') == 'win') {
+						$('#n-win').addClass('active');
+					}
+					else if (sessionStorage.getItem('RecordHtmlMultiNorthStatus') == 'lose') {
+						$('#n-lose').addClass('active');
+					}
+
+					$('#e-point').val(sessionStorage.getItem('RecordHtmlMultiEastPoint'));
+					$('#s-point').val(sessionStorage.getItem('RecordHtmlMultiSouthPoint'));
+					$('#w-point').val(sessionStorage.getItem('RecordHtmlMultiWestPoint'));
+					$('#n-point').val(sessionStorage.getItem('RecordHtmlMultiNorthPoint'));
+
+					sessionStorage.removeItem('RecordHtmlMultiEastStatus');
+					sessionStorage.removeItem('RecordHtmlMultiSouthStatus');
+					sessionStorage.removeItem('RecordHtmlMultiWestStatus');
+					sessionStorage.removeItem('RecordHtmlMultiNorthStatus');
+					sessionStorage.removeItem('RecordHtmlMultiEastPoint');
+					sessionStorage.removeItem('RecordHtmlMultiSouthPoint');
+					sessionStorage.removeItem('RecordHtmlMultiWestPoint');
+					sessionStorage.removeItem('RecordHtmlMultiNorthPoint');
+					sessionStorage.removeItem('RecordHtmlMulti');
+				}
+
+				var winner = sessionStorage.getItem('PointHtmlWinner');
+				if (winner != null) {
+					winner = String(winner).charAt(0);
+					$('#' + winner + '-win').addClass('active'); 
+				}
+
+				var loser = sessionStorage.getItem('PointHtmlLoser');
+				if (loser != null) {
+					loser = String(loser).charAt(0);
+				}
+				var jon = sessionStorage.getItem('PointHtmlJon');
+				if (jon != null) {
+					jon = String(jon).charAt(0);
+				}
+
+				if (sessionStorage.getItem('PointHtmlMulti') == 'Yes') {
+					$('#' + loser + '-lose').addClass('active');	
+					$('#' + winner + '-point').val(parseInt(sessionStorage.getItem('PointHtmlTotalPoints')));
+
+					$('#game-note').text("再按 '一炮多響' 輸入另一局");
+				}
+				else if (sessionStorage.getItem('PointHtmlWinType') == 'win-type-1') {
+					var list = getExcludePlayerList(allPlayers, winner);
+					for (var i = 0; i < list.length; i ++) {
+						$('#' + list[i] + '-lose').addClass('active');	
+						$('#' + list[i] + '-point').val(parseInt(sessionStorage.getItem('PointHtmlTotalPoints')));
+					}
+
+					if (list.includes(jon)) {
+						var subList = getExcludePlayerList(list, jon);
+						for (var i = 0; i < subList.length; i ++) {
+							$('#' + subList[i] + '-point').val(parseInt(sessionStorage.getItem('PointHtmlTotalPointsWithoutJon')));
+						}
+					}
+				}
+				else if (sessionStorage.getItem('PointHtmlWinType') == 'win-type-2') {
+					$('#' + loser + '-lose').addClass('active');	
+					$('#' + loser + '-point').val(parseInt(sessionStorage.getItem('PointHtmlTotalPoints')));
+				}
+
+				$('#gameConfirm').prop('disabled', false);
+
+				//reset flag
+				sessionStorage.removeItem('PointHtmlTotalPoints');
+				sessionStorage.removeItem('PointHtmlTotalPointsWithoutJon');
+				sessionStorage.removeItem('PointHtmlWinType');
+				sessionStorage.removeItem('PointHtmlWinner');
+				sessionStorage.removeItem('PointHtmlLoser');
+				sessionStorage.removeItem('PointHtmlJon');
+				sessionStorage.removeItem('PointHtmlMulti');
+
+				sessionStorage.setItem('calcUsingPointHtml', 'finish');
+			}
+
+			$('#inputGameModal').modal('show');
+		}
+
+		function onClickMulti() {
+			//allow multiple enter for multi case 
+			if ($('#checkbox-calc').is(':checked')) {
+				sessionStorage.setItem('calcUsingPointHtml', 'start');
+				for (var i = 0; i < allPlayers.length; i ++) {
+					sessionStorage.setItem(allPlayers[i] + '-player-input', $('#' + allPlayers[i] + '-player-input').val());
+					sessionStorage.setItem(allPlayers[i] + '-consecutive-win', $('#' + allPlayers[i] + '-consecutive-win').val());
+				}
+
+				//save information 
+				var eStatus = 'none', sStatus = 'none', wStatus = 'none', nStatus = 'none';
+				if ($('#e-win').hasClass('active')) {
+					eStatus = 'win';
+				}
+				else if ($('#e-lose').hasClass('active')) {
+					eStatus = 'lose';
+				}
+
+				if ($('#s-win').hasClass('active')) {
+					sStatus = 'win';
+				}
+				else if ($('#s-lose').hasClass('active')) {
+					sStatus = 'lose';
+				}
+
+				if ($('#w-win').hasClass('active')) {
+					wStatus = 'win';
+				}
+				else if ($('#w-lose').hasClass('active')) {
+					wStatus = 'lose';
+				}
+
+				if ($('#n-win').hasClass('active')) {
+					nStatus = 'win';
+				}
+				else if ($('#n-lose').hasClass('active')) {
+					nStatus = 'lose';
+				}
+
+				sessionStorage.setItem('RecordHtmlMultiEastStatus', eStatus);
+				sessionStorage.setItem('RecordHtmlMultiSouthStatus', sStatus);
+				sessionStorage.setItem('RecordHtmlMultiWestStatus', wStatus);
+				sessionStorage.setItem('RecordHtmlMultiNorthStatus', nStatus);
+				sessionStorage.setItem('RecordHtmlMultiEastPoint', $('#e-point').val());
+				sessionStorage.setItem('RecordHtmlMultiSouthPoint', $('#s-point').val());
+				sessionStorage.setItem('RecordHtmlMultiWestPoint', $('#w-point').val());
+				sessionStorage.setItem('RecordHtmlMultiNorthPoint', $('#n-point').val());
+
+				sessionStorage.setItem('RecordHtmlMulti', 'Yes');
+
+				window.open('point.html', '_self');
+			}
+
+			return;
+		}
+
+		//unselect feature but do not know why it does not work in Android browser 
+		$('#input-game-body label[name=win],label[name=lose]').click(function() {
+			if ($(this).hasClass('active')) {
+				setTimeout(() => {
+					$(this).removeClass('active');
+				}, 50);
+			}
+		})
+
+		$('#input-game-body label').on('click', gameTimeout);
+		$('#input-game-body input').on('keyup', gameTimeout);
+
+		function gameTimeout() {
+			setTimeout(() => {					
+				var mode = '';
+				$('#input-game-body').find('label[name=mode]').each(function(){
+					if ($(this).hasClass('active')) {
+						mode = this.id;
+						if (mode == 'self' || mode == 'eat')
+							$('#game-note').text('在負方輸入番數');
+						else if (mode == 'multi')
+							$('#game-note').text('在勝方輸入番數');
+					}
+				});
+
+				var winCount = 0, loseCount = 0;
+				$('#input-game-body').find('label[name=win]').each(function(){
+					if ($(this).hasClass('active')) {
+						winCount ++;
+					}
+				});
+
+				$('#input-game-body').find('label[name=lose]').each(function(){
+					if ($(this).hasClass('active')) {
+						if (this.id == 'e-lose' && parseInt($('#e-point').val()) > 0)
+							loseCount ++;
+						if (this.id == 's-lose' && parseInt($('#s-point').val()) > 0)
+							loseCount ++;
+						if (this.id == 'w-lose' && parseInt($('#w-point').val()) > 0)
+							loseCount ++;
+						if (this.id == 'n-lose' && parseInt($('#n-point').val()) > 0)
+							loseCount ++;
+					}
+				});
+
+				if (mode == 'self') {
+					if (winCount == 1 && loseCount == 3) {
+						$('#gameConfirm').prop('disabled', false);
+						return;
+					}
+				}
+				else if (mode == 'eat') {
+					if (winCount == 1 && loseCount == 1) {
+						$('#gameConfirm').prop('disabled', false);
+						return;
+					}
+				}
+				else if (mode == 'multi') {
+					//Reverse count
+					winCount = 0, loseCount = 0;
+					$('#input-game-body').find('label[name=win]').each(function(){
+						if ($(this).hasClass('active')) {
+							if (this.id == 'e-win' && parseInt($('#e-point').val()) > 0)
+								winCount ++;
+							if (this.id == 's-win' && parseInt($('#s-point').val()) > 0)
+								winCount ++;
+							if (this.id == 'w-win' && parseInt($('#w-point').val()) > 0)
+								winCount ++;
+							if (this.id == 'n-win' && parseInt($('#n-point').val()) > 0)
+								winCount ++;
+						}
+					});
+					$('#input-game-body').find('label[name=lose]').each(function(){
+						if ($(this).hasClass('active')) {
+							loseCount ++;
+						}
+					});
+
+					if ((winCount == 2 || winCount == 3) && loseCount == 1) {
+						$('#gameConfirm').prop('disabled', false);
+						return;
+					}
+				}
+
+				$('#gameConfirm').prop('disabled', true);
+			}, 150);
+		}
+
+		$('#inputGameModal .modal-footer button').on('click', function(event) {
+			var button = $(event.target);
+
+			$(this).closest('.modal').on('hidden.bs.modal', function() {
+				if (button[0].id == 'gameConfirm') {
+					rowNumberTo++
+					addRow(rowNumberTo, 'main', 'N');
+
+					var mode = '';
+					$('#input-game-body').find('label[name=mode]').each(function(){
+						if ($(this).hasClass('active')) {
+							mode = this.id;
+						}
+					});
+
+					var win = '', lose = '';
+					if (mode == 'self' || mode == 'eat') {
+						$('#input-game-body').find('label[name=win]').each(function(){
+							if ($(this).hasClass('active')) {
+								win = this.id.charAt(0);
+							}
+						});
+
+						if (mode == 'self') {
+							var list = getSubPairs(win, 'prefix');
+							for (var i = 0; i < list.length; i ++) {
+								$('#table-scores #' + rowNumberTo + ' #' + list[i] + '-score').val(parseInt($('#' + String(list[i]).charAt(1) + '-point').val()));
+							}
+						}
+						else if (mode == 'eat') {
+							$('#input-game-body').find('label[name=lose]').each(function(){
+								if ($(this).hasClass('active')) {
+									if (this.id == 'e-lose' && parseInt($('#e-point').val()) > 0)
+										lose = this.id.charAt(0);
+									if (this.id == 's-lose' && parseInt($('#s-point').val()) > 0)
+										lose = this.id.charAt(0);
+									if (this.id == 'w-lose' && parseInt($('#w-point').val()) > 0)
+										lose = this.id.charAt(0);
+									if (this.id == 'n-lose' && parseInt($('#n-point').val()) > 0)
+										lose = this.id.charAt(0);
+								}
+							});
+
+							$('#table-scores #' + rowNumberTo + ' #' + win + lose + '-score').val(parseInt($('#' + lose + '-point').val()));
+						}
+					}
+					else if (mode == 'multi') {
+						//Reverse to find loser first
+						$('#input-game-body').find('label[name=lose]').each(function(){
+							if ($(this).hasClass('active')) {
+								lose = this.id.charAt(0);
+							}
+						});
+
+						$('#input-game-body').find('label[name=win]').each(function(){
+							if ($(this).hasClass('active')) {
+								win = this.id.charAt(0);
+
+								if (parseInt($('#' + win + '-point').val()) > 0) {
+									$('#table-scores #' + rowNumberTo + ' #' + win + lose + '-score').val(parseInt($('#' + win + '-point').val()));
+								}
+							}
+						});
+					}
+
+					updateLastRowScores();
+
+					onClickConfirm();
+				}
+
+				$(this).off('hidden.bs.modal');	//avoid accumulated call
+			});
+		})
+
+		function addRow(rowNumber, mode, isConfirm) {
+			if (rowNumber > 0 && $('#table-scores #' + rowNumber + ' #row-confirm').val() == 'N') {
+				$('#warning-message').text('請先確認局數');
+				$('#alertModal').modal('show');
+				setTimeout(function () {
+					$('#alertModal').modal('hide');
+				}, 2000);
+				return;
+			}
+
+			//Try to get tbody first with jquery children. works faster!
+			var tbody = $('#table-scores').children('tbody');
+
+			//Then if no tbody just select your table 
+			var table = tbody.length ? tbody : $('#table-scores');
+
+			var row = '<tr id="' + rowNumber + '"' + (mode == "rewardPunish" || mode == "adjust" ? ' style="display:none;"' : '') + '><input type="hidden" id="row-confirm" value="' + isConfirm + '"><input type="hidden" id="mode" value="' + mode + '"><input type="hidden" id="winner-list"><input type="hidden" id="loser-list">' +
+				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="es-score" onchange="onScoreChange(' + rowNumber + ', this.id, this.value); return false;"><input type="hidden" id="es-score-original"><input type="hidden" id="es-confirm" value="N"><input type="hidden" id="es-win" value="1"><input type="hidden" id="es-rev" value="N"></td>' +
+				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="ew-score" onchange="onScoreChange(' + rowNumber + ', this.id, this.value); return false;"><input type="hidden" id="ew-score-original"><input type="hidden" id="ew-confirm" value="N"><input type="hidden" id="ew-win" value="1"><input type="hidden" id="ew-rev" value="N"></td>' +
+				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="en-score" onchange="onScoreChange(' + rowNumber + ', this.id, this.value); return false;"><input type="hidden" id="en-score-original"><input type="hidden" id="en-confirm" value="N"><input type="hidden" id="en-win" value="1"><input type="hidden" id="en-rev" value="N"></td>' +
+				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="se-score" onchange="onScoreChange(' + rowNumber + ', this.id, this.value); return false;"><input type="hidden" id="se-score-original"><input type="hidden" id="se-confirm" value="N"><input type="hidden" id="se-win" value="1"><input type="hidden" id="se-rev" value="N"></td>' +
+				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="sw-score" onchange="onScoreChange(' + rowNumber + ', this.id, this.value); return false;"><input type="hidden" id="sw-score-original"><input type="hidden" id="sw-confirm" value="N"><input type="hidden" id="sw-win" value="1"><input type="hidden" id="sw-rev" value="N"></td>' +
+				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="sn-score" onchange="onScoreChange(' + rowNumber + ', this.id, this.value); return false;"><input type="hidden" id="sn-score-original"><input type="hidden" id="sn-confirm" value="N"><input type="hidden" id="sn-win" value="1"><input type="hidden" id="sn-rev" value="N"></td>' +
+				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="we-score" onchange="onScoreChange(' + rowNumber + ', this.id, this.value); return false;"><input type="hidden" id="we-score-original"><input type="hidden" id="we-confirm" value="N"><input type="hidden" id="we-win" value="1"><input type="hidden" id="we-rev" value="N"></td>' +
+				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="ws-score" onchange="onScoreChange(' + rowNumber + ', this.id, this.value); return false;"><input type="hidden" id="ws-score-original"><input type="hidden" id="ws-confirm" value="N"><input type="hidden" id="ws-win" value="1"><input type="hidden" id="ws-rev" value="N"></td>' +
+				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="wn-score" onchange="onScoreChange(' + rowNumber + ', this.id, this.value); return false;"><input type="hidden" id="wn-score-original"><input type="hidden" id="wn-confirm" value="N"><input type="hidden" id="wn-win" value="1"><input type="hidden" id="wn-rev" value="N"></td>' +
+				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="ne-score" onchange="onScoreChange(' + rowNumber + ', this.id, this.value); return false;"><input type="hidden" id="ne-score-original"><input type="hidden" id="ne-confirm" value="N"><input type="hidden" id="ne-win" value="1"><input type="hidden" id="ne-rev" value="N"></td>' +
+				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="ns-score" onchange="onScoreChange(' + rowNumber + ', this.id, this.value); return false;"><input type="hidden" id="ns-score-original"><input type="hidden" id="ns-confirm" value="N"><input type="hidden" id="ns-win" value="1"><input type="hidden" id="ns-rev" value="N"></td>' +
+				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="nw-score" onchange="onScoreChange(' + rowNumber + ', this.id, this.value); return false;"><input type="hidden" id="nw-score-original"><input type="hidden" id="nw-confirm" value="N"><input type="hidden" id="nw-win" value="1"><input type="hidden" id="nw-rev" value="N"></td>' +
+				'</tr>';
+
+			table.append(row);
+		}
+
+		function onScoreChange(row, id, value) {
+			//retrieve before value from opposite column 
+			var oppositeColumn = id.charAt(1) + id.charAt(0);
+			var beforeValue = '';
+			if ($('#table-scores #' + row + ' #' + oppositeColumn + '-score').val() != '') 
+				beforeValue = $('#table-scores #' + row + ' #' + oppositeColumn + '-score').val() * -1;
+
+			if (value < 0) {
+				$('#table-scores #' + row + ' #' + id).val(beforeValue);
+				$('#warning-message').text('請輸入正數番數');
+				$('#alertModal').modal('show');
+				setTimeout(function () {
+					$('#alertModal').modal('hide');
+				}, 2000);
+				return;
+			}
+
+			if ($('#table-scores #' + row + ' #row-confirm').val() == 'Y' && (value == '' || value == '0')) {
+				$('#table-scores #' + row + ' #' + id).val(beforeValue);
+				$('#warning-message').text('已確認局數不可輸入 0 或留空');
+				$('#alertModal').modal('show');
+				setTimeout(function () {
+					$('#alertModal').modal('hide');
+				}, 2000);
+				return;
+			}
+
+			//update opposite column with negative value or reset value
+			if (value == '') 
+				$('#table-scores #' + row + ' #' + oppositeColumn + '-score').val('');
+			else 
+				$('#table-scores #' + row + ' #' + oppositeColumn + '-score').val(value * -1);
+
+			saveRow(row, id.slice(0,2), true);
+			saveRow(row, oppositeColumn, true);
+		}
+
+		function onClickDelete() {
+			if (rowNumberTo == 0 || $('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'Y') {
+				$('#warning-message').text('最新局數已確認 / 沒有局數, 不能刪除');
+				$('#alertModal').modal('show');
+				setTimeout(function () {
+					$('#alertModal').modal('hide');
+				}, 2000);
+				return;
+			}
+
+			$('#table-scores tr:last').remove();
+
+			rowNumberTo--;
+		}
+
+		function onClickFinish() {
+			//if (rowNumberTo > 0 && $('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'N') {
+			if ($('#table-scores tr:last #row-confirm').val() == 'N') {
+				$('#warning-message').text('請先確認局數');
+				$('#alertModal').modal('show');
+				setTimeout(function () {
+					$('#alertModal').modal('hide');
+				}, 2000);
+				return;
+			}
+
+			$('#gameConfirmModal').modal('show');
+		}
+
+		$('#gameConfirmModal .modal-footer button').on('click', function(event) {
+			var button = $(event.target);
+
+			$(this).closest('.modal').on('hidden.bs.modal', function() {
+				if (button[0].id == 'gameConfirmYes') {
+					//clear previous result
+					$('#table-confirm-transaction').empty();
+
+					//Confirm all non-zero values 
+					for (var i = 0; i < allPairs.length; i ++) {
+						gameConfirm (allPairs[i]);
+					}
+
+					if ($('#table-confirm-transaction tr').length > 0) {
+						$('#confirmTransactionModal').modal('show');
+						setTimeout(function () {
+							$('#confirmTransactionModal').modal('hide');
+						}, 2000);
+					}
+
+					protectLastRow();
+					markWinnerLoser();
+
+					sendServer(true, true);
+				}
+
+				$(this).off('hidden.bs.modal');	//avoid accumulated call
+			});
+		})
+
+		function onClickReset() {
+			$('#resetConfirmModal').modal('show');
+		}
+
+		$('#resetConfirmModal .modal-footer button').on('click', function(event) {
+			var button = $(event.target);
+
+			$(this).closest('.modal').on('hidden.bs.modal', function() {
+				if (button[0].id == 'resetConfirmYes') {
+					//delete all rows
+					$('#table-scores').children('tbody').empty();
+					$('#table-confirm-transaction').empty();
+
+					$('#player-select').empty();
+					$('#table-confirm-transaction-main > tbody:last-child').empty();
+
+					//reset scores and names 
+					for (var i = 0; i < allPlayers.length; i ++) {
+						$('#' + allPlayers[i] + '-scores').text('0');
+						$('#' + allPlayers[i] + '-scores').css('color','#3399FF');
+						$('#' + allPlayers[i] + '-player-input').val('');
+
+						$('#' + allPlayers[i] + '-consecutive-win').val(0);
+						$('#' + allPlayers[i] + '-consecutive-win-label').text('');
+					}
+
+					$('#table-scores-thead tr[id=header-row-2] th').text('');
+					$('#table-scores-thead tr[id=header-row-3] th').text('');
+
+					$('#e-position').addClass('highlightedBlue');
+					$('#e-wind').addClass('active');
+					var list = getExcludePlayerList(allPlayers, 'e');
+					for (var i = 0; i < list.length; i ++) {
+						$('#' + list[i] + '-position').removeClass('highlightedBlue');
+						$('#' + list[i] + '-wind').removeClass('active');
+					}
+
+					//reset columns color
+					$('#header-row-3 th').each(function () {
+						$(this).css('color','white');
+					});
+
+					localStorage.setItem('currentWind','e-wind');
+					localStorage.setItem('currentPosition','e-position');
+
+					setWindPosition();
+
+					//remove storage
+					for (var i = 0; i < allPlayers.length; i ++) {
+						localStorage.removeItem(allPlayers[i] + '-player-input');
+						localStorage.removeItem(allPlayers[i] + '-scores');
+						localStorage.removeItem(allPlayers[i] + '-consecutive-win');
+					}
+
+					for (var i = 1; i <= parseInt(localStorage.getItem('rowNumberTo')); i++) {
+						localStorage.removeItem(i + '#mode');
+						localStorage.removeItem(i + '#winner-list');
+						localStorage.removeItem(i + '#loser-list');
+
+						for (var j = 0; j < allPairs.length; j ++) {
+							removeRow (i, allPairs[j]);
+						}
+					}
+
+					localStorage.removeItem('selectedPlayer');
+
+					//reset rowcount
+					rowNumberFrom = 1;
+					rowNumberTo = 0;
+
+					localStorage.removeItem('rowNumberFrom');
+					localStorage.removeItem('rowNumberTo');
+
+					if (uuid != null && uuid != '') {
+						//remove document with all data 
+						collectionRooms.doc(uuid)
+							.delete()
+							.then(function() {
+								console.log('gameData successfully deleted!');
+							}).catch(function(error) {
+								console.error('Error removing gameData: ', error);
+						});	
+
+						collectionRecords.where("uuid", "==", uuid).get().then(function(querySnapshot) {
+							querySnapshot.forEach(function(doc) {
+								// doc.data() is never undefined for query doc snapshots
+								console.log(doc.id);
+								collectionRecords.doc(doc.id).delete().then(function() {
+									console.log('records successfully deleted!');
+								}).catch(function(error) {
+									console.error('Error removing records: ', error);
+								});	
+							});
+						})
+						.catch(function(error) {
+							console.log("Error getting documents: ", error);
+						});
+
+						collectionTransactions.where("uuid", "==", uuid).get().then(function(querySnapshot) {
+							querySnapshot.forEach(function(doc) {
+								// doc.data() is never undefined for query doc snapshots
+								console.log(doc.id);
+								collectionTransactions.doc(doc.id).delete().then(function() {
+									console.log('transactions successfully deleted!');
+								}).catch(function(error) {
+									console.error('Error removing transactions: ', error);
+								});	
+							});
+						})
+						.catch(function(error) {
+							console.log("Error getting documents: ", error);
+						});
+					}
+
+					localStorage.removeItem('gameDataId');
+					uuid = '';
+					$('#code').val(uuid);
+
+					$('#top-buttons-1, #bottom-buttons-1, #bottom-buttons-2').find('button').each(function () {
+						$(this).attr('disabled', true);
+					})
+					$('#button-join').attr('disabled', false);
+
+					$('#top-buttons-2').css('visibility', 'hidden');
+
+					onClickJoin();						
+				}
+
+				$(this).off('hidden.bs.modal');	//avoid accumulated call
+			});
+		})
+
+		function removeRow (r, c) {
+			localStorage.removeItem(r + '#' + c + '-score');
+			localStorage.removeItem(r + '#' + c + '-score-original');
+			localStorage.removeItem(r + '#' + c + '-confirm');
+			localStorage.removeItem(r + '#' + c + '-win');
+			localStorage.removeItem(r + '#' + c + '-rev');
+		}
+
+		function onClickShare() {
+			//Alternative method "https://wa.me/?text=" which is using in iPhone but user experience is not good as whatsapp protocol
+			var url = "whatsapp://send?text=";
+			var content = '';
+
+			content = '港式台牌 - 局數記錄\r\n' +
+						'局數分享\r\n' +
+						'http://taiwanmj.htongbiz.net/record_share.html?shareGameDataId=' + $('#code').val() + '\r\n\r\n' +
+						'總結\r\n' +
+						$('#e-player-input').val() + ' ' + $('#e-scores').text() + '\r\n' + 
+						$('#s-player-input').val() + ' ' + $('#s-scores').text() + '\r\n' + 
+						$('#w-player-input').val() + ' ' + $('#w-scores').text() + '\r\n' + 
+						$('#n-player-input').val() + ' ' + $('#n-scores').text() + '\r\n\r\n' +
+						'Android 用戶' + '\r\n' + 
+						'<如要觀看紀錄 請下載免費版 "台牌番數說明" https://play.google.com/store/apps/details?id=htongbiz.com.taiwanmj>' + '\r\n' + 
+						'<如要輸入記錄或使用計番器 請下載收費版 "台牌計番器 局數記錄表" https://play.google.com/store/apps/details?id=htongbiz.com.taiwanmj.record>';
+
+			url = url + encodeURIComponent(content);
+			window.open(url);
+		}
+
+		function onClickConfirm() {
+			if ($('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'Y') return;
+
+			winnerList = '';
+			winnerName = '';
+			loserList = '';
+			loserName = '';
+
+			$('#table-scores tr:last').find('input[type=number]').each(function(){
+				if (parseInt(this.value) > 0) {
+					//Construct winner list
+					var firstChar = this.id.charAt(0);
+					if (winnerList.search(firstChar) == -1) {
+						winnerList += firstChar;
+					};
+					if (winnerName.search($('#' + firstChar + '-player-input').val()) == -1) {
+						winnerName += $('#' + firstChar + '-player-input').val() + '\r\n';
+					};
+
+					//Construct loser list
+					var secondChar = this.id.charAt(1);
+					if (loserList.search(secondChar) == -1) {
+						loserList += secondChar;
+					};
+					if (loserName.search($('#' + secondChar + '-player-input').val()) == -1) {
+						loserName += $('#' + secondChar + '-player-input').val() + '\r\n';
+					};
+				};
+			});
+
+			if (winnerList == '' || loserList == '') {
+				$('#warning-message').text('請輸入正數番數');
+				$('#alertModal').modal('show');
+				setTimeout(function () {
+					$('#alertModal').modal('hide');
+				}, 2000);
+				return;
+			};
+
+			if (anythingInCommon(winnerList, loserList)) {
+				$('#warning-message').text('輸入錯誤,有玩家在勝方跟負方內同時出現');
+				$('#alertModal').modal('show');
+				setTimeout(function () {
+					$('#alertModal').modal('hide');
+				}, 2000);
+				return;
+			};
+
+			if ($('#table-scores #' + rowNumberTo + ' #mode').val() == 'rewardPunish') {
+				$('#confirm-winner-label').text('賞');
+				$('#confirm-loser-label').text('罰');
+			}
+			else if ($('#table-scores #' + rowNumberTo + ' #mode').val() == 'adjust') {
+				$('#confirm-winner-label').text('正');
+				$('#confirm-loser-label').text('負');
+			}
+			else {
+				$('#confirm-winner-label').text('勝');
+				$('#confirm-loser-label').text('負');
+			};
+			$('#confirm-winner-name').text(winnerName);
+			$('#confirm-loser-name').text(loserName);
+
+			$('#confirmModal').modal('show');
+		}
+
+		$('#confirmModal .modal-footer button').on('click', function(event) {
+			var button = $(event.target);
+
+			$(this).closest('.modal').on('hidden.bs.modal', function() {
+				if (button[0].id == 'confirm') {
+					processConfirm();
+
+					sendServer(true, true);
+				};
+
+				$(this).off('hidden.bs.modal');	//avoid accumulated call
+			});
+		})
+
+		function processConfirm () {
+			$('#table-scores #' + rowNumberTo + ' #winner-list').val(winnerList);
+			$('#table-scores #' + rowNumberTo + ' #loser-list').val(loserList);
+
+			//clear previous result
+			$('#table-confirm-transaction').empty();
+
+			//if reward / punish / adjust, just mark complete of current row, update total score
+			if ($('#table-scores #' + rowNumberTo + ' #mode').val() == 'rewardPunish' || $('#table-scores #' + rowNumberTo + ' #mode').val() == 'adjust') {
+				$('#table-scores #' + rowNumberTo).find('input[type=number]').each(function(){
+					if (parseInt($(this).val()) > 0) adjustScore(rowNumberTo, $(this).attr('id').slice(0,2), parseInt($(this).val()));
+				});
+
+				$('#table-scores #' + rowNumberTo).remove();
+				rowNumberTo--;
+				//document.getElementById('bottom-buttons').scrollIntoView();	//scroll to bottom
+				$(this).off('hidden.bs.modal');	//avoid accumulated call
+				return;
+			}
+			else {
+				//handle in different sequence for revenge case check
+				for (var i = 0; i < halfPairs.length; i ++) {
+					if (parseInt($('#table-scores #' + rowNumberTo + ' #' + halfPairs[i] + '-score').val()) > 0) {
+						process (rowNumberTo, halfPairs[i]);
+						process (rowNumberTo, String(halfPairs[i]).charAt(1) + String(halfPairs[i]).charAt(0));
+					}
+					else {
+						process (rowNumberTo, String(halfPairs[i]).charAt(1) + String(halfPairs[i]).charAt(0));
+						process (rowNumberTo, halfPairs[i]);
+					};
+				}
+
+				if ($('#table-confirm-transaction tr').length > 0) {
+					$('#confirmTransactionModal').modal('show');
+					setTimeout(function () {
+						$('#confirmTransactionModal').modal('hide');
+					}, 2000);
+				}
+			};
+
+			protectLastRow();
+
+			$('#table-scores #' + rowNumberTo + ' #row-confirm').val('Y');
+
+			markWinnerLoser();
+
+			//save row after confirm
+			localStorage.setItem('rowNumberTo', rowNumberTo);
+
+			localStorage.setItem(rowNumberTo + '#mode', $('#table-scores #' + rowNumberTo + ' #mode').val());
+			localStorage.setItem(rowNumberTo + '#winner-list', $('#table-scores #' + rowNumberTo + ' #winner-list').val());
+			localStorage.setItem(rowNumberTo + '#loser-list', $('#table-scores #' + rowNumberTo + ' #loser-list').val());
+
+			for (var i = 0; i < allPairs.length; i ++) {
+				saveRow (rowNumberTo, allPairs[i], false);
+			}
+
+			updateConsecutiveWin();
+
+			//change wind and position if necessary
+			changeWindPosition();
+
+			//document.getElementById('bottom-buttons').scrollIntoView();	//scroll to bottom
+		}
+
+		function saveRow (r, c, upload) {
+			localStorage.setItem(r + '#' + c + '-score', $('#table-scores #' + r + ' #' + c + '-score').val());
+			localStorage.setItem(r + '#' + c + '-score-original', $('#table-scores #' + r + ' #' + c + '-score-original').val());
+			localStorage.setItem(r + '#' + c + '-confirm', $('#table-scores #' + r + ' #' + c + '-confirm').val());
+			localStorage.setItem(r + '#' + c + '-win', $('#table-scores #' + r + ' #' + c + '-win').val());
+			localStorage.setItem(r + '#' + c + '-rev', $('#table-scores #' + r + ' #' + c + '-rev').val());
+
+			if (upload) {
+				var fieldScore = c + '-score';
+				var fieldScoreOriginal = c + '-score-original';
+				var fieldConfirm = c + '-confirm';
+				var fieldWin = c + '-win';
+				var fieldRev = c + '-rev';
+
+				collectionRecords.where("uuid", "==", uuid).where("row", "==", r).get().then(function(querySnapshot) {
+					querySnapshot.forEach(function(doc) {
+						// doc.data() is never undefined for query doc snapshots
+						console.log(doc.id);
+						collectionRecords.doc(doc.id).set({[fieldScore]: $('#table-scores #' + r + ' #' + c + '-score').val(),
+															[fieldScoreOriginal]: $('#table-scores #' + r + ' #' + c + '-score-original').val(),
+															[fieldConfirm]: $('#table-scores #' + r + ' #' + c + '-confirm').val(),
+															[fieldWin]: $('#table-scores #' + r + ' #' + c + '-win').val(),
+															[fieldRev]: $('#table-scores #' + r + ' #' + c + '-rev').val(),
+															'lastUpdateTime': getDateyyyymmddHHmmss()
+															}, { merge: true });
+					});
+				})
+				.catch(function(error) {
+					console.log("Error getting records: ", error);
+				});
+			}
+		}
+
+		function changeWindPosition () {
+			var curWind = localStorage.getItem('currentWind').charAt(0);
+			var curPosition = localStorage.getItem('currentPosition').charAt(0);
+
+			if (winnerList.search(curPosition) == -1 ) {
+				if (curPosition == 'e') $('#s-position').trigger('click');
+				else if (curPosition == 's') $('#w-position').trigger('click');
+				else if (curPosition == 'w') $('#n-position').trigger('click');
+				else if (curPosition == 'n') {
+					$('#e-position').trigger('click');
+
+					if (curWind == 'e') $('#s-wind').trigger('click');
+					else if (curWind == 's') $('#w-wind').trigger('click');
+					else if (curWind == 'w') $('#n-wind').trigger('click');
+					else if (curWind == 'n') $('#e-wind').trigger('click');
+				}
+			}
+		}
+
+		function markWinnerLoser () {
+			//Reset all columns
+			$('#header-row-3 th').each(function () {
+				$(this).css('color','white');
+			});
+
+			for (var i = 0; i < halfPairs.length; i ++) {
+				searchWinnerLoser (halfPairs[i]);
+			}
+
+			//dummy remove confirmed rows 
+			deleteAllColumnsProtectRows();
+		}
+
+		function searchWinnerLoser (c) {
+			var oppositec = c.charAt(1) + c.charAt(0);
+
+			for (var r = rowNumberTo; r >= rowNumberFrom; r--) {
+				//If confirmed, exit
+				if ($('#table-scores #' + r + ' #' + c + '-confirm').val() == 'Y') break;
+				
+				var score = $('#table-scores #' + r + ' #' + c + '-score').val() == '' ? 0 : parseInt($('#table-scores #' + r + ' #' + c + '-score').val());
+
+				if (score > 0) {
+					$('#' + c + '-pairs').css('color','#0d6786');
+					$('#' + oppositec + '-pairs').css('color','red');
+					break;
+				}
+
+				if ($('#table-scores #' + r + ' #' + oppositec + '-confirm').val() == 'Y') break;
+				
+				var oppositeScore = $('#table-scores #' + r + ' #' + oppositec + '-score').val() == '' ? 0 : parseInt($('#table-scores #' + r + ' #' + oppositec + '-score').val());
+
+				if (oppositeScore > 0) {
+					$('#' + oppositec + '-pairs').css('color','#0d6786');
+					$('#' + c + '-pairs').css('color','red');
+					break;
+				}
+			}
+		}
+
+		function updateConsecutiveWin() {
+			for (var i = 0; i < allPlayers.length; i ++) {
+				if (rowNumberTo == 0) {
+					$('#' + allPlayers[i] + '-consecutive-win').val(0);
+					$('#' + allPlayers[i] + '-consecutive-win-label').text('');
+				}
+				else {
+					var curWinner = localStorage.getItem(rowNumberTo + '#winner-list');
+
+					if (anythingInCommon(curWinner, allPlayers[i]) && allPlayers[i] == localStorage.getItem('currentPosition').charAt(0)) {
+						var value = parseInt($('#' + allPlayers[i] + '-consecutive-win').val()); 
+						value ++; 
+						$('#' + allPlayers[i] + '-consecutive-win').val(value);
+						$('#' + allPlayers[i] + '-consecutive-win-label').text('連 ' + value);
+					}
+					else {
+						$('#' + allPlayers[i] + '-consecutive-win').val(0);
+						$('#' + allPlayers[i] + '-consecutive-win-label').text('');
+					}
+				}
+
+				localStorage.setItem(allPlayers[i] + '-consecutive-win', $('#' + allPlayers[i] + '-consecutive-win').val());
+			}
+		}
+
+		function onClickAdjustJon (direction) {
+			var curPosition = localStorage.getItem('currentPosition').charAt(0);
+			var value = parseInt($('#' + curPosition + '-consecutive-win').val());
+
+			if (direction == 'add') value++;
+			else if (direction == 'minus') value--;
+
+			if (value < 0) value = 0;
+
+			$('#' + curPosition + '-consecutive-win').val(value);
+			$('#' + curPosition + '-consecutive-win-label').text(value > 0 ? '連 ' + value : '');
+
+			localStorage.setItem(curPosition + '-consecutive-win', $('#' + curPosition + '-consecutive-win').val());
+			var fieldConfirm = curPosition + '-consecutive-win';
+			collectionRooms.doc(uuid).set({[fieldConfirm]: $('#' + curPosition + '-consecutive-win').val()}, { merge: true });
+		}
+
+		function resetConsecutiveWin() {
+			for (var i = 0; i < allPlayers.length; i ++) {
+				$('#' + allPlayers[i] + '-consecutive-win').val(0);
+				$('#' + allPlayers[i] + '-consecutive-win-label').text('');
+
+				localStorage.setItem(allPlayers[i] + '-consecutive-win', $('#' + allPlayers[i] + '-consecutive-win').val());
+				var fieldConfirm = allPlayers[i] + '-consecutive-win';
+				collectionRooms.doc(uuid).set({[fieldConfirm]: $('#' + allPlayers[i] + '-consecutive-win').val()}, { merge: true });
+			}
+		}
+
+		function gameConfirm (c) {
+			for (var rows = rowNumberTo; rows >= rowNumberFrom; rows--) {
+				//If confirmed, exit
+				if ($('#table-scores #' + rows + ' #' + c + '-confirm').val() == 'Y') break;
+
+				var score = $('#table-scores #' + rows + ' #' + c + '-score').val() == '' ? 0 : parseInt($('#table-scores #' + rows + ' #' + c + '-score').val());
+
+				if (score != 0) {
+					markConfirm (rows, c, score);
+					break;
+				};
+			};
+		}
+
+		function protectLastRow () {
+			for (var i = 0; i < allPairs.length; i ++) {
+				if ($('#table-scores #' + rowNumberTo + ' #' + allPairs[i] + '-score').val() == '' || parseInt($('#table-scores #' + rowNumberTo + ' #' + allPairs[i] + '-score').val()) <= 0) {
+					markProtect (rowNumberTo, allPairs[i]);
+				};
+			}
+		}
+
+		//update opposite column with negative value
+		function updateLastRowScores () {
+			for (var i = 0; i < allPairs.length; i ++) {
+				if ($('#table-scores #' + rowNumberTo + ' #' + allPairs[i] + '-score').val() != '' && parseInt($('#table-scores #' + rowNumberTo + ' #' + allPairs[i] + '-score').val()) > 0) {
+					var oppositeColumn = allPairs[i].charAt(1) + allPairs[i].charAt(0);
+					$('#table-scores #' + rowNumberTo + ' #' + oppositeColumn + '-score').val(parseInt($('#table-scores #' + rowNumberTo + ' #' + allPairs[i] + '-score').val()) * -1);
+				};
+			}
+		}
+
+		function markProtect (r, c) {
+			$('#table-scores #' + r + ' #' + c + '-score').css('background-color','#ededed');
+			$('#table-scores #' + r + ' #' + c + '-score').attr('readonly', true);
+		}
+
+		function markConfirm (r, c, s) {
+			markProtect (r, c);
+			
+			$('#table-scores #' + r + ' #' + c + '-confirm').val('Y');
+
+			localStorage.setItem(r + '#' + c + '-confirm', $('#table-scores #' + r + ' #' + c + '-confirm').val());
+
+			if (s > 0) adjustScore (r, c, s);
+		}
+
+		function deleteAllColumnsProtectRows () {
+			//delete all rows with points counts in last games
+			var rowId = $('#table-scores').find('tbody tr:first').attr('id');
+
+			if (rowId == null) return;
+
+			while (checkAllColumnsProtect(rowId)) {
+				$('#table-scores #' + rowId).remove();
+				rowId++; 
+			}
+			rowNumberFrom = parseInt(rowId);
+			localStorage.setItem('rowNumberFrom', rowNumberFrom);
+		}
+
+		function checkAllColumnsProtect (r) {
+			if ($('#table-scores > tbody tr').length <= 0) return false;
+
+			var result = true;
+			$('#table-scores #' + r).find('input[type=number]').each(function(){
+				if ($(this).attr('readonly') != 'readonly') result = false;
+			});
+
+			return result;
+		}
+
+		function adjustScore (r, c, s) {
+			//var confirmTransaction = $('#' + c.charAt(1) + '-player-input').val() + ' 付 ' + Math.abs(s) + ' 給 ' + $('#' + c.charAt(0) + '-player-input').val();
+			var confirmTransaction = $('#wind-position').text() + ' ' + $('#' + c.charAt(1) + '-player-input').val() + ' >> ' + Math.abs(s) + ' >> ' + $('#' + c.charAt(0) + '-player-input').val();
+			var fontColor = '#000000';	//black 
+			
+			if ($('#table-scores #' + r + ' #' + c + '-rev').val() == 'Y') {
+				confirmTransaction = confirmTransaction + ' (截半)';
+				//fontColor = '#FF0000';	//red
+			}
+			else if (parseInt($('#table-scores #' + r + ' #' + c + '-win').val()) > 1) {
+				confirmTransaction = confirmTransaction + ' (拉 ' + (parseInt($('#table-scores #' + r + ' #' + c + '-win').val()) - 1) + ')';
+				//fontColor = '#0000FF';	//blue
+			}
+			else if ($('#table-scores #' + r + ' #mode').val() == 'rewardPunish') {
+				confirmTransaction = confirmTransaction + ' (賞罰)';
+			}
+			else if ($('#table-scores #' + r + ' #mode').val() == 'adjust') {
+				confirmTransaction = confirmTransaction + ' (調整)';
+			}
+
+			$('#table-confirm-transaction').append('<tr style="color:' + fontColor + '"><td>' + confirmTransaction + '</td></tr>');
+
+			sendServerTransaction(c.charAt(1), c.charAt(0), Math.abs(s), confirmTransaction);
+
+			//Adjust scores
+			$('#' + c.charAt(0) + '-scores').text(parseInt($('#' + c.charAt(0) + '-scores').text()) + s);
+			$('#' + c.charAt(1) + '-scores').text(parseInt($('#' + c.charAt(1) + '-scores').text()) + s * -1);
+
+			localStorage.setItem(c.charAt(0) + '-scores', $('#' + c.charAt(0) + '-scores').text());
+			localStorage.setItem(c.charAt(1) + '-scores', $('#' + c.charAt(1) + '-scores').text());
+
+			if (parseInt($('#' + c.charAt(0) + '-scores').text()) >= 0) $('#' + c.charAt(0) + '-scores').css('color','#3399FF');
+			else $('#' + c.charAt(0) + '-scores').css('color','red');
+
+			if (parseInt($('#' + c.charAt(1) + '-scores').text()) >= 0) $('#' + c.charAt(1) + '-scores').css('color','#3399FF');
+			else $('#' + c.charAt(1) + '-scores').css('color','red');
+		}
+/*
+		function adjustScoreDirect (p, s) {
+			//Adjust scores directly
+			var fieldScore = p + '-scores';
+			$('#' + fieldScore).text(parseInt($('#' + fieldScore).text()) + s);
+
+			localStorage.setItem(fieldScore, $('#' + fieldScore).text());
+
+			collectionRooms.doc(uuid).set({ [fieldScore]: $('#' + fieldScore).text(),
+											'lastUpdateTime': getDateyyyymmddHHmmss()
+										}, { merge: true });
+
+			if (parseInt($('#' + fieldScore).text()) >= 0) $('#' + fieldScore).css('color','#3399FF');
+			else $('#' + fieldScore).css('color','red');
+		}
+*/
+		function process (curRow, column) {
+			var curScore = $('#table-scores #' + curRow + ' #' + column + '-score').val() == '' ? 0 : parseInt($('#table-scores #' + curRow + ' #' + column + '-score').val());
+			$('#table-scores #' + curRow + ' #' + column + '-score-original').val(curScore);
+
+			if (curRow > 1) {
+				//Revenge 
+				if (curScore > 0) {
+					//Search unsettled transactions in opposite column
+					var oppositeColumn = column.charAt(1) + column.charAt(0);
+
+					for (var oppositeRows = curRow - 1; oppositeRows >= rowNumberFrom; oppositeRows--) {
+						//If confirmed, exit
+						if ($('#table-scores #' + oppositeRows + ' #' + oppositeColumn + '-confirm').val() == 'Y') break;
+
+						var prevOppositeScore = $('#table-scores #' + oppositeRows + ' #' + oppositeColumn + '-score').val() == '' ? 0 : parseInt($('#table-scores #' + oppositeRows + ' #' + oppositeColumn + '-score').val());
+
+						if (prevOppositeScore > 0) {
+							prevOppositeScore = Math.floor(prevOppositeScore / 2);
+
+							$('#table-scores #' + oppositeRows + ' #' + oppositeColumn + '-score').val(prevOppositeScore);
+							$('#table-scores #' + oppositeRows + ' #' + oppositeColumn + '-score').css('color','red');
+							$('#table-scores #' + oppositeRows + ' #' + oppositeColumn + '-rev').val('Y');
+
+							localStorage.setItem(oppositeRows + '#' + oppositeColumn + '-score', $('#table-scores #' + oppositeRows + ' #' + oppositeColumn + '-score').val());
+							localStorage.setItem(oppositeRows + '#' + oppositeColumn + '-rev', $('#table-scores #' + oppositeRows + ' #' + oppositeColumn + '-rev').val());
+
+							$('#table-scores #' + oppositeRows + ' #' + column + '-score').val(prevOppositeScore * -1);
+							$('#table-scores #' + oppositeRows + ' #' + column + '-score').css('color','red');
+							$('#table-scores #' + oppositeRows + ' #' + column + '-rev').val('Y');
+
+							localStorage.setItem(oppositeRows + '#' + column + '-score', $('#table-scores #' + oppositeRows + ' #' + column + '-score').val());
+							localStorage.setItem(oppositeRows + '#' + column + '-rev', $('#table-scores #' + oppositeRows + ' #' + column + '-rev').val());
+
+							markConfirm (oppositeRows, oppositeColumn, prevOppositeScore);
+
+							break;
+						}
+					}
+				}
+
+				var prevWinner = column.charAt(0);
+				var curWinnerList = $('#table-scores #' + curRow + ' #winner-list').val();
+
+				for (var rows = curRow - 1; rows >= rowNumberFrom; rows--) {
+					//If confirmed, exit
+					if ($('#table-scores #' + rows + ' #' + column + '-confirm').val() == 'Y') break;
+
+					var prevScore = $('#table-scores #' + rows + ' #' + column + '-score').val() == '' ? 0 : parseInt($('#table-scores #' + rows + ' #' + column + '-score').val());
+
+					if (curScore == 0 && prevScore > 0) {
+						// if winner is the same, keep the score 
+						if (anythingInCommon(curWinnerList, prevWinner)) {
+						}
+						//Mark confirmed
+						else {
+							markConfirm (rows, column, prevScore);
+						}
+
+						break;
+					};
+
+					//Topup
+					if (curScore > 0 && prevScore > 0) {
+						var oppositeColumn = column.charAt(1) + column.charAt(0);
+
+						prevScore += Math.ceil(prevScore / 2);
+						curScore += prevScore;
+
+						//Set previous score to zero 
+						$('#table-scores #' + rows + ' #' + column + '-score').val(0);
+						$('#table-scores #' + rows + ' #' + column + '-score').css('color','blue');
+
+						localStorage.setItem(rows + '#' + column + '-score', $('#table-scores #' + rows + ' #' + column + '-score').val());
+
+						markConfirm (rows, column, 0);
+
+						$('#table-scores #' + rows + ' #' + oppositeColumn + '-score').val(0);
+						$('#table-scores #' + rows + ' #' + oppositeColumn + '-score').css('color','blue');
+
+						localStorage.setItem(rows + '#' + oppositeColumn + '-score', $('#table-scores #' + rows + ' #' + oppositeColumn + '-score').val());
+
+						markConfirm (rows, oppositeColumn, 0);
+
+						$('#table-scores #' + curRow + ' #' + column + '-score').val(curScore);
+						$('#table-scores #' + curRow + ' #' + column + '-score').css('color','blue');
+
+						localStorage.setItem(curRow + '#' + column + '-score', $('#table-scores #' + curRow + ' #' + column + '-score').val());
+
+						$('#table-scores #' + curRow + ' #' + oppositeColumn + '-score').val(curScore * -1);
+						$('#table-scores #' + curRow + ' #' + oppositeColumn + '-score').css('color','blue');
+
+						localStorage.setItem(curRow + '#' + oppositeColumn + '-score', $('#table-scores #' + curRow + ' #' + oppositeColumn + '-score').val());
+
+						var win = parseInt($('#table-scores #' + rows + ' #' + column + '-win').val()) + 1;
+						$('#table-scores #' + curRow + ' #' + column + '-win').val(win);
+
+						localStorage.setItem(curRow + '#' + column + '-win', $('#table-scores #' + curRow + ' #' + column + '-win').val());
+
+						$('#table-scores #' + curRow + ' #' + oppositeColumn + '-win').val(win);
+
+						localStorage.setItem(curRow + '#' + oppositeColumn + '-win', $('#table-scores #' + curRow + ' #' + oppositeColumn + '-win').val());
+
+						//Surrender in multiple of 3
+						if (win % 3 == 0) {
+							//More than one modal may prompt, use jquery-confirm instead of bootstrap modal
+							$.confirm({
+								title: '',
+								theme: 'bootstrap',
+								content: ($('#' + column.charAt(1) + '-player-input').val()) + ' 投降給 ' + ($('#' + column.charAt(0) + '-player-input').val()) + ' (' + ($('#' + column.charAt(1) + '-player-input').val()) + ' 付 ' + Math.abs(curScore) + ' 給 ' + ($('#' + column.charAt(0) + '-player-input').val()) + ') ?',
+								columnClass: 'display-5 col-12',
+								animation: 'top',
+								closeAnimation: 'top',
+								animateFromElement: false,
+								buttons: {
+									yes: {
+										text: '是',
+										btnClass: 'btn-blue',
+										action: function () {
+											markConfirm (curRow, column, curScore);
+											markConfirm (curRow, oppositeColumn, curScore * -1);
+
+											markWinnerLoser();
+
+											sendServer(true, true);
+										}
+									},
+									no: {
+										text: '否',
+										btnClass: 'btn-red',
+									}
+								}
+							});
+						};
+
+						break;
+					};
+				};
+			};
+		}
+
+		function sendServer (isUpdateHeader, isUpdateDetail) {
+			collectionRooms.doc(uuid).get().then(function(doc) {
+				if (doc.exists) {
+					if (isUpdateHeader) updateHeader();
+					if (isUpdateDetail) updateDetail();
+				}
+			});
+		}
+
+		function updateHeader () {
+			collectionRooms.doc(uuid).set({'e-scores': $('#e-scores').text(),
+											's-scores': $('#s-scores').text(),
+											'w-scores': $('#w-scores').text(),
+											'n-scores': $('#n-scores').text(),
+											'e-consecutive-win': $('#e-consecutive-win').val(),
+											's-consecutive-win': $('#s-consecutive-win').val(),
+											'w-consecutive-win': $('#w-consecutive-win').val(),
+											'n-consecutive-win': $('#n-consecutive-win').val(),
+											'currentWind': localStorage.getItem('currentWind'),
+											'currentPosition': localStorage.getItem('currentPosition'),
+											'rowNumberFrom': rowNumberFrom,
+											'rowNumberTo': rowNumberTo,
+											//'confirmTransaction': $('#table-confirm-transaction-main').html(),											
+											'lastUpdateTime': getDateyyyymmddHHmmss()
+											}, { merge: true });
+		}
+
+		function updateDetail () {
+			//delete all rows
+			collectionRecords.where("uuid", "==", uuid).get().then(function(querySnapshot) {
+				querySnapshot.forEach(function(doc) {
+					// doc.data() is never undefined for query doc snapshots
+					console.log(doc.id);
+					collectionRecords.doc(doc.id).delete().then(function() {
+						console.log('records successfully deleted!');
+					}).catch(function(error) {
+						console.error('Error removing records: ', error);
+					});	
+				});
+				addDetail();	//add rows after 
+			})
+			.catch(function(error) {
+				console.log("Error getting records: ", error);
+			});
+		}
+
+		function addDetail () {
+			for (var i = rowNumberFrom; i <= rowNumberTo; i++)
+			{
+				var recordUuid = getUUID();
+
+				collectionRecords.doc(recordUuid).set({"recordUuid": recordUuid,
+														"uuid": uuid,
+														"row": i,
+														"mode": $('#table-scores #' + i + ' #mode').val(),
+														"winner-list": $('#table-scores #' + i + ' #winner-list').val(),
+														"loser-list": $('#table-scores #' + i + ' #loser-list').val(),
+														'lastUpdateTime': getDateyyyymmddHHmmss()
+														}, { merge: true });
+
+				for (var j = 0; j < allPairs.length; j++) { 
+					var fieldRecordScore = allPairs[j] + '-score';
+					var fieldRecordScoreOriginal = allPairs[j] + '-score-original';
+					var fieldRecordConfirm = allPairs[j] + '-confirm';
+					var fieldRecordWin = allPairs[j] + '-win';
+					var fieldRecordRev = allPairs[j] + '-rev';
+
+					collectionRecords.doc(recordUuid).set({[fieldRecordScore]: $('#table-scores #' + i + ' #' + allPairs[j] + '-score').val(),
+															[fieldRecordScoreOriginal]: $('#table-scores #' + i + ' #' + allPairs[j] + '-score-original').val(),
+															[fieldRecordConfirm]: $('#table-scores #' + i + ' #' + allPairs[j] + '-confirm').val(),
+															[fieldRecordWin]: $('#table-scores #' + i + ' #' + allPairs[j] + '-win').val(),
+															[fieldRecordRev]: $('#table-scores #' + i + ' #' + allPairs[j] + '-rev').val(),
+															'lastUpdateTime': getDateyyyymmddHHmmss()
+															}, { merge: true });
+				}
+			}
+		}
+
+		function sendServerTransaction (pay, receive, point, detail) {
+			var transactionUuid = getUUID();
+
+			collectionTransactions.doc(transactionUuid).set({
+				uuid: uuid,
+				transactionUuid: transactionUuid,
+				pay: pay,
+				receive: receive,
+				players: [pay, receive],
+				point: point,
+				detail: detail,
+				marked: false,
+				timestamp: getDateyyyymmddHHmmss()
+			})						
+		}		
+  </script>
+</body>
+</html>
