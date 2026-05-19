@@ -1635,8 +1635,10 @@
 		}
 
 		function onClickDelete() {
-			if (rowNumberTo == 0 || $('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'Y') {
-				$('#warning-message').text('最新局數已確認 / 沒有局數, 不能刪除');
+			//if (rowNumberTo == 0 || $('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'Y') {
+			if (rowNumberTo == 0) {
+				//('#warning-message').text('最新局數已確認 / 沒有局數, 不能刪除');
+				('#warning-message').text('沒有局數, 不能刪除');
 				$('#alertModal').modal('show');
 				setTimeout(function () {
 					$('#alertModal').modal('hide');
@@ -1647,6 +1649,9 @@
 			$('#table-scores tr:last').remove();
 
 			rowNumberTo--;
+			if (rowNumberFrom < rowNumberTo) rowNumberFrom = rowNumberTo;
+
+			sendServer(true, true);
 		}
 
 		function onClickFinish() {
@@ -1852,8 +1857,20 @@
 		}
 
 		function onClickStatistics() {
+			calculateStatistics();
+
 			$('#statisticsModal').modal('show');
 		}
+
+		function calculateStatistics() {
+
+		}
+
+		$('#statisticsModal .modal-footer button').on('click', function(event) {
+			$(this).closest('.modal').on('hidden.bs.modal', function() {
+				$(this).off('hidden.bs.modal');	//avoid accumulated call
+			});
+		})
 
 		function onClickConfirm() {
 			if ($('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'Y') return;
