@@ -68,17 +68,17 @@
 					</td>
 					<td class="align-center">
 						<span class="input-group-btn">
-							<button id="button-adjust" onclick="onClickAdjust(); return false;" type="submit" class="btn-sm btn-primary" disabled>調整</button>
+							<button id="button-share" onclick="onClickShare(); return false;" type="submit" class="btn-sm btn-primary" disabled>分享</button>
+						</span>
+					</td>
+					<td class="align-center">
+						<span class="input-group-btn">
+							<button id="button-statistics" onclick="onClickStatistics(); return false;" type="submit" class="btn-sm btn-primary" disabled>數據</button>
 						</span>
 					</td>
 					<td class="align-center">
 						<span class="input-group-btn">
 							<button id="button-reset" onclick="onClickReset(); return false;" type="submit" class="btn-sm btn-primary" disabled>重設</button>
-						</span>
-					</td>
-					<td class="align-center">
-						<span class="input-group-btn">
-							<button id="button-share" onclick="onClickShare(); return false;" type="submit" class="btn-sm btn-primary" disabled>分享</button>
 						</span>
 					</td>
 					<!--<td class="align-center">
@@ -156,9 +156,14 @@
 							<button id="button-add" onclick="onClickAdd(); return false;" type="submit" class="btn-sm btn-primary" disabled>加局</button>
 						</span>
 					</td>
-					<td class="align-center">
+					<!--<td class="align-center">
 						<span class="input-group-btn">
 							<button id="button-confirm" onclick="onClickConfirm(); return false;" type="submit" class="btn-sm btn-primary" disabled>確定</button>
+						</span>
+					</td>-->
+					<td class="align-center">
+						<span class="input-group-btn">
+							<button id="button-adjust" onclick="onClickAdjust(); return false;" type="submit" class="btn-sm btn-primary" disabled>調整</button>
 						</span>
 					</td>
 					<td class="align-center">
@@ -1786,6 +1791,9 @@
 
 			url = url + encodeURIComponent(content);
 			window.open(url);
+		}
+
+		function onClickStatistics() {
 		}
 
 		function onClickConfirm() {
