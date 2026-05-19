@@ -68,12 +68,12 @@
 					</td>
 					<td class="align-center">
 						<span class="input-group-btn">
-							<button id="button-share" onclick="onClickShare(); return false;" type="submit" class="btn-sm btn-primary" disabled>分享</button>
+							<button id="button-statistics" onclick="onClickStatistics(); return false;" type="submit" class="btn-sm btn-primary" disabled>數據</button>
 						</span>
 					</td>
 					<td class="align-center">
 						<span class="input-group-btn">
-							<button id="button-statistics" onclick="onClickStatistics(); return false;" type="submit" class="btn-sm btn-primary" disabled>數據</button>
+							<button id="button-share" onclick="onClickShare(); return false;" type="submit" class="btn-sm btn-primary" disabled>分享</button>
 						</span>
 					</td>
 					<td class="align-center">
@@ -508,6 +508,64 @@
 					<div class="modal-footer">
 						<button type="button" id="nameConfirm" class="btn-sm btn-primary display-7" data-dismiss="modal">確定</button>
 						<button type="button" id="nameCancel" class="btn-sm btn-secondary display-7" data-dismiss="modal">取消</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- For statistics -->
+		<div class="modal fade" id="statisticsModal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<table class="table table-bordered table-secondary col-12 align-center" id="table-e-statistics" cellspacing="0" cellpadding="0" style="border-collapse: collapse;table-layout: fixed;">
+						<thead id="table-scores-thead" style="background-color:#3399FF;color:white;">
+							<tr class="display-5">
+								<th id="e-position-statistics" style="padding:5px;width:20%;"></th>
+								<th id="s-position-statistics" style="padding:5px;width:20%;"></th>
+								<th id="w-position-statistics" style="padding:5px;width:20%;"></th>
+								<th id="n-position-statistics" style="padding:5px;width:20%;"></th>
+								<th style="padding:5px;width:20%;"></th>
+							</tr>
+							<tr class="display-5">
+								<th style="padding:5px;background-color:white;color:#3399FF;width:20%;">食糊</th>
+								<th id="es-points-positive" style="padding:5px;background-color:white;color:#3399FF;width:20%;"></th>
+								<th id="ew-points-positive" style="padding:5px;background-color:white;color:#3399FF;width:20%;"></th>
+								<th id="en-points-positive" style="padding:5px;background-color:white;color:#3399FF;width:20%;"></th>
+								<th id="e-points-positive-total" style="padding:5px;background-color:white;color:#3399FF;width:20%;"></th>
+							</tr>
+							<tr class="display-5">
+								<th style="padding:5px;background-color:white;color:red;width:20%;">賠錢</th>
+								<th id="es-points-negative" style="padding:5px;background-color:white;color:red;width:20%;"></th>
+								<th id="ew-points-negative" style="padding:5px;background-color:white;color:red;width:20%;"></th>
+								<th id="en-points-negative" style="padding:5px;background-color:white;color:red;width:20%;"></th>
+								<th id="e-points-negative-total" style="padding:5px;background-color:white;color:red;width:20%;"></th>
+							</tr>
+							<tr class="display-5">
+								<th style="padding:5px;background-color:white;color:#3399FF;width:20%;">賞</th>
+								<th id="es-reward" style="padding:5px;background-color:white;color:#3399FF;width:20%;"></th>
+								<th id="ew-reward" style="padding:5px;background-color:white;color:#3399FF;width:20%;"></th>
+								<th id="en-reward" style="padding:5px;background-color:white;color:#3399FF;width:20%;"></th>
+								<th id="e-reward-total" style="padding:5px;background-color:white;color:#3399FF;width:20%;"></th>
+							</tr>
+							<tr class="display-5">
+								<th style="padding:5px;background-color:white;color:red;width:20%;">罰</th>
+								<th id="es-punish" style="padding:5px;background-color:white;color:red;width:20%;"></th>
+								<th id="ew-punish" style="padding:5px;background-color:white;color:red;width:20%;"></th>
+								<th id="en-punish" style="padding:5px;background-color:white;color:red;width:20%;"></th>
+								<th id="e-punish-total" style="padding:5px;background-color:white;color:red;width:20%;"></th>
+							</tr>
+							<tr class="display-5">
+								<th style="padding:5px;background-color:white;color:black;width:20%;">調整</th>
+								<th id="es-adjust" style="padding:5px;background-color:white;color:black;width:20%;"></th>
+								<th id="ew-adjust" style="padding:5px;background-color:white;color:black;width:20%;"></th>
+								<th id="en-adjust" style="padding:5px;background-color:white;color:black;width:20%;"></th>
+								<th id="e-adjust-total" style="padding:5px;background-color:white;color:black;width:20%;"></th>
+							</tr>
+						</thead>
+						<tbody id="table-scores-tbody"></tbody>
+					</table>
+					<div class="modal-footer">
+						<button type="button" id="statisticsConfirm" class="btn-sm btn-primary display-7" data-dismiss="modal">確定</button>
 					</div>
 				</div>
 			</div>
@@ -1794,6 +1852,7 @@
 		}
 
 		function onClickStatistics() {
+			$('#statisticsModal').modal('show');
 		}
 
 		function onClickConfirm() {
