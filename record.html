@@ -68,7 +68,7 @@
 					</td>
 					<td class="align-center">
 						<span class="input-group-btn">
-							<button id="button-statistics" onclick="onClickStatistics(); return false;" type="submit" class="btn-sm btn-primary" disabled>數據</button>
+							<button id="button-statistics" onclick="onClickStatistics(); return false;" type="submit" class="btn-sm btn-primary" disabled>統計</button>
 						</span>
 					</td>
 					<td class="align-center">
@@ -535,11 +535,11 @@
 					<table class="table table-bordered table-secondary col-12 align-center" id="table-e-statistics" cellspacing="0" cellpadding="0" style="border-collapse: collapse;table-layout: fixed;">
 						<thead id="table-scores-thead" style="background-color:#3399FF;color:white;">
 							<tr class="display-5">
-								<th style="padding:5px;width:20%;"><text id="e-player-name"></text></th>
-								<th style="padding:5px;width:20%;"><text id="e-player-name"></text></th>
-								<th style="padding:5px;width:20%;"><text id="e-player-name"></text></th>
-								<th style="padding:5px;width:20%;"><text id="e-player-name"></text></th>
-								<th style="padding:5px;width:20%;"></th>
+								<th position="e-position" style="padding:5px;width:20%;"></th>
+								<th position="s-position" style="padding:5px;width:20%;"></th>
+								<th position="w-position" style="padding:5px;width:20%;"></th>
+								<th position="n-position" style="padding:5px;width:20%;"></th>
+								<th style="padding:5px;width:20%;">合計</th>
 							</tr>
 							<tr class="display-5">
 								<th style="padding:5px;background-color:white;color:#3399FF;width:20%;">食糊</th>
@@ -870,11 +870,13 @@
 
 			for (var i = 0; i < allPlayers.length; i ++) {
 				$('#' + allPlayers[i] + '-position').text($('#' + allPlayers[i] + '-player-input').val());
-				
+
 				var list = getExcludePlayerList(allPlayers, allPlayers[i]);
 				for (var j = 0; j < list.length; j ++) {
 					$('#' + list[j] + allPlayers[i] + '-pairs').text($('#' + allPlayers[i] + '-player-input').val());
 				}
+
+				$('[position="' + allPlayers[i] + '-position"]').text($('#' + allPlayers[i] + '-player-input').val());		//statistics 
 			}
 
 			//add here to redraw table 
