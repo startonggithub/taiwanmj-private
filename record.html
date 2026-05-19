@@ -308,7 +308,7 @@
 		  <div class="modal-dialog" role="document">
 			<div class="modal-content">
 			  <div class="modal-body display-5">
-				 <text id="deleteMessage"></text>
+				 <text id="delete-message"></text>
 			  </div>
 			  <div class="modal-footer">
 				<button type="button" id="deleteConfirmYes" class="btn-sm btn-primary display-7" data-dismiss="modal">是</button>
@@ -535,10 +535,10 @@
 					<table class="table table-bordered table-secondary col-12 align-center" id="table-e-statistics" cellspacing="0" cellpadding="0" style="border-collapse: collapse;table-layout: fixed;">
 						<thead id="table-scores-thead" style="background-color:#3399FF;color:white;">
 							<tr class="display-5">
-								<th id="e-position-statistics" style="padding:5px;width:20%;"></th>
-								<th id="s-position-statistics" style="padding:5px;width:20%;"></th>
-								<th id="w-position-statistics" style="padding:5px;width:20%;"></th>
-								<th id="n-position-statistics" style="padding:5px;width:20%;"></th>
+								<th style="padding:5px;width:20%;"><text id="e-player-name"></text></th>
+								<th style="padding:5px;width:20%;"><text id="e-player-name"></text></th>
+								<th style="padding:5px;width:20%;"><text id="e-player-name"></text></th>
+								<th style="padding:5px;width:20%;"><text id="e-player-name"></text></th>
 								<th style="padding:5px;width:20%;"></th>
 							</tr>
 							<tr class="display-5">
@@ -1650,8 +1650,8 @@
 		}
 
 		function onClickDelete() {
-			var wind = $('#table-scores tr:last winner-list').val();
-			$('deleteMessage').val('是否刪除 ' + $('#' + wind + '-position').val() + ' 勝出的記錄 ?');
+			var wind = $('#table-scores tr:last #winner-list').val();
+			$('#delete-message').text('是否刪除 ' + $('#' + wind + '-player-input').val() + ' 勝出的記錄 ?');
 
 			$('#deleteConfirmModal').modal('show');
 		}
