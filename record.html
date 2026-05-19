@@ -303,6 +303,21 @@
 		  </div>
 		</div>
 
+		<!-- For confirmation to delete row -->
+		<div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+			<div class="modal-content">
+			  <div class="modal-body display-5">
+				 <text id="deleteMessage"></text>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" id="deleteConfirmYes" class="btn-sm btn-primary display-7" data-dismiss="modal">是</button>
+				<button type="button" id="deleteConfirmNo" class="btn-sm btn-secondary display-7" data-dismiss="modal">否</button>
+			  </div>
+			</div>
+		  </div>
+		</div>
+
 		<!-- For alert to confirm the latest game first -->
 		<div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-hidden="true">
 		  <div class="modal-dialog" role="document">
@@ -1635,24 +1650,39 @@
 		}
 
 		function onClickDelete() {
-			//if (rowNumberTo == 0 || $('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'Y') {
-			if (rowNumberTo == 0) {
-				//('#warning-message').text('最新局數已確認 / 沒有局數, 不能刪除');
-				('#warning-message').text('沒有局數, 不能刪除');
-				$('#alertModal').modal('show');
-				setTimeout(function () {
-					$('#alertModal').modal('hide');
-				}, 2000);
-				return;
-			}
+			var wind = $('#table-scores tr:last winner-list').val();
+			$('deleteMessage').val('是否刪除 ' + $('#' + wind + '-position').val() + ' 勝出的記錄 ?');
 
-			$('#table-scores tr:last').remove();
-
-			rowNumberTo--;
-			if (rowNumberFrom < rowNumberTo) rowNumberFrom = rowNumberTo;
-
-			sendServer(true, true);
+			$('#deleteConfirmModal').modal('show');
 		}
+
+		$('#deleteConfirmModal .modal-footer button').on('click', function(event) {
+			var button = $(event.target);
+
+			$(this).closest('.modal').on('hidden.bs.modal', function() {
+				if (button[0].id == 'deleteConfirmYes') {			
+					//if (rowNumberTo == 0 || $('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'Y') {
+					if (rowNumberTo == 0) {
+						//('#warning-message').text('最新局數已確認 / 沒有局數, 不能刪除');
+						('#warning-message').text('沒有局數, 不能刪除');
+						$('#alertModal').modal('show');
+						setTimeout(function () {
+							$('#alertModal').modal('hide');
+						}, 2000);
+						return;
+					}
+
+					$('#table-scores tr:last').remove();
+
+					rowNumberTo--;
+					if (rowNumberFrom < rowNumberTo) rowNumberFrom = rowNumberTo;
+
+					sendServer(true, true);
+				}
+
+				$(this).off('hidden.bs.modal');	//avoid accumulated call
+			});
+		})
 
 		function onClickFinish() {
 			//if (rowNumberTo > 0 && $('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'N') {
