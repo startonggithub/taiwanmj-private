@@ -1605,7 +1605,7 @@
 
 		function onClickDelete() {
 			var wind = $('#table-scores tr:last #winner-list').val();
-			$('#delete-message').text('是否刪除 ' + $('#' + wind + '-player-input').val() + ' 勝出的記錄 ?');
+			$('#delete-message').text('是否刪除' + (' ' + wind != '' ? $('#' + wind + '-player-input').val() + ' 勝出' : '最後一行') + '的記錄 ?');
 
 			$('#deleteConfirmModal').modal('show');
 		}
