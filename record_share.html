@@ -38,15 +38,25 @@
 				</tr>
 			</table>
 		</div>
-
-		<div class="row" style="margin-top:5px;margin-bottom:10px;">
+		
+		<div id="top-menu" class="row" style="margin-top:5px;margin-bottom:10px;">
 			<table class="col-12">
 				<tr>
-					<td class="align-center" style="width:50%;">
+					<td class="align-center" style="width:30%;">
 						<text class="xlarge">玩家&nbsp;</text><select class="xlarge" style="width:50%;" id="player"></select>
 					</td>
-					<td class="align-center" style="width:50%">
+					<td class="align-center" style="width:30%">
 						<text class="xlarge" id="wind-position"></text>
+					</td>
+					<td class="align-center" style="width:20%">
+						<span class="input-group-btn">
+							<button id="button-statistics" onclick="onClickStatistics(); return false;" type="submit" class="btn-sm btn-primary" disabled>統計</button>
+						</span>
+					</td>
+					<td class="align-center" style="width:20%">
+						<span class="input-group-btn">
+							<button id="button-share" onclick="onClickShare(); return false;" type="submit" class="btn-sm btn-primary" disabled>分享</button>
+						</span>
 					</td>
 				</tr>
 			</table>
@@ -110,7 +120,19 @@
 			  </div>
 			</div>
 		</div>
-  	</div>
+
+		<!-- For statistics -->
+		<div class="modal fade" id="statisticsModal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-body" id="statisticsModalBody"></div>
+					<div class="modal-footer">
+						<button type="button" id="statisticsConfirm" class="btn-sm btn-primary display-7" data-dismiss="modal">確定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<script src="assets/web/assets/jquery/jquery.min.js"></script>
 	<script src="assets/web/assets/jquery/jquery-confirm.js"></script>
@@ -200,6 +222,10 @@
 					reset();
 					if (doc.exists) {
 						updateBasic(doc);
+
+						$('#top-menu').find('button').each(function () {
+							$(this).attr('disabled', false);
+						})
 					}
 					else {
 						localStorage.removeItem('shareGameDataId');
@@ -242,7 +268,7 @@
 			if (selectedPlayer != '')
 			{
 				snapShotTransaction = collectionTransactions
-					.where('uuid', '==', uuid).where('players', 'array-contains', $('#' + selectedPlayer + '-player-input').val()).orderBy('timestamp')
+					.where('uuid', '==', uuid).where('players', 'array-contains', selectedPlayer).orderBy('timestamp')
 					.onSnapshot(function(querySnapshot) {
 						$('#table-confirm-transaction-main > tbody:last-child').empty();
 						querySnapshot.forEach(function(doc) {
@@ -250,7 +276,7 @@
 							if ($('#' + transactionUuid).length == 0)
 								$('#table-confirm-transaction-main > tbody:last-child').prepend('<tr><td class="align-center" style="font-size: large; vertical-align: middle; color: DarkGray;">' + 
 									formatDateddMMHHmm(doc.data().timestamp) + '</td><td><text id="' + transactionUuid + '" class="align-left ' + (doc.data().marked ? 'strike' : '') + 
-									'" onclick="onTransactionClick(this,' + doc.data().marked + ');" style="color:' + (doc.data().pay == $('#' + selectedPlayer + '-player-input').val() ? 'red' : 'blue') + ';">' + doc.data().detail + '</text></td></tr>');
+									'" onclick="onTransactionClick(this,' + doc.data().marked + ');" style="color:' + (doc.data().pay == selectedPlayer ? 'red' : 'blue') + ';">' + doc.data().detail + '</text></td></tr>');
 						})
 						$('#table-confirm-transaction-main').show();
 					});
@@ -285,7 +311,7 @@
 			for (var i = 0; i < allPlayers.length; i ++) {
 				$('#' + allPlayers[i] + '-scores').text('0');
 				$('#' + allPlayers[i] + '-scores').css('color','#3399FF');
-				$('#' + allPlayers[i] + '-player-input').val('');
+				//$('#' + allPlayers[i] + '-player-input').val('');
 
 				$('#' + allPlayers[i] + '-consecutive-win').val(0);
 				$('#' + allPlayers[i] + '-consecutive-win-label').text('');
@@ -424,22 +450,22 @@
 			$('#player').append($('<option>', {value: (''), text: ('全部')}));
 
 			$('#player').append($('<option>', {
-                value: ('e'),
+                value: (basic.e_player_input),
                 text: (basic.e_player_input == null ? '東' : basic.e_player_input)
             }));
 
 			$('#player').append($('<option>', {
-                value: ('s'),
+                value: (basic.s_player_input),
                 text: (basic.s_player_input == null ? '南' : basic.s_player_input)
             }));
 
 			$('#player').append($('<option>', {
-                value: ('w'),
+                value: (basic.w_player_input),
                 text: (basic.w_player_input == null ? '西' : basic.w_player_input)
             }));
 
 			$('#player').append($('<option>', {
-                value: ('n'),
+                value: (basic.n_player_input),
                 text: (basic.n_player_input == null ? '北' : basic.n_player_input)
             }));
 
@@ -582,6 +608,218 @@
 				}
 			}
 		}
+
+		function onClickShare() {
+			//Alternative method "https://wa.me/?text=" which is using in iPhone but user experience is not good as whatsapp protocol
+			var url = "whatsapp://send?text=";
+			var content = '';
+
+			content = '港式台牌 - 局數記錄\r\n' +
+						'局數分享\r\n' +
+						'http://taiwanmj.htongbiz.net/record_share.html?shareGameDataId=' + $('#code').val() + '\r\n\r\n' +
+						'總結\r\n' +
+						$('#e-position').text() + ' ' + $('#e-scores').text() + '\r\n' + 
+						$('#s-position').text() + ' ' + $('#s-scores').text() + '\r\n' + 
+						$('#w-position').text() + ' ' + $('#w-scores').text() + '\r\n' + 
+						$('#n-position').text() + ' ' + $('#n-scores').text();
+
+			url = url + encodeURIComponent(content);
+			window.open(url);
+		}
+
+		async function onClickStatistics() {
+			$('#statisticsModalBody').empty();
+
+			//construct tables
+			const prefixes = ['e', 's', 'w', 'n'];
+			for (const p of prefixes) {
+				// wait if function is async
+				const html = await generatePlayerStatisticsTable(p);
+				$('#statisticsModalBody').append(html);
+			}
+
+			//calculate values
+			await calculateStatistics();
+
+			$('#statisticsModal').modal('show');
+		}
+
+		async function calculateStatistics() {
+			//set name
+			for (var i = 0; i < allPlayers.length; i ++) {
+				var player = $('#' + allPlayers[i] + '-position').text();
+				$('[position="' + allPlayers[i] + '-position"]').text(player);
+			}
+
+			//sum all details 
+			getSumPoints();
+			console.log(gameResultDetails);
+		}
+
+		async function getSumPoints() {
+			var uuid = $('#code').val();
+			//reset all to zero 
+			gameResultDetails.fill(0);
+
+			const snapshot = await collectionTransactions.where('uuid', '==', uuid).get();
+			snapshot.forEach(doc => {
+				var data = doc.data();
+
+				for (var i = 0; i < halfPairs.length; i ++) {
+					var player = $('#' + String(halfPairs[i]).charAt(0) + '-position').text();
+					var counterPlayer = $('#' + String(halfPairs[i]).charAt(1) + '-position').text();
+
+					sum(data, player, counterPlayer, "食糊", i);
+					sum(data, player, counterPlayer, "賞罰", i);
+					sum(data, player, counterPlayer, "調整", i);
+				}
+			});
+
+			for (var i = 0; i < halfPairs.length; i ++) {
+				//point
+				$('#' + String(halfPairs[i]).charAt(0) + String(halfPairs[i]).charAt(1) + '-point').text(gameResultDetails[i * elementsPerRow] - gameResultDetails[i * elementsPerRow + 1]);
+				$('#' + String(halfPairs[i]).charAt(1) + String(halfPairs[i]).charAt(0) + '-point').text(gameResultDetails[i * elementsPerRow + 1] - gameResultDetails[i * elementsPerRow]);
+				//punish
+				$('#' + String(halfPairs[i]).charAt(0) + String(halfPairs[i]).charAt(1) + '-punish').text(gameResultDetails[i * elementsPerRow + 2]);
+				$('#' + String(halfPairs[i]).charAt(1) + String(halfPairs[i]).charAt(0) + '-reward').text(gameResultDetails[i * elementsPerRow + 2] * -1);
+				//reward
+				$('#' + String(halfPairs[i]).charAt(0) + String(halfPairs[i]).charAt(1) + '-reward').text(gameResultDetails[i * elementsPerRow + 3]);
+				$('#' + String(halfPairs[i]).charAt(1) + String(halfPairs[i]).charAt(0) + '-punish').text(gameResultDetails[i * elementsPerRow + 3] * -1);
+				//adjust
+				$('#' + String(halfPairs[i]).charAt(0) + String(halfPairs[i]).charAt(1) + '-adjust').text(gameResultDetails[i * elementsPerRow + 4] - gameResultDetails[i * elementsPerRow + 5]);
+				$('#' + String(halfPairs[i]).charAt(1) + String(halfPairs[i]).charAt(0) + '-adjust').text(gameResultDetails[i * elementsPerRow + 5] - gameResultDetails[i * elementsPerRow + 4]);
+			}
+
+			const prefixes = ['e', 's', 'w', 'n'];
+			for (const p of prefixes) {
+				sumTotal(p, 'point');
+				sumTotal(p, 'reward');
+				sumTotal(p, 'punish');
+				sumTotal(p, 'adjust');
+			}
+		}
+
+		function sum(data, pay, receive, type, i) {
+			var j = 0;
+			if (type == "賞罰") j = 2;
+			else if (type == "調整") j = 4;
+
+			if (data.pay == pay && data.receive == receive && data.type == type) {
+				var pos = elementsPerRow * i + j;
+				gameResultDetails[pos] -= Number(data.point || 0);
+				console.log(pos + ' ' + data.point + ' ' + gameResultDetails[pos]);
+			}
+			else if (data.pay == receive && data.receive == pay && data.type == type) {
+				var pos = elementsPerRow * i + j + 1;
+				if (type == "賞罰")		//different handling as it shows breakdown 
+					gameResultDetails[pos] += Number(data.point || 0);
+				else 
+					gameResultDetails[pos] -= Number(data.point || 0);
+				console.log(pos + ' ' + data.point + ' ' + gameResultDetails[pos]);
+			}
+		}
+
+		function sumTotal(prefix, suffix) {
+			const columns = ['e', 's', 'w', 'n'].filter(x => x !== prefix);
+
+			let total = 0;
+			columns.forEach(col => {
+				total += Number($('#' + prefix + col + '-' + suffix).text() || 0);
+			});
+			$('#' + prefix + '-' + suffix + '-total').text(total);
+		}
+
+		function generatePlayerStatisticsTable(prefix) {
+
+			const columns = ['e', 's', 'w', 'n'].filter(x => x !== prefix);
+
+			const rows = [
+				{ label: '食糊', suffix: 'point', color: 'black' },
+				{ label: '賞', suffix: 'reward', color: '#3399FF' },
+				{ label: '罰', suffix: 'punish', color: 'red' },
+				{ label: '調整', suffix: 'adjust', color: 'black' }
+			];
+
+			let html = '';
+
+			// TABLE START + THEAD
+			html += `
+				<table class="table table-bordered table-secondary col-12 align-center"
+					id="table-${prefix}-statistics"
+					cellspacing="0"
+					cellpadding="0"
+					style="border-collapse: collapse;table-layout: fixed;">
+
+					<thead id="table-${prefix}-scores-thead"
+						style="background-color:#3399FF;color:white;">
+
+						<tr class="display-5">
+			`;
+
+			html += `
+					<th position="${prefix}-position"
+						style="padding:5px;width:20%;">
+					</th>
+				`;
+
+			// dynamic column headers
+			columns.forEach(col => {
+				html += `
+					<th position="${col}-position"
+						style="padding:5px;width:20%;">
+					</th>
+				`;
+			});
+
+			// total column
+			html += `
+					<th style="padding:5px;width:20%;">合計</th>
+				</tr>
+			</thead>
+
+			<tbody>
+			`;
+
+			// ROWS
+			rows.forEach(row => {
+
+				html += `
+					<tr class="display-5">
+						<th style="padding:5px;background-color:white;color:${row.color};width:20%;">
+							${row.label}
+						</th>
+				`;
+
+				columns.forEach(col => {
+					html += `
+						<th id="${prefix}${col}-${row.suffix}"
+							style="padding:5px;background-color:white;color:${row.color};width:20%;">
+						</th>
+					`;
+				});
+
+				html += `
+						<th id="${prefix}-${row.suffix}-total"
+							style="padding:5px;background-color:white;color:${row.color};width:20%;">
+						</th>
+					</tr>
+				`;
+			});
+
+			html += `
+					</tbody>
+				</table>
+				</br>
+			`;
+
+			return html;
+		}
+
+		$('#statisticsModal .modal-footer button').on('click', function(event) {
+			$(this).closest('.modal').on('hidden.bs.modal', function() {
+				$(this).off('hidden.bs.modal');	//avoid accumulated call
+			});
+		})
 </script>
 </body>
 </html>
