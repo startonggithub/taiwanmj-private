@@ -899,7 +899,7 @@
 				$('#player-select').append($('<option>', {value: (allPlayers[i]), text: ($('#' + allPlayers[i] + '-player-input').val())}));
 			}
 
-			$("#player-select").val(selected);
+			$('#player-select').val(selected);
 			startSnapShotTransaction(selected);
 		}
 
@@ -950,7 +950,7 @@
 			else $(element).addClass('strike');
 		}
 		
-		$("#player-select").change(function () {
+		$('#player-select').change(function () {
 			var selected = $('#player-select').children("option:selected").val();
 			if (selected == null) selected = '';
 			startSnapShotTransaction(selected);
@@ -1840,25 +1840,105 @@
 			window.open(url);
 		}
 
-		function onClickStatistics() {
+		async function onClickStatistics() {
 			$('#statisticsModalBody').empty();
-			const prefixes = ['e', 's', 'w', 'n'];
-			prefixes.forEach(p => {
-				$('#statisticsModalBody').append(generatePlayerStatisticsTable(p));
-			});
 
-			calculateStatistics();
+			//construct tables
+			const prefixes = ['e', 's', 'w', 'n'];
+			for (const p of prefixes) {
+				// wait if function is async
+				const html = await generatePlayerStatisticsTable(p);
+				$('#statisticsModalBody').append(html);
+			}
+
+			//calculate values
+			await calculateStatistics();
 
 			$('#statisticsModal').modal('show');
 		}
 
-		function calculateStatistics() {
+		async function calculateStatistics() {
 			//set name
 			for (var i = 0; i < allPlayers.length; i ++) {
-				$('[position="' + allPlayers[i] + '-position"]').text($('#' + allPlayers[i] + '-player-input').val());
+				var player = $('#' + allPlayers[i] + '-player-input').val();
+				$('[position="' + allPlayers[i] + '-position"]').text(player);
 			}
 
-			
+			//sum all details 
+			getSumPoints();
+			console.log(gameResultDetails);
+		}
+
+		async function getSumPoints() {
+			//reset all to zero 
+			gameResultDetails.fill(0);
+
+			const snapshot = await collectionTransactions.where('uuid', '==', uuid).get();
+			snapshot.forEach(doc => {
+				var data = doc.data();
+
+				for (var i = 0; i < halfPairs.length; i ++) {
+					var player = $('#' + String(halfPairs[i]).charAt(0) + '-player-input').val();
+					var counterPlayer = $('#' + String(halfPairs[i]).charAt(1) + '-player-input').val();
+
+					sum(data, player, counterPlayer, "食糊", i);
+					sum(data, player, counterPlayer, "賞罰", i);
+					sum(data, player, counterPlayer, "調整", i);
+				}
+			});
+
+			for (var i = 0; i < halfPairs.length; i ++) {
+				//point
+				$('#' + String(halfPairs[i]).charAt(0) + String(halfPairs[i]).charAt(1) + '-point').text(gameResultDetails[i * elementsPerRow] - gameResultDetails[i * elementsPerRow + 1]);
+				$('#' + String(halfPairs[i]).charAt(1) + String(halfPairs[i]).charAt(0) + '-point').text(gameResultDetails[i * elementsPerRow + 1] - gameResultDetails[i * elementsPerRow]);
+				//punish
+				$('#' + String(halfPairs[i]).charAt(0) + String(halfPairs[i]).charAt(1) + '-punish').text(gameResultDetails[i * elementsPerRow + 2]);
+				$('#' + String(halfPairs[i]).charAt(1) + String(halfPairs[i]).charAt(0) + '-reward').text(gameResultDetails[i * elementsPerRow + 2] * -1);
+				//reward
+				$('#' + String(halfPairs[i]).charAt(0) + String(halfPairs[i]).charAt(1) + '-reward').text(gameResultDetails[i * elementsPerRow + 3]);
+				$('#' + String(halfPairs[i]).charAt(1) + String(halfPairs[i]).charAt(0) + '-punish').text(gameResultDetails[i * elementsPerRow + 3] * -1);
+				//adjust
+				$('#' + String(halfPairs[i]).charAt(0) + String(halfPairs[i]).charAt(1) + '-adjust').text(gameResultDetails[i * elementsPerRow + 4] - gameResultDetails[i * elementsPerRow + 5]);
+				$('#' + String(halfPairs[i]).charAt(1) + String(halfPairs[i]).charAt(0) + '-adjust').text(gameResultDetails[i * elementsPerRow + 5] - gameResultDetails[i * elementsPerRow + 4]);
+			}
+
+			const prefixes = ['e', 's', 'w', 'n'];
+			for (const p of prefixes) {
+				sumTotal(p, 'point');
+				sumTotal(p, 'reward');
+				sumTotal(p, 'punish');
+				sumTotal(p, 'adjust');
+			}
+		}
+
+		function sum(data, pay, receive, type, i) {
+			var j = 0;
+			if (type == "賞罰") j = 2;
+			else if (type == "調整") j = 4;
+
+			if (data.pay == pay && data.receive == receive && data.type == type) {
+				var pos = elementsPerRow * i + j;
+				gameResultDetails[pos] -= Number(data.point || 0);
+				console.log(pos + ' ' + data.point + ' ' + gameResultDetails[pos]);
+			}
+			else if (data.pay == receive && data.receive == pay && data.type == type) {
+				var pos = elementsPerRow * i + j + 1;
+				if (type == "賞罰")		//different handling as it shows breakdown 
+					gameResultDetails[pos] += Number(data.point || 0);
+				else 
+					gameResultDetails[pos] -= Number(data.point || 0);
+				console.log(pos + ' ' + data.point + ' ' + gameResultDetails[pos]);
+			}
+		}
+
+		function sumTotal(prefix, suffix) {
+			const columns = ['e', 's', 'w', 'n'].filter(x => x !== prefix);
+
+			let total = 0;
+			columns.forEach(col => {
+				total += Number($('#' + prefix + col + '-' + suffix).text() || 0);
+			});
+			$('#' + prefix + '-' + suffix + '-total').text(total);
 		}
 
 		function generatePlayerStatisticsTable(prefix) {
@@ -1866,8 +1946,7 @@
 			const columns = ['e', 's', 'w', 'n'].filter(x => x !== prefix);
 
 			const rows = [
-				{ label: '食糊', suffix: 'points-positive', color: '#3399FF' },
-				{ label: '賠錢', suffix: 'points-negative', color: 'red' },
+				{ label: '食糊', suffix: 'point', color: 'black' },
 				{ label: '賞', suffix: 'reward', color: '#3399FF' },
 				{ label: '罰', suffix: 'punish', color: 'red' },
 				{ label: '調整', suffix: 'adjust', color: 'black' }
@@ -2321,6 +2400,7 @@
 			//var confirmTransaction = $('#' + c.charAt(1) + '-player-input').val() + ' 付 ' + Math.abs(s) + ' 給 ' + $('#' + c.charAt(0) + '-player-input').val();
 			var confirmTransaction = $('#wind-position').text() + ' ' + $('#' + c.charAt(1) + '-player-input').val() + ' >> ' + Math.abs(s) + ' >> ' + $('#' + c.charAt(0) + '-player-input').val();
 			var fontColor = '#000000';	//black 
+			var type = '食糊';
 			
 			if ($('#table-scores #' + r + ' #' + c + '-rev').val() == 'Y') {
 				confirmTransaction = confirmTransaction + ' (截半)';
@@ -2332,15 +2412,17 @@
 			}
 			else if ($('#table-scores #' + r + ' #mode').val() == 'rewardPunish') {
 				confirmTransaction = confirmTransaction + ' (賞罰)';
+				type = '賞罰';
 			}
 			else if ($('#table-scores #' + r + ' #mode').val() == 'adjust') {
 				confirmTransaction = confirmTransaction + ' (調整)';
+				type = '調整';
 			}
 
 			$('#table-confirm-transaction').append('<tr style="color:' + fontColor + '"><td>' + confirmTransaction + '</td></tr>');
 
 			//sendServerTransaction(c.charAt(1), c.charAt(0), Math.abs(s), confirmTransaction);
-			sendServerTransaction($('#' + c.charAt(1) + '-player-input').val(), $('#' + c.charAt(0) + '-player-input').val(), Math.abs(s), confirmTransaction);
+			sendServerTransaction($('#' + c.charAt(1) + '-player-input').val(), $('#' + c.charAt(0) + '-player-input').val(), Math.abs(s), type, confirmTransaction);
 
 			//Adjust scores
 			$('#' + c.charAt(0) + '-scores').text(parseInt($('#' + c.charAt(0) + '-scores').text()) + s);
@@ -2589,7 +2671,7 @@
 			}
 		}
 
-		function sendServerTransaction (pay, receive, point, detail) {
+		function sendServerTransaction (pay, receive, point, type, detail) {
 			var transactionUuid = getUUID();
 
 			var data = {
@@ -2600,6 +2682,7 @@
 				players: [pay, receive],
 				point: point,
 				detail: detail,
+				type: type,
 				marked: false,
 				timestamp: getDateyyyymmddHHmmss()
 			};
@@ -2607,11 +2690,6 @@
 			collectionTransactions.doc(transactionUuid).set(data)
 			.then(() => {
 				console.log("Row added:", data);
-
-				// print ALL rows after insert
-				return firebase.firestore()
-					.collection("transactions")
-					.get();
 			})
 			.catch((err) => {
 				console.error("Error:", err);
