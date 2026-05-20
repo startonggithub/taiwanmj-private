@@ -532,53 +532,7 @@
 		<div class="modal fade" id="statisticsModal" tabindex="-1" role="dialog" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
-					<table class="table table-bordered table-secondary col-12 align-center" id="table-e-statistics" cellspacing="0" cellpadding="0" style="border-collapse: collapse;table-layout: fixed;">
-						<thead id="table-scores-thead" style="background-color:#3399FF;color:white;">
-							<tr class="display-5">
-								<th position="e-position" style="padding:5px;width:20%;"></th>
-								<th position="s-position" style="padding:5px;width:20%;"></th>
-								<th position="w-position" style="padding:5px;width:20%;"></th>
-								<th position="n-position" style="padding:5px;width:20%;"></th>
-								<th style="padding:5px;width:20%;">合計</th>
-							</tr>
-							<tr class="display-5">
-								<th style="padding:5px;background-color:white;color:#3399FF;width:20%;">食糊</th>
-								<th id="es-points-positive" style="padding:5px;background-color:white;color:#3399FF;width:20%;"></th>
-								<th id="ew-points-positive" style="padding:5px;background-color:white;color:#3399FF;width:20%;"></th>
-								<th id="en-points-positive" style="padding:5px;background-color:white;color:#3399FF;width:20%;"></th>
-								<th id="e-points-positive-total" style="padding:5px;background-color:white;color:#3399FF;width:20%;"></th>
-							</tr>
-							<tr class="display-5">
-								<th style="padding:5px;background-color:white;color:red;width:20%;">賠錢</th>
-								<th id="es-points-negative" style="padding:5px;background-color:white;color:red;width:20%;"></th>
-								<th id="ew-points-negative" style="padding:5px;background-color:white;color:red;width:20%;"></th>
-								<th id="en-points-negative" style="padding:5px;background-color:white;color:red;width:20%;"></th>
-								<th id="e-points-negative-total" style="padding:5px;background-color:white;color:red;width:20%;"></th>
-							</tr>
-							<tr class="display-5">
-								<th style="padding:5px;background-color:white;color:#3399FF;width:20%;">賞</th>
-								<th id="es-reward" style="padding:5px;background-color:white;color:#3399FF;width:20%;"></th>
-								<th id="ew-reward" style="padding:5px;background-color:white;color:#3399FF;width:20%;"></th>
-								<th id="en-reward" style="padding:5px;background-color:white;color:#3399FF;width:20%;"></th>
-								<th id="e-reward-total" style="padding:5px;background-color:white;color:#3399FF;width:20%;"></th>
-							</tr>
-							<tr class="display-5">
-								<th style="padding:5px;background-color:white;color:red;width:20%;">罰</th>
-								<th id="es-punish" style="padding:5px;background-color:white;color:red;width:20%;"></th>
-								<th id="ew-punish" style="padding:5px;background-color:white;color:red;width:20%;"></th>
-								<th id="en-punish" style="padding:5px;background-color:white;color:red;width:20%;"></th>
-								<th id="e-punish-total" style="padding:5px;background-color:white;color:red;width:20%;"></th>
-							</tr>
-							<tr class="display-5">
-								<th style="padding:5px;background-color:white;color:black;width:20%;">調整</th>
-								<th id="es-adjust" style="padding:5px;background-color:white;color:black;width:20%;"></th>
-								<th id="ew-adjust" style="padding:5px;background-color:white;color:black;width:20%;"></th>
-								<th id="en-adjust" style="padding:5px;background-color:white;color:black;width:20%;"></th>
-								<th id="e-adjust-total" style="padding:5px;background-color:white;color:black;width:20%;"></th>
-							</tr>
-						</thead>
-						<tbody id="table-scores-tbody"></tbody>
-					</table>
+					<div class="modal-body" id="statisticsModalBody"></div>
 					<div class="modal-footer">
 						<button type="button" id="statisticsConfirm" class="btn-sm btn-primary display-7" data-dismiss="modal">確定</button>
 					</div>
@@ -875,9 +829,6 @@
 				for (var j = 0; j < list.length; j ++) {
 					$('#' + list[j] + allPlayers[i] + '-pairs').text($('#' + allPlayers[i] + '-player-input').val());
 				}
-
-				//statistics modal 
-				$('[position="' + allPlayers[i] + '-position"]').text($('#' + allPlayers[i] + '-player-input').val());
 			}
 
 			//add here to redraw table 
@@ -1890,13 +1841,111 @@
 		}
 
 		function onClickStatistics() {
+			$('#statisticsModalBody').empty();
+			const prefixes = ['e', 's', 'w', 'n'];
+			prefixes.forEach(p => {
+				$('#statisticsModalBody').append(generatePlayerStatisticsTable(p));
+			});
+
 			calculateStatistics();
 
 			$('#statisticsModal').modal('show');
 		}
 
 		function calculateStatistics() {
+			//set name
+			for (var i = 0; i < allPlayers.length; i ++) {
+				$('[position="' + allPlayers[i] + '-position"]').text($('#' + allPlayers[i] + '-player-input').val());
+			}
 
+			
+		}
+
+		function generatePlayerStatisticsTable(prefix) {
+
+			const columns = ['e', 's', 'w', 'n'].filter(x => x !== prefix);
+
+			const rows = [
+				{ label: '食糊', suffix: 'points-positive', color: '#3399FF' },
+				{ label: '賠錢', suffix: 'points-negative', color: 'red' },
+				{ label: '賞', suffix: 'reward', color: '#3399FF' },
+				{ label: '罰', suffix: 'punish', color: 'red' },
+				{ label: '調整', suffix: 'adjust', color: 'black' }
+			];
+
+			let html = '';
+
+			// TABLE START + THEAD
+			html += `
+				<table class="table table-bordered table-secondary col-12 align-center"
+					id="table-${prefix}-statistics"
+					cellspacing="0"
+					cellpadding="0"
+					style="border-collapse: collapse;table-layout: fixed;">
+
+					<thead id="table-${prefix}-scores-thead"
+						style="background-color:#3399FF;color:white;">
+
+						<tr class="display-5">
+			`;
+
+			html += `
+					<th position="${prefix}-position"
+						style="padding:5px;width:20%;">
+					</th>
+				`;
+
+			// dynamic column headers
+			columns.forEach(col => {
+				html += `
+					<th position="${col}-position"
+						style="padding:5px;width:20%;">
+					</th>
+				`;
+			});
+
+			// total column
+			html += `
+					<th style="padding:5px;width:20%;">合計</th>
+				</tr>
+			</thead>
+
+			<tbody>
+			`;
+
+			// ROWS
+			rows.forEach(row => {
+
+				html += `
+					<tr class="display-5">
+						<th style="padding:5px;background-color:white;color:${row.color};width:20%;">
+							${row.label}
+						</th>
+				`;
+
+				columns.forEach(col => {
+					html += `
+						<th id="${prefix}${col}-${row.suffix}"
+							style="padding:5px;background-color:white;color:${row.color};width:20%;">
+						</th>
+					`;
+				});
+
+				html += `
+						<th id="${prefix}-${row.suffix}-total"
+							style="padding:5px;background-color:white;color:${row.color};width:20%;">
+						</th>
+					</tr>
+				`;
+			});
+
+			html += `
+					</tbody>
+				</table>
+				</br>
+			`;
+
+			return html;
 		}
 
 		$('#statisticsModal .modal-footer button').on('click', function(event) {
