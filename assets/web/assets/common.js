@@ -17,7 +17,15 @@ var allPlayers = ['e','s','w','n'];
 var allPairs = ['es','ew','en','se','sw','sn','we','ws','wn','ne','ns','nw'];
 var halfPairs = ['es','ew','en','sw','sn','wn'];
 var swapPlayers = [['e','s'],['w','n']];
-var swapPairs = [['es','se'],['ew','sn'],['en','sw'],['we','ns'],['ws','ne'],['wn','nw']]
+var swapPairs = [['es','se'],['ew','sn'],['en','sw'],['we','ns'],['ws','ne'],['wn','nw']];
+
+var elementsPerRow = 6;
+var gameResultDetails = [es_point_negative = 0, es_point_positive = 0, es_punish = 0, es_reward = 0, es_adjust_negative = 0, es_adjust_positive = 0,
+						 ew_point_negative = 0, ew_point_positive = 0, ew_punish = 0, ew_reward = 0, ew_adjust_negative = 0, ew_adjust_positive = 0,
+						 en_point_negative = 0, en_point_positive = 0, en_punish = 0, en_reward = 0, en_adjust_negative = 0, en_adjust_positive = 0,
+						 sw_point_negative = 0, sw_point_positive = 0, sw_punish = 0, sw_reward = 0, sw_adjust_negative = 0, sw_adjust_positive = 0,
+						 sn_point_negative = 0, sn_point_positive = 0, sn_punish = 0, sn_reward = 0, sn_adjust_negative = 0, sn_adjust_positive = 0,
+						 wn_point_negative = 0, wn_point_positive = 0, wn_punish = 0, wn_reward = 0, wn_adjust_negative = 0, wn_adjust_positive = 0];
 
 function getUUID(){
     var dt = new Date().getTime();
