@@ -30,11 +30,11 @@
 					<th style="width:73%;"></th>
 					<th style="width:27%;"></th>
 				</thead>
-				<tr>
+				<!--<tr>
 					<td colspan="2">
 						<label class="display-7 align-left" style="padding:0px;margin:0px;">識別碼</label>
 					</td>
-				</tr>
+				</tr>-->
 				<tr>
 					<td>
 						<input type="text" class="form-control" id="code" required="required" aria-required="true" readonly />
@@ -91,41 +91,15 @@
 		</div>
 
 		<div id="top-buttons-2" class="row" style="margin-top:3px; margin-bottom:3px;visibility: hidden;">
-			<table class="col-12">
-				<thead>
-					<th style="width:73%;"></th>
-					<th style="width:27%;"></th>
-				</thead>
-				<tr>
-					<td>
-						<div class="col-12 align-center">
-							<div id="bottom-windposition" class="btn-group btn-group-lg btn-group-justified" data-toggle="buttons">
-								<label class="btn btn-primary btn-block" name="wind" id="e-wind"><input type="radio" style="display:none;">東風</label>
-								<label class="btn btn-primary btn-block" name="wind" id="s-wind"><input type="radio" style="display:none;">南風</label>
-								<label class="btn btn-primary btn-block" name="wind" id="w-wind"><input type="radio" style="display:none;">西風</label>
-								<label class="btn btn-primary btn-block" name="wind" id="n-wind"><input type="radio" style="display:none;">北風</label>
-							</div>
-						</div>
-					</td>
-					<td>
-						<text class="xlarge">莊&nbsp;</text>
-						<span class="input-group-btn">
-							<button id="button-addjon" onclick="onClickAdjustJon('add'); return false;" type="submit" class="btn-xs btn-primary" disabled>+</button>
-						</span>
-						<span class="input-group-btn">
-							<button id="button-minusjon" onclick="onClickAdjustJon('minus'); return false;" type="submit" class="btn-xs btn-primary" disabled>-</button>
-						</span>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div class="col-12 align-center">
-							<text class="xlarge" id="wind-position"></text>
-						</div>
-					</td>
-					<td></td>
-				</tr>
-			</table>
+			<div class="col-12 align-center">
+				<div id="bottom-windposition" class="btn-group btn-group-lg btn-group-justified" data-toggle="buttons">
+					<label class="btn btn-primary btn-block" name="wind" id="e-wind"><input type="radio" style="display:none;">東風</label>
+					<label class="btn btn-primary btn-block" name="wind" id="s-wind"><input type="radio" style="display:none;">南風</label>
+					<label class="btn btn-primary btn-block" name="wind" id="w-wind"><input type="radio" style="display:none;">西風</label>
+					<label class="btn btn-primary btn-block" name="wind" id="n-wind"><input type="radio" style="display:none;">北風</label>
+				</div>
+				<text class="xlarge" id="wind-position"></text>
+			</div>
 		</div>
 
 		<div class="row">
@@ -220,7 +194,15 @@
 						</label>
 						<text class="display-7" style="vertical-align: middle;">計番器</text>
 					</td>
-					<td></td>
+					<td>
+						<text class="xlarge">莊&nbsp;</text>
+						<span class="input-group-btn">
+							<button id="button-addjon" onclick="onClickAdjustJon('add'); return false;" type="submit" class="btn-xs btn-primary" disabled>+</button>
+						</span>
+						<span class="input-group-btn">
+							<button id="button-minusjon" onclick="onClickAdjustJon('minus'); return false;" type="submit" class="btn-xs btn-primary" disabled>-</button>
+						</span>
+					</td>
 					<td class="align-center">
 						<span class="input-group-btn">
 							<button id="button-game" onclick="onClickFinish(); return false;" type="submit" class="btn-sm btn-primary" disabled>結束</button>
