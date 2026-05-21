@@ -148,12 +148,12 @@
 				<tr>
 					<td class="align-center">
 						<span class="input-group-btn">
-							<button id="button-rewardpunish" onclick="onClickRewardPunish(); return false;" type="submit" class="btn-sm btn-primary" disabled>賞罰</button>
+							<button id="button-add" onclick="onClickAdd(); return false;" type="submit" class="btn-sm btn-primary" disabled>加局</button>
 						</span>
 					</td>
 					<td class="align-center">
 						<span class="input-group-btn">
-							<button id="button-add" onclick="onClickAdd(); return false;" type="submit" class="btn-sm btn-primary" disabled>加局</button>
+							<button id="button-rewardpunish" onclick="onClickRewardPunish(); return false;" type="submit" class="btn-sm btn-primary" disabled>賞罰</button>
 						</span>
 					</td>
 					<td class="align-center">
@@ -450,6 +450,7 @@
 						</div>
 						<div style="padding: 5px;" class="row flex">
 							<div class="align-self-center"><text class="xxlarge" id="e-player-name"></text></div>
+							<div class="align-self-center"><text class="xxlarge" id="e-jon"></text></div>
 							<div class="btn-group btn-group-lg btn-group-justified" data-toggle="buttons">
 								<label class="btn btn-primary btn-block" name="win" id="e-win"><input type="radio" style="display:none;"><h4>勝</h4></label>
 								<label class="btn btn-primary btn-block" name="lose" id="e-lose"><input type="radio" style="display:none;"><h4>負</h4></label>
@@ -460,6 +461,7 @@
 						</div>
 						<div style="padding: 5px;" class="row flex">
 							<div class="align-self-center"><text class="xxlarge" id="s-player-name"></text></div>
+							<div class="align-self-center"><text class="xxlarge" id="s-jon"></text></div>
 							<div class="btn-group btn-group-lg btn-group-justified" data-toggle="buttons">
 								<label class="btn btn-primary btn-block" name="win" id="s-win"><input type="radio" style="display:none;"><h4>勝</h4></label>
 								<label class="btn btn-primary btn-block" name="lose" id="s-lose"><input type="radio" style="display:none;"><h4>負</h4></label>
@@ -470,6 +472,7 @@
 						</div>
 						<div style="padding: 5px;" class="row flex">
 							<div class="align-self-center"><text class="xxlarge" id="w-player-name"></text></div>
+							<div class="align-self-center"><text class="xxlarge" id="w-jon"></text></div>
 							<div class="btn-group btn-group-lg btn-group-justified" data-toggle="buttons">
 								<label class="btn btn-primary btn-block" name="win" id="w-win"><input type="radio" style="display:none;"><h4>勝</h4></label>
 								<label class="btn btn-primary btn-block" name="lose" id="w-lose"><input type="radio" style="display:none;"><h4>負</h4></label>
@@ -480,6 +483,7 @@
 						</div>
 						<div style="padding: 5px;" class="row flex">
 							<div class="align-self-center"><text class="xxlarge" id="n-player-name"></text></div>
+							<div class="align-self-center"><text class="xxlarge" id="n-jon"></text></div>
 							<div class="btn-group btn-group-lg btn-group-justified" data-toggle="buttons">
 								<label class="btn btn-primary btn-block" name="win" id="n-win"><input type="radio" style="display:none;"><h4>勝</h4></label>
 								<label class="btn btn-primary btn-block" name="lose" id="n-lose"><input type="radio" style="display:none;"><h4>負</h4></label>
@@ -1187,7 +1191,10 @@
 
 			for (var i = 0; i < allPlayers.length; i ++) {
 				$('#input-game-body #' + allPlayers[i] + '-player-name').text($('#' + allPlayers[i] + '-player-input').val());
+				$('#input-game-body #' + allPlayers[i] + '-jon').text('');
 			}
+			var curPosition = localStorage.getItem('currentPosition').charAt(0);
+			$('#input-game-body #' + curPosition + '-jon').text('莊');
 
 			$('#game-note').text(' ');
 			$('#input-game-body').find('input').each(function(){
@@ -1415,9 +1422,44 @@
 				});
 
 				if (mode == 'self') {
-					if (winCount == 1 && loseCount == 3) {
-						$('#gameConfirm').prop('disabled', false);
-						return;
+					var winPosition = '';
+					$('#input-game-body').find('label[name=win]').each(function(){
+						if ($(this).hasClass('active')) {
+							winPosition = $(this).attr('id').charAt(0);
+						}
+					});
+					var curPosition = localStorage.getItem('currentPosition').charAt(0);
+					var list = getExcludePlayerList(allPlayers, winPosition);
+
+					//if current position win self, all lose values must be the same
+					if (winPosition == curPosition) {
+						var losePoint1 = parseInt($('#' + list[0] + '-point').val()) || 0;
+						var losePoint2 = parseInt($('#' + list[1] + '-point').val()) || 0;
+						var losePoint3 = parseInt($('#' + list[2] + '-point').val()) || 0;
+
+						if (losePoint1 > 0 && losePoint2 > 0 && losePoint3 > 0 && 
+							losePoint1 == losePoint2 && losePoint2 == losePoint3 && 
+							winCount == 1 && loseCount == 3) 
+						{
+							$('#gameConfirm').prop('disabled', false);
+							return;
+						}
+					}
+					//if not current position win self, current position point must be more than others 
+					else
+					{
+						var currentPositionLosePoint = parseInt($('#' + curPosition + '-point').val()) || 0;
+						var list = getExcludePlayerList(list, curPosition);
+						var losePoint1 = parseInt($('#' + list[0] + '-point').val()) || 0;
+						var losePoint2 = parseInt($('#' + list[1] + '-point').val()) || 0;
+					
+						if (losePoint1 > 0 && losePoint2 > 0 && currentPositionLosePoint > 0 && 
+							losePoint1 == losePoint2 && currentPositionLosePoint > losePoint1 && currentPositionLosePoint > losePoint2 &&
+							winCount == 1 && loseCount == 3) 
+						{
+							$('#gameConfirm').prop('disabled', false);
+							return;
+						}
 					}
 				}
 				else if (mode == 'eat') {
