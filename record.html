@@ -1603,8 +1603,10 @@
 		}
 
 		function onClickDelete() {
-			if (rowNumberTo == 0 || $('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'Y') {
-				$('#warning-message').text('最新局數已確認 / 沒有局數, 不能刪除');
+			//if (rowNumberTo == 0 || $('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'Y') {
+			if (rowNumberTo == 0) {
+				//$('#warning-message').text('最新局數已確認 / 沒有局數, 不能刪除');
+				$('#warning-message').text('沒有局數, 不能刪除');
 				$('#alertModal').modal('show');
 				setTimeout(function () {
 					$('#alertModal').modal('hide');
@@ -1612,7 +1614,7 @@
 				return;
 			}
 
-			$('#delete-message').text('是否刪除 ' + $('#' + wind + '-player-input').val() + ' 勝出的記錄 ?');
+			$('#delete-message').text('是否刪除最後一行勝出的記錄 ?');
 			$('#deleteConfirmModal').modal('show');
 		}
 
