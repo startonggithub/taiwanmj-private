@@ -1603,9 +1603,16 @@
 		}
 
 		function onClickDelete() {
-			var wind = $('#table-scores tr:last #winner-list').val();
-			$('#delete-message').text('是否刪除' + (' ' + wind != '' ? $('#' + wind + '-player-input').val() + ' 勝出' : '最後一行') + '的記錄 ?');
+			if (rowNumberTo == 0 || $('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'Y') {
+				('#warning-message').text('最新局數已確認 / 沒有局數, 不能刪除');
+				$('#alertModal').modal('show');
+				setTimeout(function () {
+					$('#alertModal').modal('hide');
+				}, 2000);
+				return;
+			}
 
+			$('#delete-message').text('是否刪除 ' + $('#' + wind + '-player-input').val() + ' 勝出的記錄 ?');
 			$('#deleteConfirmModal').modal('show');
 		}
 
@@ -1614,17 +1621,6 @@
 
 			$(this).closest('.modal').on('hidden.bs.modal', function() {
 				if (button[0].id == 'deleteConfirmYes') {			
-					//if (rowNumberTo == 0 || $('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'Y') {
-					if (rowNumberTo == 0) {
-						//('#warning-message').text('最新局數已確認 / 沒有局數, 不能刪除');
-						('#warning-message').text('沒有局數, 不能刪除');
-						$('#alertModal').modal('show');
-						setTimeout(function () {
-							$('#alertModal').modal('hide');
-						}, 2000);
-						return;
-					}
-
 					$('#table-scores tr:last').remove();
 
 					rowNumberTo--;
@@ -1638,8 +1634,7 @@
 		})
 
 		function onClickFinish() {
-			//if (rowNumberTo > 0 && $('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'N') {
-			if ($('#table-scores tr:last #row-confirm').val() == 'N') {
+			if (rowNumberTo > 0 && $('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'N') {
 				$('#warning-message').text('請先確認局數');
 				$('#alertModal').modal('show');
 				setTimeout(function () {
