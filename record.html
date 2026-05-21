@@ -189,9 +189,9 @@
 					</td>
 					<td class="align-center">
 						<text class="display-5" style="vertical-align: middle;">計番器&nbsp;</text>
-						<label class="switch" style="vertical-align: middle;">
-							<input id="checkbox-calc" type="checkbox">
-							<span style="vertical-align: middle;" class="slider round"></span>
+						<label class="switch">
+							<input id="checkbox-calc" type="checkbox" style="vertical-align: middle;">
+							<span class="slider round" style="vertical-align: middle;"></span>
 						</label>
 					</td>
 					<td class="align-center">
@@ -1604,7 +1604,7 @@
 
 		function onClickDelete() {
 			if (rowNumberTo == 0 || $('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'Y') {
-				('#warning-message').text('最新局數已確認 / 沒有局數, 不能刪除');
+				$('#warning-message').text('最新局數已確認 / 沒有局數, 不能刪除');
 				$('#alertModal').modal('show');
 				setTimeout(function () {
 					$('#alertModal').modal('hide');
