@@ -557,8 +557,8 @@ input:checked + .slider:before {
     box-shadow: none;
 }
 #button-addjon, #button-minusjon, #button-copy, #button-retrieve {
-    padding: 6px 12px !important;
-    font-size: 16px !important;
+    padding: 6px 9px !important;
+    font-size: 14px !important;
     line-height: 1.5 !important;
-    border-radius: 6px !important;
+    border-radius: 3px !important;
 }
