@@ -2073,7 +2073,7 @@
 
 		function onClickConfirm() {
 			if ($('#table-scores #' + rowNumberTo + ' #row-confirm') == 'undefined' || $('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'Y') {
-				$('#warning-message').text('沒有確定行數');
+				$('#warning-message').text('沒有要確定的番數');
 				$('#alertModal').modal('show');
 				setTimeout(function () {
 					$('#alertModal').modal('hide');
