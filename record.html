@@ -1670,6 +1670,10 @@
 					rowNumberTo--;
 					if (rowNumberFrom < rowNumberTo) rowNumberFrom = rowNumberTo;
 
+					//for delete confirmed row when dummy refresh 
+					localStorage.setItem('rowNumberFrom', rowNumberFrom);		
+					localStorage.setItem('rowNumberTo', rowNumberTo);
+
 					sendServer(true, true);
 				}
 
@@ -2072,7 +2076,7 @@
 		})
 
 		function onClickConfirm() {
-			if ($('#table-scores #' + rowNumberTo + ' #row-confirm') == 'undefined' || $('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'Y') {
+			if ($('#table-scores #' + rowNumberTo + ' #row-confirm').length == 0 || $('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'Y') {
 				$('#warning-message').text('沒有局數 / 沒有要確定的局數');
 				$('#alertModal').modal('show');
 				setTimeout(function () {
