@@ -1062,7 +1062,7 @@
 
 					if (player != '' && point != '' && direction != '') {
 						rowNumberTo++
-						addRow(rowNumberTo, 'rewardPunish', 'N');
+						addRow(rowNumberTo, direction == 'add' ? 'reward' : 'punish', 'N');
 
 						var list = [];
 						if (direction == 'add') {
@@ -1454,7 +1454,7 @@
 						var losePoint2 = parseInt($('#' + list[1] + '-point').val()) || 0;
 					
 						if (losePoint1 > 0 && losePoint2 > 0 && currentPositionLosePoint > 0 && 
-							losePoint1 == losePoint2 && currentPositionLosePoint > losePoint1 && currentPositionLosePoint > losePoint2 &&
+							losePoint1 == losePoint2 && currentPositionLosePoint > losePoint1 && 
 							winCount == 1 && loseCount == 3) 
 						{
 							$('#gameConfirm').prop('disabled', false);
@@ -1589,7 +1589,7 @@
 			//Then if no tbody just select your table 
 			var table = tbody.length ? tbody : $('#table-scores');
 
-			var row = '<tr id="' + rowNumber + '"' + (mode == "rewardPunish" || mode == "adjust" ? ' style="display:none;"' : '') + '><input type="hidden" id="row-confirm" value="' + isConfirm + '"><input type="hidden" id="mode" value="' + mode + '"><input type="hidden" id="winner-list"><input type="hidden" id="loser-list">' +
+			var row = '<tr id="' + rowNumber + '"' + (mode == "reward" || mode == "punish" || mode == "adjust" ? ' style="display:none;"' : '') + '><input type="hidden" id="row-confirm" value="' + isConfirm + '"><input type="hidden" id="mode" value="' + mode + '"><input type="hidden" id="winner-list"><input type="hidden" id="loser-list">' +
 				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="es-score" onchange="onScoreChange(' + rowNumber + ', this.id, this.value); return false;"><input type="hidden" id="es-score-original"><input type="hidden" id="es-confirm" value="N"><input type="hidden" id="es-win" value="1"><input type="hidden" id="es-rev" value="N"></td>' +
 				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="ew-score" onchange="onScoreChange(' + rowNumber + ', this.id, this.value); return false;"><input type="hidden" id="ew-score-original"><input type="hidden" id="ew-confirm" value="N"><input type="hidden" id="ew-win" value="1"><input type="hidden" id="ew-rev" value="N"></td>' +
 				'<td style="padding: 0px;"><input type="number" style="width:100%;text-align:center;" id="en-score" onchange="onScoreChange(' + rowNumber + ', this.id, this.value); return false;"><input type="hidden" id="en-score-original"><input type="hidden" id="en-confirm" value="N"><input type="hidden" id="en-win" value="1"><input type="hidden" id="en-rev" value="N"></td>' +
@@ -2119,7 +2119,7 @@
 				return;
 			};
 
-			if ($('#table-scores #' + rowNumberTo + ' #mode').val() == 'rewardPunish') {
+			if ($('#table-scores #' + rowNumberTo + ' #mode').val() == 'reward' || $('#table-scores #' + rowNumberTo + ' #mode').val() == 'punish') {
 				$('#confirm-winner-label').text('賞');
 				$('#confirm-loser-label').text('罰');
 			}
@@ -2159,7 +2159,9 @@
 			$('#table-confirm-transaction').empty();
 
 			//if reward / punish / adjust, just mark complete of current row, update total score
-			if ($('#table-scores #' + rowNumberTo + ' #mode').val() == 'rewardPunish' || $('#table-scores #' + rowNumberTo + ' #mode').val() == 'adjust') {
+			if ($('#table-scores #' + rowNumberTo + ' #mode').val() == 'reward' || 
+				$('#table-scores #' + rowNumberTo + ' #mode').val() == 'punish' || 
+			    $('#table-scores #' + rowNumberTo + ' #mode').val() == 'adjust') {
 				$('#table-scores #' + rowNumberTo).find('input[type=number]').each(function(){
 					if (parseInt($(this).val()) > 0) adjustScore(rowNumberTo, $(this).attr('id').slice(0,2), parseInt($(this).val()));
 				});
@@ -2448,8 +2450,12 @@
 				confirmTransaction = confirmTransaction + ' (拉 ' + (parseInt($('#table-scores #' + r + ' #' + c + '-win').val()) - 1) + ')';
 				//fontColor = '#0000FF';	//blue
 			}
-			else if ($('#table-scores #' + r + ' #mode').val() == 'rewardPunish') {
-				confirmTransaction = confirmTransaction + ' (賞罰)';
+			else if ($('#table-scores #' + r + ' #mode').val() == 'reward') {
+				confirmTransaction = confirmTransaction + ' (賞)';
+				type = '賞罰';
+			}
+			else if ($('#table-scores #' + r + ' #mode').val() == 'punish') {
+				confirmTransaction = confirmTransaction + ' (罰)';
 				type = '賞罰';
 			}
 			else if ($('#table-scores #' + r + ' #mode').val() == 'adjust') {
