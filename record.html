@@ -1646,7 +1646,7 @@
 
 		function onClickDelete() {
 			//if (rowNumberTo == 0 || $('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'Y') {
-			if (rowNumberTo == 0) {
+			if (rowNumberTo == 0 || rowNumberFrom > rowNumberTo) {
 				//$('#warning-message').text('最新局數已確認 / 沒有局數, 不能刪除');
 				$('#warning-message').text('沒有局數, 不能刪除');
 				$('#alertModal').modal('show');
@@ -2072,7 +2072,7 @@
 		})
 
 		function onClickConfirm() {
-			if ($('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'Y') return;
+			if ($('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'Y' || $('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'undefined') return;
 
 			winnerList = '';
 			winnerName = '';
