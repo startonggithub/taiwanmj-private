@@ -1648,7 +1648,7 @@
 			//if (rowNumberTo == 0 || $('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'Y') {
 			if (rowNumberTo == 0 || rowNumberFrom > rowNumberTo) {
 				//$('#warning-message').text('最新局數已確認 / 沒有局數, 不能刪除');
-				$('#warning-message').text('沒有局數, 不能刪除');
+				$('#warning-message').text('沒有局數');
 				$('#alertModal').modal('show');
 				setTimeout(function () {
 					$('#alertModal').modal('hide');
@@ -2073,7 +2073,7 @@
 
 		function onClickConfirm() {
 			if ($('#table-scores #' + rowNumberTo + ' #row-confirm') == 'undefined' || $('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'Y') {
-				$('#warning-message').text('沒有要確定的番數');
+				$('#warning-message').text('沒有局數 / 沒有要確定的局數');
 				$('#alertModal').modal('show');
 				setTimeout(function () {
 					$('#alertModal').modal('hide');
