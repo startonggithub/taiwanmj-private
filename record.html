@@ -2072,7 +2072,13 @@
 		})
 
 		function onClickConfirm() {
-			if ($('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'Y' || $('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'undefined') return;
+			if ($('#table-scores #' + rowNumberTo + ' #row-confirm') == 'undefined' || $('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'Y') {
+				$('#warning-message').text('沒有確定行數');
+				$('#alertModal').modal('show');
+				setTimeout(function () {
+					$('#alertModal').modal('hide');
+				}, 2000);
+			}
 
 			winnerList = '';
 			winnerName = '';
