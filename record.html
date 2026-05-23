@@ -1665,6 +1665,8 @@
 
 			$(this).closest('.modal').on('hidden.bs.modal', function() {
 				if (button[0].id == 'deleteConfirmYes') {			
+					var isDeleteConfirm = $('#table-scores #' + rowNumberTo + ' #row-confirm').val();
+
 					$('#table-scores tr:last').remove();
 
 					rowNumberTo--;
@@ -1674,7 +1676,7 @@
 					localStorage.setItem('rowNumberFrom', rowNumberFrom);		
 					localStorage.setItem('rowNumberTo', rowNumberTo);
 
-					if ($('#table-scores #' + rowNumberTo + ' #row-confirm').val() == 'Y') {
+					if (isDeleteConfirm == 'Y') {
 						$('#warning-message').text('局數已刪除, 現在是' + $('#wind-position').text() + ', 請手動改回原本風局才再加局');
 						$('#alertModal').modal('show');
 						setTimeout(function () {
