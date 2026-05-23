@@ -1669,12 +1669,22 @@
 
 					$('#table-scores tr:last').remove();
 
+					var originalRowNumberTo = rowNumberTo;
 					rowNumberTo--;
-					if (rowNumberFrom < rowNumberTo) rowNumberFrom = rowNumberTo;
-
+					if (rowNumberFrom > rowNumberTo) rowNumberFrom = rowNumberTo;
+console.log(rowNumberFrom);
+console.log(rowNumberTo);
+console.log(originalRowNumberTo);
 					//for delete confirmed row when dummy refresh 
 					localStorage.setItem('rowNumberFrom', rowNumberFrom);		
 					localStorage.setItem('rowNumberTo', rowNumberTo);
+
+					localStorage.removeItem(originalRowNumberTo + '#mode');
+					localStorage.removeItem(originalRowNumberTo + '#winner-list');
+					localStorage.removeItem(originalRowNumberTo + '#loser-list');
+					for (var j = 0; j < allPairs.length; j ++) {
+						removeRow (originalRowNumberTo, allPairs[j]);
+					}
 
 					if (isDeleteConfirm == 'Y') {
 						$('#warning-message').text('確認局數已刪除, 現在是"' + $('#wind-position').text() + '", 請手動改回原本風局才再加局');
@@ -1789,7 +1799,7 @@
 						localStorage.removeItem(allPlayers[i] + '-consecutive-win');
 					}
 
-					for (var i = 1; i <= parseInt(localStorage.getItem('rowNumberTo')); i++) {
+					for (var i = 0; i <= parseInt(localStorage.getItem('rowNumberTo')); i++) {
 						localStorage.removeItem(i + '#mode');
 						localStorage.removeItem(i + '#winner-list');
 						localStorage.removeItem(i + '#loser-list');
