@@ -1,3 +1,3 @@
 //app category : web, free, paid, private
-var appCategory = 'paid';
-var appVersion = 'v1.21';
+var appCategory = 'web';
+var appVersion = 'v1.02';
