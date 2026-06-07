@@ -6,7 +6,7 @@ firebase.initializeApp({
   
 var db = firebase.firestore();
 
-var collectionSettings = db.collection("settings");
+//var collectionSettings = db.collection("settings");
 var collectionInstructions = db.collection("instructions");
 var collectionPoints = db.collection("points");
 var collectionRooms = db.collection("rooms");
