@@ -579,7 +579,7 @@
 		})
 
 		function initialize () {
-			if (appCategory == 'free' || appCategory == 'paid') {
+			if (appCategory == 'free' || appCategory == 'paid' || appCategory == 'web') {
 				//Disable mouse right click
 				$('body').on('contextmenu',function(e){
 					return false;
@@ -1673,9 +1673,7 @@
 					var originalRowNumberTo = rowNumberTo;
 					rowNumberTo--;
 					if (rowNumberFrom > rowNumberTo) rowNumberFrom = rowNumberTo;
-console.log(rowNumberFrom);
-console.log(rowNumberTo);
-console.log(originalRowNumberTo);
+
 					//for delete confirmed row when dummy refresh 
 					localStorage.setItem('rowNumberFrom', rowNumberFrom);		
 					localStorage.setItem('rowNumberTo', rowNumberTo);
@@ -1898,7 +1896,10 @@ console.log(originalRowNumberTo);
 						$('#e-player-input').val() + ' ' + $('#e-scores').text() + '\r\n' + 
 						$('#s-player-input').val() + ' ' + $('#s-scores').text() + '\r\n' + 
 						$('#w-player-input').val() + ' ' + $('#w-scores').text() + '\r\n' + 
-						$('#n-player-input').val() + ' ' + $('#n-scores').text();
+						$('#n-player-input').val() + ' ' + $('#n-scores').text() + '\r\n\r\n' +
+						'Android 用戶' + '\r\n' + 
+						'<如要觀看紀錄 請下載免費版 "台牌番數說明" https://play.google.com/store/apps/details?id=htongbiz.com.taiwanmj>' + '\r\n' + 
+						'<如要輸入記錄或使用計番器 請下載收費版 "台牌計番器 局數記錄表" https://play.google.com/store/apps/details?id=htongbiz.com.taiwanmj.record>';
 
 			url = url + encodeURIComponent(content);
 			window.open(url);

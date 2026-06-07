@@ -437,7 +437,7 @@
         $(document).ready(function () {
             $('#version').text(appVersion);
 
-            if (appCategory == 'free' || appCategory == 'paid') {
+            if (appCategory == 'free' || appCategory == 'paid' || appCategory == 'web') {
                 //Disable cut copy paste
                 $('body').bind('cut copy paste', function (e) {
                     e.preventDefault();
@@ -449,17 +449,20 @@
                 });
             }
 
-            if (appCategory == 'free') {
+            if (appCategory == 'free' || appCategory == 'web') {
                 $('#point-function').remove();
                 $('#record-function').remove();
             }
 
             $('#table-mini-points td').css('padding', '5px');
 
-			constructRulesTable();    
-			constructPointsTable();
+            //constructRulesTable();    
+            //constructPointsTable();
+            loadRulesTable();
+            loadPointsTable();
         });
 
+        /*
 		function constructRulesTable() {
             var source = "";
             collectionSettings.where("table", "==", "instructions")
@@ -474,9 +477,12 @@
                     console.log("Error get settings:", error);
                 });
         }
+        */
         
-        function loadRulesTable(source) {
-            if (source == "server") {
+        //function loadRulesTable(source) {
+        function loadRulesTable() {
+            //if (source == "server") {
+            if (appCategory == 'private' || appCategory == 'web') {
                 collectionInstructions
                     .orderBy("seq").get()
                     .then(function(querySnapshot) {
@@ -507,6 +513,7 @@
 			}
         }
 
+        /*
 		function constructPointsTable() {
             var source = "";
             collectionSettings.where("table", "==", "points")
@@ -521,9 +528,12 @@
                     console.log("Error get settings:", error);
                 });
         }
+        */
                 
-		function loadPointsTable(source) {
-            if (source == "server") {
+        //function loadPointsTable(source) {
+        function loadPointsTable() {
+            //if (source == "server") {
+            if (appCategory == 'private' || appCategory == 'web') {
                 collectionPoints
                     .orderBy("code").get()
                     .then(function(querySnapshot) {
@@ -726,7 +736,8 @@
 			localStorage.setItem('savePointData', 'No');
 
 			$("#table-contents-points").empty();
-			constructPointsTable();
+            //constructPointsTable();
+            loadPointsTable();
 
 			$('#confirm-message').text('重設完成');
 			$('#confirmModal').modal('show');

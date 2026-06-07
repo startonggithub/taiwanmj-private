@@ -619,10 +619,13 @@
 						'局數分享\r\n' +
 						'http://taiwanmj.htongbiz.net/record_share.html?shareGameDataId=' + $('#code').val() + '\r\n\r\n' +
 						'總結\r\n' +
-						$('#e-position').text() + ' ' + $('#e-scores').text() + '\r\n' + 
-						$('#s-position').text() + ' ' + $('#s-scores').text() + '\r\n' + 
-						$('#w-position').text() + ' ' + $('#w-scores').text() + '\r\n' + 
-						$('#n-position').text() + ' ' + $('#n-scores').text();
+						$('#e-player-input').val() + ' ' + $('#e-scores').text() + '\r\n' +
+						$('#s-player-input').val() + ' ' + $('#s-scores').text() + '\r\n' +
+						$('#w-player-input').val() + ' ' + $('#w-scores').text() + '\r\n' +
+						$('#n-player-input').val() + ' ' + $('#n-scores').text() + '\r\n\r\n' +
+						'Android 用戶' + '\r\n' +
+						'<如要觀看紀錄 請下載免費版 "台牌番數說明" https://play.google.com/store/apps/details?id=htongbiz.com.taiwanmj>' + '\r\n' +
+						'<如要輸入記錄或使用計番器 請下載收費版 "台牌計番器 局數記錄表" https://play.google.com/store/apps/details?id=htongbiz.com.taiwanmj.record>';
 
 			url = url + encodeURIComponent(content);
 			window.open(url);

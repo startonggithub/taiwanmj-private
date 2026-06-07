@@ -359,7 +359,7 @@
 	<script src="assets/web/assets/environment.js"></script>
     <script type="text/javascript">
 	    $(document).ready(function () {
-            if (appCategory == 'free' || appCategory == 'paid') {
+            if (appCategory == 'free' || appCategory == 'paid' || appCategory == 'web') {
 				//Disable cut copy paste
 				$('body').bind('cut copy paste', function (e) {
 					e.preventDefault();
@@ -2254,6 +2254,13 @@
 				if (containElement(results, 'O007')) {
 					results = removeElement(results, 'O007');
 					results.push('O005:');
+				}				
+			}
+			//嚦咕四歸一 不計嚦咕八飛 只計嚦咕嚦咕
+			if (containElement(results, 'V003')) {
+				if (containElement(results, 'V002')) {
+					results = removeElement(results, 'V002');
+					results.push('V001:');
 				}				
 			}
 			//十六不搭 十六不搭三相逢 十六不搭暗雜龍 不再計門清，如自摸不計門清一摸五，只計自摸
