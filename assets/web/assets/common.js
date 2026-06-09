@@ -315,7 +315,7 @@ function normalizeSpeechText(text) {
 
     return text;
 }
-
+/*
 function startSpeech() {
 
     return new Promise((resolve, reject) => {
@@ -382,6 +382,168 @@ function startSpeech() {
         };
 
         recognition.start();
+    });
+}
+*/
+function startSpeech() {
+
+    return new Promise((resolve, reject) => {
+
+        const SpeechRecognition =
+            window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        if (!SpeechRecognition) {
+            reject("不支援語音輸入");
+            return;
+        }
+
+        let finalText = "";
+        let interimText = "";
+        let stoppedByUser = false;
+        let finished = false;
+        let silenceTimer = null;
+        let totalTimer = null;
+        let recognition = null;
+
+        function createRecognition() {
+
+            recognition = new SpeechRecognition();
+
+            recognition.lang = "zh-HK";
+            recognition.continuous = false;       // mobile handles this better
+            recognition.interimResults = true;
+            recognition.maxAlternatives = 1;
+
+            recognition.onresult = function(event) {
+
+                resetSilenceTimer();
+
+                interimText = "";
+
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+
+                    const result = event.results[i];
+                    const text = result[0].transcript;
+
+                    if (result.isFinal) {
+                        finalText += text;
+                    } else {
+                        interimText += text;
+                    }
+                }
+            };
+
+            recognition.onerror = function(event) {
+
+                if (finished) return;
+
+                // Mobile Chrome may throw no-speech between restarts
+                if (event.error === "no-speech") {
+                    restartRecognition();
+                    return;
+                }
+
+                finishWithError(event.error);
+            };
+
+            recognition.onend = function() {
+
+                if (finished || stoppedByUser) return;
+
+                // Mobile Chrome ends early, so restart it
+                restartRecognition();
+            };
+        }
+
+        function resetSilenceTimer() {
+
+            clearTimeout(silenceTimer);
+
+            silenceTimer = setTimeout(() => {
+                finishSuccessfully();
+            }, 5000);
+        }
+
+        function restartRecognition() {
+
+            if (finished || stoppedByUser) return;
+
+            try {
+                recognition.stop();
+            } catch (e) {}
+
+            setTimeout(() => {
+                if (finished || stoppedByUser) return;
+
+                try {
+                    createRecognition();
+                    recognition.start();
+                    resetSilenceTimer();
+                } catch (e) {
+                    finishWithError(e.message || e);
+                }
+
+            }, 300);
+        }
+
+        function finishSuccessfully() {
+
+            if (finished) return;
+
+            finished = true;
+            stoppedByUser = true;
+
+            clearTimeout(silenceTimer);
+            clearTimeout(totalTimer);
+
+            try {
+                recognition.stop();
+            } catch (e) {}
+
+            let text = finalText.trim();
+
+            if (text === "") {
+                text = interimText.trim();
+            }
+
+            if (text === "") {
+                reject("未收到語音");
+            } else {
+                resolve(normalizeSpeechText(text));
+            }
+        }
+
+        function finishWithError(err) {
+
+            if (finished) return;
+
+            finished = true;
+            stoppedByUser = true;
+
+            clearTimeout(silenceTimer);
+            clearTimeout(totalTimer);
+
+            try {
+                recognition.abort();
+            } catch (e) {}
+
+            reject(err);
+        }
+
+        createRecognition();
+
+        try {
+            recognition.start();
+            resetSilenceTimer();
+
+            // hard limit, avoid endless restart loop
+            totalTimer = setTimeout(() => {
+                finishSuccessfully();
+            }, 30000);
+
+        } catch (e) {
+            finishWithError(e.message || e);
+        }
     });
 }
 
