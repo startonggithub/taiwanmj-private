@@ -322,6 +322,7 @@ function normalizeSpeechText(text) {
 function startSpeech() {
 
     return new Promise((resolve, reject) => {
+
         const SpeechRecognition =
             window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -338,8 +339,24 @@ function startSpeech() {
         recognition.maxAlternatives = 3;
 
         let finalText = "";
+        let timeoutId = null;
+        let finished = false;
+
+        function resetTimeout() {
+            clearTimeout(timeoutId);
+
+            timeoutId = setTimeout(() => {
+                recognition.stop();
+            }, 3000);
+        }
+
+        recognition.onstart = function() {
+            resetTimeout();
+        };
 
         recognition.onresult = function(event) {
+            resetTimeout();
+
             for (let i = event.resultIndex; i < event.results.length; i++) {
                 const result = event.results[i];
 
@@ -350,11 +367,21 @@ function startSpeech() {
         };
 
         recognition.onerror = function(event) {
-            reject(event.error);
+            clearTimeout(timeoutId);
+
+            if (!finished) {
+                finished = true;
+                reject(event.error);
+            }
         };
 
         recognition.onend = function() {
-            resolve(normalizeSpeechText(finalText));
+            clearTimeout(timeoutId);
+
+            if (!finished) {
+                finished = true;
+                resolve(normalizeSpeechText(finalText));
+            }
         };
 
         recognition.start();
