@@ -347,7 +347,7 @@ function startSpeech() {
 
             timeoutId = setTimeout(() => {
                 recognition.stop();
-            }, 3000);
+            }, 5000);
         }
 
         recognition.onstart = function() {
