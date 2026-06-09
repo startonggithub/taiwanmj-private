@@ -254,9 +254,6 @@ function pad(number, length) {
     return str;
 }
 
-const SpeechRecognition =
-    window.SpeechRecognition || window.webkitSpeechRecognition;
-
 function chineseToNumber(chinese) {
     const digits = {
         '零':0, '〇':0,
@@ -334,7 +331,7 @@ function startSpeech() {
         const recognition = new SpeechRecognition();
 
         recognition.lang = "yue-Hant-HK";
-        recognition.continuous = false;
+        recognition.continuous = true;
         recognition.interimResults = false;
         recognition.maxAlternatives = 3;
 
