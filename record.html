@@ -1002,7 +1002,7 @@
 			$('#wind-position').text(windPosition);
 		}
 
-		function onClickRewardPunish() {
+		async function onClickRewardPunish() {
 			for (var i = 0; i < allPlayers.length; i ++) {
 				$('#input-rewardpunish-body #' + allPlayers[i] + '-player-name').text($('#' + allPlayers[i] + '-player-input').val());
 			}
@@ -1012,6 +1012,26 @@
 				$(this).removeClass('active');
 			});
 			$('#rewardPunishConfirm').prop('disabled', true);
+
+			var text = await speechToText();
+			console.log(text);
+
+			//input from speech
+			if (text != '') {
+				var position = getPositionFromText(text.charAt(0));
+				var addMinus = getAddOrMinusFromText(text);
+				var points = parseInt(text.match(/\d+/));
+
+				if (position != '' && addMinus != '') {
+					$('#' + position + '-' + addMinus).addClass('active');
+				}
+				if (points > 0) {
+					if (points <= 5) $('#' + points).addClass('active');
+					else $('#rewardpunish-point').val(points);
+				}
+
+				rewardPunishTimeout();
+			}
 
 			$('#inputRewardPunishModal').modal('show');
 		}
