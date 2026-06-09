@@ -1014,8 +1014,7 @@
 			$('#rewardPunishConfirm').prop('disabled', true);
 
 			var text = await speechToText();
-			console.log(text);
-
+			
 			//input from speech
 			if (text != '') {
 				var position = getPositionFromText(text.charAt(0));
