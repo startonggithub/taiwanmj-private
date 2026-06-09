@@ -339,24 +339,9 @@ function startSpeech() {
         recognition.maxAlternatives = 3;
 
         let finalText = "";
-        let timeoutId = null;
         let finished = false;
 
-        function resetTimeout() {
-            clearTimeout(timeoutId);
-
-            timeoutId = setTimeout(() => {
-                recognition.stop();
-            }, 5000);
-        }
-
-        recognition.onstart = function() {
-            resetTimeout();
-        };
-
         recognition.onresult = function(event) {
-            resetTimeout();
-
             for (let i = event.resultIndex; i < event.results.length; i++) {
                 const result = event.results[i];
 
@@ -367,8 +352,6 @@ function startSpeech() {
         };
 
         recognition.onerror = function(event) {
-            clearTimeout(timeoutId);
-
             if (!finished) {
                 finished = true;
                 reject(event.error);
@@ -376,8 +359,6 @@ function startSpeech() {
         };
 
         recognition.onend = function() {
-            clearTimeout(timeoutId);
-
             if (!finished) {
                 finished = true;
                 resolve(normalizeSpeechText(finalText));
