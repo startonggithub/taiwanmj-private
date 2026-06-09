@@ -198,10 +198,10 @@
 					<td class="align-center">
 						<text class="display-5" style="vertical-align: middle;">莊&nbsp;</text>
 						<span class="input-group-btn">
-							<button id="button-addjon" onclick="onClickAdjustJon('add'); return false;" type="submit" class="btn-xs btn-primary" disabled> + </button>
+							<button id="button-minusjon" onclick="onClickAdjustJon('minus'); return false;" type="submit" class="btn-xs btn-primary" disabled> - </button>
 						</span>
 						<span class="input-group-btn">
-							<button id="button-minusjon" onclick="onClickAdjustJon('minus'); return false;" type="submit" class="btn-xs btn-primary" disabled> - </button>
+							<button id="button-addjon" onclick="onClickAdjustJon('add'); return false;" type="submit" class="btn-xs btn-primary" disabled> + </button>
 						</span>
 					</td>
 					<td class="align-center">
@@ -1178,9 +1178,6 @@
 				return;
 			}
 
-			let text = await speechToText();
-			alert(text);
-
 			if ($('#checkbox-calc').is(':checked') && sessionStorage.getItem('calcUsingPointHtml') != 'return') {
 				sessionStorage.setItem('calcUsingPointHtml', 'start');
 				for (var i = 0; i < allPlayers.length; i ++) {
@@ -1319,6 +1316,37 @@
 				sessionStorage.removeItem('PointHtmlMulti');
 
 				sessionStorage.setItem('calcUsingPointHtml', 'finish');
+			}
+			else {
+				var text = await speechToText();
+				console.log(text);
+
+				var selfOrEat = getSelfOrEatFromText(text);
+				if (selfOrEat != '') $('#' + selfOrEat).addClass('active');
+
+				var winner = getPositionFromText(text.charAt(0));
+				if (winner != '') {
+					$('#' + winner + '-win').addClass('active'); 
+				}
+				var curPosition = localStorage.getItem('currentPosition').charAt(0);
+
+				if (selfOrEat == 'self') {
+					var list = getExcludePlayerList(allPlayers, winner);
+					for (var i = 0; i < list.length; i ++) {
+						$('#' + list[i] + '-lose').addClass('active');	
+
+						var points = parseInt(text.match(/\d+/));
+						var jon = parseInt($('#' + list[i] + '-consecutive-win').val());
+						$('#' + list[i] + '-point').val(points + (list[i] == curPosition ? 2 * jon + 1 : 0));
+					}
+				}	
+				else if (selfOrEat == 'eat') {
+					var loser = getPositionFromText(text.slice(1));
+					if (loser != '') {
+						$('#' + loser + '-lose').addClass('active'); 
+						$('#' + loser + '-point').val(parseInt(text.match(/\d+/)));
+					}
+				}			
 			}
 
 			$('#inputGameModal').modal('show');
