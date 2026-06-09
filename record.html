@@ -1206,6 +1206,7 @@
 			});
 			$('#gameConfirm').prop('disabled', true);
 
+			//input from points calculator 
 			if (sessionStorage.getItem('calcUsingPointHtml') == 'return') {
 				//set result return from point.html
 				if (sessionStorage.getItem('PointHtmlMulti') == 'Yes') {
@@ -1321,32 +1322,36 @@
 				var text = await speechToText();
 				console.log(text);
 
-				var selfOrEat = getSelfOrEatFromText(text);
-				if (selfOrEat != '') $('#' + selfOrEat).addClass('active');
+				//input from speech
+				if (text != '') {
+					var selfOrEat = getSelfOrEatFromText(text);
+					if (selfOrEat != '') $('#' + selfOrEat).addClass('active');
 
-				var winner = getPositionFromText(text.charAt(0));
-				if (winner != '') {
-					$('#' + winner + '-win').addClass('active'); 
+					var winner = getPositionFromText(text.charAt(0));
+					if (winner != '') {
+						$('#' + winner + '-win').addClass('active'); 
+					}
+					var points = parseInt(text.match(/\d+/));
+
+					if (selfOrEat == 'self') {
+						var list = getExcludePlayerList(allPlayers, winner);
+						for (var i = 0; i < list.length; i ++) {
+							$('#' + list[i] + '-lose').addClass('active');	
+
+							var consecutiveWin = parseInt($('#' + list[i] + '-consecutive-win').val());
+							$('#' + list[i] + '-point').val(points + (list[i] == curPosition ? 2 * consecutiveWin + 1 : 0));
+						}
+					}	
+					else if (selfOrEat == 'eat') {
+						var loser = getPositionFromText(text.slice(1));
+						if (loser != '') {
+							$('#' + loser + '-lose').addClass('active'); 
+							$('#' + loser + '-point').val(points);
+						}
+					}
+
+					$('#gameConfirm').prop('disabled', false);
 				}
-				var curPosition = localStorage.getItem('currentPosition').charAt(0);
-
-				if (selfOrEat == 'self') {
-					var list = getExcludePlayerList(allPlayers, winner);
-					for (var i = 0; i < list.length; i ++) {
-						$('#' + list[i] + '-lose').addClass('active');	
-
-						var points = parseInt(text.match(/\d+/));
-						var jon = parseInt($('#' + list[i] + '-consecutive-win').val());
-						$('#' + list[i] + '-point').val(points + (list[i] == curPosition ? 2 * jon + 1 : 0));
-					}
-				}	
-				else if (selfOrEat == 'eat') {
-					var loser = getPositionFromText(text.slice(1));
-					if (loser != '') {
-						$('#' + loser + '-lose').addClass('active'); 
-						$('#' + loser + '-point').val(parseInt(text.match(/\d+/)));
-					}
-				}			
 			}
 
 			$('#inputGameModal').modal('show');
