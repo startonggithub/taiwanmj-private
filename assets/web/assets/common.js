@@ -407,20 +407,18 @@ function getAddOrMinusFromText(text) {
 }
 
 function getPositionFromText(text) {
-	var position = '';
-
 	if (text.includes('東') || text.includes('當') || text.includes('冬')) {	//hardcode similar pronunciation 東
-		position = 'e';
+		return 'e';
 	}
 	else if (text.includes('南') || text.includes('藍') || text.includes('男')) {	//hardcode similar pronunciation 南
-		position = 's';
+		return 's';
 	}
 	else if (text.includes('西') || text.includes('篩') || text.includes('犀') || text.includes('妻')) {		//hardcode similar pronunciation 西
-		position = 'w';
+		return 'w';
 	}
 	else if (text.includes('北') || text.includes('畢') || text.includes('不') || text.includes('筆') || text.includes('德') || text.includes('得') || text.includes('白') || text.includes('福')) {		//hardcode similar pronunciation 北
-		position = 'n';
+		return 'n';
 	}
 
-	return position;
+	return '';
 }
