@@ -331,9 +331,9 @@ function startSpeech() {
         const recognition = new SpeechRecognition();
 
         recognition.lang = "yue-Hant-HK";
-        recognition.continuous = false;
-        recognition.interimResults = false;
-        recognition.maxAlternatives = 3;
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.maxAlternatives = 5;
 
         let finalText = "";
         let timeoutId = null;
