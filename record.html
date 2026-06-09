@@ -1168,7 +1168,7 @@
 			});
 		})
 
-		function onClickAdd() {
+		async function onClickAdd() {
 			if ($('#table-scores tr:last #row-confirm').val() == 'N') {
 				$('#warning-message').text('請先確認局數');
 				$('#alertModal').modal('show');
@@ -1177,6 +1177,9 @@
 				}, 2000);
 				return;
 			}
+
+			let text = await speechToText();
+			alert(text);
 
 			if ($('#checkbox-calc').is(':checked') && sessionStorage.getItem('calcUsingPointHtml') != 'return') {
 				sessionStorage.setItem('calcUsingPointHtml', 'start');
@@ -2773,6 +2776,16 @@
 				console.error("Error:", err);
 			});	
 		}	
-  </script>
+
+		async function speechToText() {
+			try {
+				let text = await startSpeech();
+				console.log(text);
+				return text;
+			} catch (err) {
+				console.error(err);
+			}
+		}
+	</script>
 </body>
 </html>
