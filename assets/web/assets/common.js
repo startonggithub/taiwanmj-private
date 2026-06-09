@@ -426,5 +426,5 @@ function getPositionFromText(text) {
 function getPointFromText(text) {
 	const match = text.match(/\d+/);
 
-	return match ? parseInt(match[0]) : (text.includes('唔') || text.includes('吾') ? 5 : 0);
+	return match ? parseInt(match[0]) : (text.includes('唔') || text.includes('吾') || text.includes('午') ? 5 : 0);
 }
