@@ -333,7 +333,7 @@ function startSpeech() {
         recognition.lang = "yue-Hant-HK";
         recognition.continuous = true;
         recognition.interimResults = true;
-        recognition.maxAlternatives = 5;
+        recognition.maxAlternatives = 3;
 
         let finalText = "";
         let timeoutId = null;
