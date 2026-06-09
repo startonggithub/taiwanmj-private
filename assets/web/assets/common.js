@@ -344,7 +344,7 @@ function startSpeech() {
 
             timeoutId = setTimeout(() => {
                 recognition.stop();
-            }, 5000);
+            }, 3000);
         }
 
         recognition.onstart = function() {
@@ -397,7 +397,7 @@ function getSelfOrEatFromText(text) {
 }
 
 function getAddOrMinusFromText(text) {
-	if (text.includes('賞') || text.includes('奬') || text.includes('上') || text.includes('掌') || text.includes('相') || text.includes('長')) {			//hardcode similar pronunciation 賞
+	if (text.includes('賞') || text.includes('奬') || text.includes('上') || text.includes('掌') || text.includes('相') || text.includes('長') || text.includes('想')) {			//hardcode similar pronunciation 賞
 		return 'add';
 	}
 	else if (text.includes('罰') || text.includes('佛') || text.includes('拔') || text.includes('伐')) {		//hardcode similar pronunciation 罰
