@@ -386,7 +386,7 @@ function startSpeech() {
 }
 
 function getSelfOrEatFromText(text) {
-	if (text.includes('食') || text.includes('色') || text.includes('式') || text.includes('值') || text.includes('極') || text.includes('直') || text.includes('城') || text.includes('成')) {			//hardcode similar pronunciation 食
+	if (text.includes('食') || text.includes('色') || text.includes('式') || text.includes('值') || text.includes('直') || text.includes('極')|| text.includes('城') || text.includes('成')) {			//hardcode similar pronunciation 食
 		return 'eat';
 	}
 	else if ((text.includes('自') || text.includes('智') || text.includes('志') || text.includes('至') || text.includes('子') || text.includes('爾')) && 		//hardcode similar pronunciation 自摸
