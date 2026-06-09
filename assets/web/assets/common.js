@@ -399,6 +399,16 @@ function getSelfOrEatFromText(text) {
 	return '';
 }
 
+function getAddOrMinusFromText(text) {
+	if (text.includes('賞') || text.includes('奬') || text.includes('上') || text.includes('掌') || text.includes('相') || text.includes('長')) {			//hardcode similar pronunciation 賞
+		return 'add';
+	}
+	else if (text.includes('罰') || text.includes('佛') || text.includes('拔') || text.includes('伐')) {		//hardcode similar pronunciation 罰
+		return 'minus';
+	}
+	return '';
+}
+
 function getPositionFromText(text) {
 	var position = '';
 
