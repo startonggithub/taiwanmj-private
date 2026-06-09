@@ -326,7 +326,7 @@ function startSpeech() {
             window.SpeechRecognition || window.webkitSpeechRecognition;
 
         if (!SpeechRecognition) {
-            reject("SpeechRecognition not supported");
+            reject("不支援語音輸入");
             return;
         }
 
@@ -334,8 +334,8 @@ function startSpeech() {
 
         recognition.lang = "yue-Hant-HK";
         recognition.continuous = false;
-        recognition.interimResults = true;
-        recognition.maxAlternatives = 5;
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 3;
 
         let finalText = "";
 
@@ -359,4 +359,34 @@ function startSpeech() {
 
         recognition.start();
     });
+}
+
+function getSelfOrEatFromText(text) {
+	if (text.includes('食') || text.includes('色') || text.includes('式') || text.includes('值') || text.includes('極')) {			//hardcode similar pronunciation 食
+		return 'eat';
+	}
+	else if ((text.includes('自') || text.includes('智') || text.includes('志') || text.includes('至') || text.includes('子') || text.includes('爾')) && 		//hardcode similar pronunciation 自摸
+			 (text.includes('摸') || text.includes('摩') || text.includes('魔'))) {
+		return 'self';
+	}
+	return '';
+}
+
+function getPositionFromText(text) {
+	var position = '';
+
+	if (text.includes('東') || text.includes('當') || text.includes('冬')) {	//hardcode similar pronunciation 東
+		position = 'e';
+	}
+	else if (text.includes('南') || text.includes('藍') || text.includes('男')) {	//hardcode similar pronunciation 南
+		position = 's';
+	}
+	else if (text.includes('西') || text.includes('篩') || text.includes('犀') || text.includes('妻')) {		//hardcode similar pronunciation 西
+		position = 'w';
+	}
+	else if (text.includes('北') || text.includes('畢') || text.includes('不') || text.includes('筆') || text.includes('德') || text.includes('得') || text.includes('白') || text.includes('福')) {		//hardcode similar pronunciation 北
+		position = 'n';
+	}
+
+	return position;
 }
