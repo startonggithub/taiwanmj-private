@@ -319,6 +319,7 @@ function normalizeSpeechText(text) {
 function startSpeech() {
 
     return new Promise((resolve, reject) => {
+
         const SpeechRecognition =
             window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -329,24 +330,21 @@ function startSpeech() {
 
         const recognition = new SpeechRecognition();
 
-        recognition.lang = "zh-HK";
-        recognition.continuous = true;
-        recognition.interimResults = true;
-        recognition.maxAlternatives = 5;
+        recognition.lang = "yue-Hant-HK";
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 3;
 
         let finalText = "";
-        let interimText = "";
-        let finished = false;
         let timeoutId = null;
+        let finished = false;
 
         function resetTimeout() {
             clearTimeout(timeoutId);
 
-			timeoutId = setTimeout(() => {
-                if (!finished) {
-                    recognition.stop();
-                }
-            }, 5000); // stop after 5 seconds silence
+            timeoutId = setTimeout(() => {
+                recognition.stop();
+            }, 5000);
         }
 
         recognition.onstart = function() {
@@ -355,14 +353,12 @@ function startSpeech() {
 
         recognition.onresult = function(event) {
             resetTimeout();
-            interimText = "";
 
             for (let i = event.resultIndex; i < event.results.length; i++) {
                 const result = event.results[i];
+
                 if (result.isFinal) {
                     finalText += result[0].transcript;
-                } else {
-                    interimText += result[0].transcript;
                 }
             }
         };
@@ -379,19 +375,9 @@ function startSpeech() {
         recognition.onend = function() {
             clearTimeout(timeoutId);
 
-            if (finished) return;
-            finished = true;
-            let text = finalText.trim();
-
-            // Mobile Chrome sometimes ends before final result
-            if (text === "") {
-                text = interimText.trim();
-            }
-
-			if (text === "") {
-                reject("未收到語音");
-            } else {
-                resolve(normalizeSpeechText(text));
+            if (!finished) {
+                finished = true;
+                resolve(normalizeSpeechText(finalText));
             }
         };
 
