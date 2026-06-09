@@ -1014,14 +1014,12 @@
 			$('#rewardPunishConfirm').prop('disabled', true);
 
 			var text = await speechToText();
-			
+
 			//input from speech
 			if (text != '') {
 				var position = getPositionFromText(text.charAt(0));
 				var addMinus = getAddOrMinusFromText(text);
 				var points = parseInt(text.match(/\d+/));
-
-				console.log(position + '-' + addMinus);
 
 				if (position != '' && addMinus != '') {
 					$('#' + position + '-' + addMinus).addClass('active');
