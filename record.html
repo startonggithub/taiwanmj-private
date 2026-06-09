@@ -1022,6 +1022,8 @@
 				var addMinus = getAddOrMinusFromText(text);
 				var points = parseInt(text.match(/\d+/));
 
+				console.log(position + '-' + addMinus);
+
 				if (position != '' && addMinus != '') {
 					$('#' + position + '-' + addMinus).addClass('active');
 				}
