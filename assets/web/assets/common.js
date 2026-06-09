@@ -253,3 +253,110 @@ function pad(number, length) {
     }
     return str;
 }
+
+const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+
+function chineseToNumber(chinese) {
+    const digits = {
+        '零':0, '〇':0,
+        '一':1, '二':2, '兩':2, '三':3, '四':4,
+        '五':5, '六':6, '七':7, '八':8, '九':9
+    };
+
+    const units = {
+        '十':10,
+        '百':100,
+        '千':1000,
+        '萬':10000,
+        '億':100000000
+    };
+
+    let result = 0;
+    let section = 0;
+    let number = 0;
+
+    for (let i = 0; i < chinese.length; i++) {
+        const c = chinese[i];
+
+        if (digits[c] !== undefined) {
+            number = digits[c];
+        }
+        else if (units[c]) {
+            const unit = units[c];
+
+            if (unit < 10000) {
+                if (number === 0) number = 1;
+                section += number * unit;
+            } else {
+                section += number;
+                result += section * unit;
+                section = 0;
+            }
+
+            number = 0;
+        }
+    }
+
+    return result + section + number;
+}
+
+function replaceChineseNumbers(text) {
+    return text.replace(
+        /[零〇一二兩三四五六七八九十百千萬億]+/g,
+        function(match) {
+            return chineseToNumber(match);
+        }
+    );
+}
+
+function normalizeSpeechText(text) {
+    text = text.trim();
+
+    // Convert Chinese numbers to digits
+    text = replaceChineseNumbers(text);
+
+    return text;
+}
+
+function startSpeech() {
+
+    return new Promise((resolve, reject) => {
+        const SpeechRecognition =
+            window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        if (!SpeechRecognition) {
+            reject("SpeechRecognition not supported");
+            return;
+        }
+
+        const recognition = new SpeechRecognition();
+
+        recognition.lang = "yue-Hant-HK";
+        recognition.continuous = false;
+        recognition.interimResults = true;
+        recognition.maxAlternatives = 5;
+
+        let finalText = "";
+
+        recognition.onresult = function(event) {
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                const result = event.results[i];
+
+                if (result.isFinal) {
+                    finalText += result[0].transcript;
+                }
+            }
+        };
+
+        recognition.onerror = function(event) {
+            reject(event.error);
+        };
+
+        recognition.onend = function() {
+            resolve(normalizeSpeechText(finalText));
+        };
+
+        recognition.start();
+    });
+}
