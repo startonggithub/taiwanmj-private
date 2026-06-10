@@ -350,7 +350,7 @@ function startSpeech() {
         }
 
         recognition.onstart = function() {
-			console.log("SpeechRecognition started");
+            console.log("SpeechRecognition started");
             resetTimeout();
         };
 
@@ -369,7 +369,7 @@ function startSpeech() {
         recognition.onerror = function (event) {
             console.log("SpeechRecognition error:", event.error);
 
-			clearTimeout(timeoutId);
+            clearTimeout(timeoutId);
             if (!finished) {
                 finished = true;
                 reject(event.error);
@@ -377,7 +377,7 @@ function startSpeech() {
         };
 
         recognition.onend = function () {
-			console.log("SpeechRecognition ended");
+            console.log("SpeechRecognition ended");
 
             clearTimeout(timeoutId);
 
