@@ -21,11 +21,11 @@ var swapPairs = [['es','se'],['ew','sn'],['en','sw'],['we','ns'],['ws','ne'],['w
 
 var elementsPerRow = 6;
 var gameResultDetails = [es_point_negative = 0, es_point_positive = 0, es_punish = 0, es_reward = 0, es_adjust_negative = 0, es_adjust_positive = 0,
-						 ew_point_negative = 0, ew_point_positive = 0, ew_punish = 0, ew_reward = 0, ew_adjust_negative = 0, ew_adjust_positive = 0,
-						 en_point_negative = 0, en_point_positive = 0, en_punish = 0, en_reward = 0, en_adjust_negative = 0, en_adjust_positive = 0,
-						 sw_point_negative = 0, sw_point_positive = 0, sw_punish = 0, sw_reward = 0, sw_adjust_negative = 0, sw_adjust_positive = 0,
-						 sn_point_negative = 0, sn_point_positive = 0, sn_punish = 0, sn_reward = 0, sn_adjust_negative = 0, sn_adjust_positive = 0,
-						 wn_point_negative = 0, wn_point_positive = 0, wn_punish = 0, wn_reward = 0, wn_adjust_negative = 0, wn_adjust_positive = 0];
+                         ew_point_negative = 0, ew_point_positive = 0, ew_punish = 0, ew_reward = 0, ew_adjust_negative = 0, ew_adjust_positive = 0,
+                         en_point_negative = 0, en_point_positive = 0, en_punish = 0, en_reward = 0, en_adjust_negative = 0, en_adjust_positive = 0,
+                         sw_point_negative = 0, sw_point_positive = 0, sw_punish = 0, sw_reward = 0, sw_adjust_negative = 0, sw_adjust_positive = 0,
+                         sn_point_negative = 0, sn_point_positive = 0, sn_punish = 0, sn_reward = 0, sn_adjust_negative = 0, sn_adjust_positive = 0,
+                         wn_point_negative = 0, wn_point_positive = 0, wn_punish = 0, wn_reward = 0, wn_adjust_negative = 0, wn_adjust_positive = 0];
 
 function getUUID(){
     var dt = new Date().getTime();
@@ -122,8 +122,8 @@ function resize () {
 
 		$('#table-scores-tbody').css('font-size', 15);
 		$('#top-buttons-1, #bottom-buttons-1, #bottom-buttons-2').find('button').each(function () {
-			$(this).removeClass('btn-sm');
-			$(this).addClass('btn-xs');
+            $(this).removeClass('btn-sm');
+            $(this).addClass('btn-xs');
 		})
 		$('#button-retrieve').removeClass('btn-sm');
 		$('#button-retrieve').addClass('btn-xs');
@@ -146,8 +146,8 @@ function resize () {
 
 		$('#table-scores-tbody').css('font-size', 10);
 		$('#top-buttons-1, #bottom-buttons-1, #bottom-buttons-2').find('button').each(function () {
-			$(this).removeClass('btn-sm');
-			$(this).addClass('btn-xs');
+            $(this).removeClass('btn-sm');
+            $(this).addClass('btn-xs');
 		})
 		$('#button-retrieve').removeClass('btn-sm');
 		$('#button-retrieve').addClass('btn-xs');
@@ -170,8 +170,8 @@ function resize () {
 
 		$('#table-scores-tbody').css('font-size', 12);
 		$('#top-buttons-1, #bottom-buttons-1, #bottom-buttons-2').find('button').each(function () {
-			$(this).removeClass('btn-xs');
-			$(this).addClass('btn-sm');
+            $(this).removeClass('btn-xs');
+            $(this).addClass('btn-sm');
 		})
 		$('#button-retrieve').removeClass('btn-xs');
 		$('#button-retrieve').addClass('btn-sm');
@@ -194,8 +194,8 @@ function resize () {
 
 		$('#table-scores-tbody').css('font-size', 18);
 		$('#top-buttons-1, #bottom-buttons-1, #bottom-buttons-2').find('button').each(function () {
-			$(this).removeClass('btn-xs');
-			$(this).addClass('btn-sm');
+            $(this).removeClass('btn-xs');
+            $(this).addClass('btn-sm');
 		})
 		$('#button-retrieve').removeClass('btn-xs');
 		$('#button-retrieve').addClass('btn-sm');
@@ -375,13 +375,13 @@ function startSpeech() {
         recognition.onerror = function (event) {
             clearTimeout(timeoutId);
 
-			if (finished) return;
-			finished = true;
+            if (finished) return;
+            finished = true;
             reject(event.error);
         };
 
         recognition.onend = function () {
-			finish();
+            finish();
         };
 
         try {
@@ -393,18 +393,18 @@ function startSpeech() {
 }
 
 function getSelfOrEatFromText(text) {
-	if (text.includes('食') || text.includes('色') || text.includes('式') || text.includes('值') || text.includes('直') || text.includes('極')|| text.includes('城') || text.includes('成')) {			//hardcode similar pronunciation 食
+	if (text.includes('食') || text.includes('色') || text.includes('式') || text.includes('值') || text.includes('直') || text.includes('極')|| text.includes('城') || text.includes('成')) {            //hardcode similar pronunciation 食
 		return 'eat';
 	}
 	else if ((text.includes('自') || text.includes('智') || text.includes('志') || text.includes('至') || text.includes('子') || text.includes('爾')) && 		//hardcode similar pronunciation 自摸
-			 (text.includes('摸') || text.includes('摩') || text.includes('魔'))) {
+             (text.includes('摸') || text.includes('摩') || text.includes('魔'))) {
 		return 'self';
 	}
 	return '';
 }
 
 function getAddOrMinusFromText(text) {
-	if (text.includes('賞') || text.includes('獎') || text.includes('上') || text.includes('掌') || text.includes('相') || text.includes('長') || text.includes('想')) {			//hardcode similar pronunciation 賞
+	if (text.includes('賞') || text.includes('獎') || text.includes('上') || text.includes('掌') || text.includes('相') || text.includes('長') || text.includes('想')) {            //hardcode similar pronunciation 賞
 		return 'add';
 	}
 	else if (text.includes('罰') || text.includes('佛') || text.includes('拔') || text.includes('伐')) {		//hardcode similar pronunciation 罰
