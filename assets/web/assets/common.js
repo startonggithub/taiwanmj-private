@@ -337,6 +337,13 @@ function startSpeech() {
         let timeoutId = null;
         let finished = false;
 
+		function finish() {
+            clearTimeout(timeoutId);
+            if (finished) return;
+            finished = true;
+            resolve(normalizeSpeechText(finalText));
+        }
+
         function resetTimeout() {
             clearTimeout(timeoutId);
 
@@ -350,7 +357,6 @@ function startSpeech() {
         }
 
         recognition.onstart = function() {
-            console.log("SpeechRecognition started");
             resetTimeout();
         };
 
@@ -367,35 +373,21 @@ function startSpeech() {
         };
 
         recognition.onerror = function (event) {
-            console.log("SpeechRecognition error:", event.error);
-
             clearTimeout(timeoutId);
-            if (!finished) {
-                finished = true;
-                reject(event.error);
-            }
+
+			if (finished) return;
+			finished = true;
+            reject(event.error);
         };
 
         recognition.onend = function () {
-            console.log("SpeechRecognition ended");
-
-            clearTimeout(timeoutId);
-
-            if (!finished) {
-                finished = true;
-                resolve(
-                    normalizeSpeechText(finalText)
-                );
-            }
+			finish();
         };
 
         try {
             recognition.start();
         } catch (e) {
-            reject(
-                e.message ||
-                "Failed to start speech recognition"
-            );
+            reject(e.message || e);
         }
     });
 }
