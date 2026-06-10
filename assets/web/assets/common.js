@@ -317,9 +317,7 @@ function normalizeSpeechText(text) {
 }
 
 function startSpeech() {
-
     return new Promise((resolve, reject) => {
-
         const SpeechRecognition =
             window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -338,13 +336,28 @@ function startSpeech() {
         let finalText = "";
         let timeoutId = null;
         let finished = false;
+        let manuallyStopping = false;
+        let recognitionStarted = false;
 
         function resetTimeout() {
             clearTimeout(timeoutId);
 
             timeoutId = setTimeout(() => {
-                recognition.stop();
+                manuallyStopping = true;
+				recognition.stop();
             }, 3000);
+        }
+
+        function restartRecognition() {
+            setTimeout(() => {
+                if (finished || manuallyStopping) return;
+
+                try {
+                    recognition.start();
+                } catch (e) {
+                    console.log("restart failed:", e);
+                }
+            }, 300);
         }
 
         recognition.onstart = function() {
@@ -363,25 +376,37 @@ function startSpeech() {
             }
         };
 
-        recognition.onerror = function(event) {
-            clearTimeout(timeoutId);
+        recognition.onerror = function (event) {
+            console.log("SpeechRecognition error:", event.error);
 
-            if (!finished) {
+            if (
+                event.error === "not-allowed" ||
+                event.error === "service-not-allowed"
+            ) {
+                clearTimeout(timeoutId);
                 finished = true;
                 reject(event.error);
             }
         };
 
-        recognition.onend = function() {
+        recognition.onend = function () {
             clearTimeout(timeoutId);
 
-            if (!finished) {
+            if (finished) return;
+
+            if (manuallyStopping) {
                 finished = true;
                 resolve(normalizeSpeechText(finalText));
+            } else {
+                restartRecognition();
             }
         };
 
-        recognition.start();
+        try {
+            recognition.start();
+        } catch (e) {
+            reject(e);
+        }
     });
 }
 
