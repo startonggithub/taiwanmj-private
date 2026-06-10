@@ -336,31 +336,21 @@ function startSpeech() {
         let finalText = "";
         let timeoutId = null;
         let finished = false;
-        let manuallyStopping = false;
-        let recognitionStarted = false;
 
         function resetTimeout() {
             clearTimeout(timeoutId);
 
             timeoutId = setTimeout(() => {
-                manuallyStopping = true;
-				recognition.stop();
+                try {
+                    recognition.stop();
+                } catch (e) {
+                    console.log(e);
+                }
             }, 3000);
         }
 
-        function restartRecognition() {
-            setTimeout(() => {
-                if (finished || manuallyStopping) return;
-
-                try {
-                    recognition.start();
-                } catch (e) {
-                    console.log("restart failed:", e);
-                }
-            }, 300);
-        }
-
         recognition.onstart = function() {
+			console.log("SpeechRecognition started");
             resetTimeout();
         };
 
@@ -379,33 +369,33 @@ function startSpeech() {
         recognition.onerror = function (event) {
             console.log("SpeechRecognition error:", event.error);
 
-            if (
-                event.error === "not-allowed" ||
-                event.error === "service-not-allowed"
-            ) {
-                clearTimeout(timeoutId);
+			clearTimeout(timeoutId);
+            if (!finished) {
                 finished = true;
                 reject(event.error);
             }
         };
 
         recognition.onend = function () {
+			console.log("SpeechRecognition ended");
+
             clearTimeout(timeoutId);
 
-            if (finished) return;
-
-            if (manuallyStopping) {
+            if (!finished) {
                 finished = true;
-                resolve(normalizeSpeechText(finalText));
-            } else {
-                restartRecognition();
+                resolve(
+                    normalizeSpeechText(finalText)
+                );
             }
         };
 
         try {
             recognition.start();
         } catch (e) {
-            reject(e);
+            reject(
+                e.message ||
+                "Failed to start speech recognition"
+            );
         }
     });
 }
