@@ -59,7 +59,7 @@
         #photoReaderModal .photo-reader-stage {
             position: relative;
             width: 100%;
-            aspect-ratio: 4 / 3;
+            aspect-ratio: 8 / 9;
             overflow: hidden;
             background:
                 linear-gradient(45deg, rgba(255, 255, 255, 0.04) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.04) 75%),
@@ -3259,6 +3259,24 @@
 			return { pointCodes: pointCodes, unknownCount: unknownCount };
 		}
 
+		function setPhotoReaderOpenCheckbox(setNumber, checked) {
+			const openCheckbox = document.getElementById("set-" + setNumber + "-open");
+			if (!openCheckbox) return;
+
+			if (window.jQuery) {
+				window.jQuery(openCheckbox).prop("checked", checked);
+			} else {
+				openCheckbox.checked = checked;
+			}
+
+			if (checked) {
+				openCheckbox.setAttribute("checked", "checked");
+			} else {
+				openCheckbox.removeAttribute("checked");
+			}
+			openCheckbox.dispatchEvent(new Event("change", { bubbles: true }));
+		}
+
 		function clearPointTilesForPhotoImport() {
 			if (typeof window.clearSets === "function") {
 				window.clearSets();
@@ -3273,6 +3291,10 @@
 				}
 			}
 
+			for (let setNumber = 1; setNumber <= 5; setNumber += 1) {
+				setPhotoReaderOpenCheckbox(setNumber, false);
+			}
+
 			if (typeof window.clearFlowers === "function") {
 				window.clearFlowers();
 			} else {
@@ -3283,24 +3305,42 @@
 		}
 
 		function applyPhotoReaderCodes(upperCodes, lowerCodes, unknownCount) {
+			const lowerRegularEntries = lowerCodes
+				.filter(function (code) { return regularPointCodes.has(code); })
+				.map(function (code) { return { code: code, fromLowerSet: true }; });
+			const upperRegularEntries = upperCodes
+				.filter(function (code) { return regularPointCodes.has(code); })
+				.map(function (code) { return { code: code, fromLowerSet: false }; });
+			const regularEntries = lowerRegularEntries.concat(upperRegularEntries);
 			const combinedCodes = upperCodes.concat(lowerCodes);
-			const regularCodes = combinedCodes.filter(function (code) {
-				return regularPointCodes.has(code);
-			});
 			const bonusCodes = combinedCodes.filter(function (code) {
 				return bonusPointCodes.has(code);
 			});
-			const importedRegularCodes = regularCodes.slice(0, 17);
-			const omittedCount = Math.max(0, regularCodes.length - importedRegularCodes.length);
+			const importedRegularEntries = regularEntries.slice(0, 17);
+			const importedRegularCodes = importedRegularEntries.map(function (entry) {
+				return entry.code;
+			});
+			const omittedCount = Math.max(0, regularEntries.length - importedRegularEntries.length);
 
 			clearPointTilesForPhotoImport();
 
-			importedRegularCodes.forEach(function (code, index) {
+			importedRegularEntries.forEach(function (entry, index) {
 				const target = document.getElementById(String(index + 1));
 				if (!target) return;
-				target.src = "image/" + code + ".png";
-				target.setAttribute("name", code);
+				target.src = "image/" + entry.code + ".png";
+				target.setAttribute("name", entry.code);
 			});
+
+			const openSetNumbers = [];
+			for (let setIndex = 0; setIndex < 5; setIndex += 1) {
+				const groupEntries = importedRegularEntries.slice(setIndex * 3, setIndex * 3 + 3);
+				const isOpenSet = groupEntries.some(function (entry) {
+					return entry.fromLowerSet;
+				});
+				const setNumber = setIndex + 1;
+				setPhotoReaderOpenCheckbox(setNumber, isOpenSet);
+				if (isOpenSet) openSetNumbers.push(setNumber);
+			}
 
 			Array.from(new Set(bonusCodes)).forEach(function (code) {
 				const bonusTile = document.querySelector("#flowers img[name=\"" + code + "\"]");
@@ -3326,6 +3366,7 @@
 				lowerTileCodes: lowerCodes.slice(),
 				importedTileCodes: importedRegularCodes.slice(),
 				bonusTileCodes: Array.from(new Set(bonusCodes)),
+				openSetNumbers: openSetNumbers.slice(),
 				unknownCount: unknownCount,
 				omittedCount: omittedCount
 			};
