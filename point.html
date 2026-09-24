@@ -127,15 +127,10 @@
         }
 
         #photoReaderModal .photo-reader-actions {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
             gap: 12px;
-            padding: 24px 24px 0;
-        }
-
-        #photoReaderModal .photo-reader-actions.recognition {
-            padding-top: 18px;
-            padding-bottom: 24px;
+            padding: 24px;
         }
 
         #photoReaderModal .photo-reader-button,
@@ -143,8 +138,10 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            width: 100%;
+            min-width: 0;
             min-height: 54px;
-            padding: 0 22px;
+            padding: 0 10px;
             border: 0;
             border-radius: 18px;
             color: #0a4635;
@@ -173,10 +170,6 @@
             height: 1px;
             overflow: hidden;
             opacity: 0;
-        }
-
-        #photo-reader-recognize-button {
-            flex: 1 1 310px;
         }
 
         #photoReaderModal .photo-reader-status {
@@ -211,26 +204,17 @@
             }
 
             #photoReaderModal .photo-reader-actions {
-                gap: 10px;
-                padding: 18px 14px 0;
-            }
-
-            #photoReaderModal .photo-reader-actions.recognition {
-                padding-top: 16px;
-                padding-bottom: 20px;
+                gap: 8px;
+                padding: 18px 14px 20px;
             }
 
             #photoReaderModal .photo-reader-button,
             #photoReaderModal .photo-reader-file-button {
-                flex: 1 1 135px;
                 min-height: 50px;
-                padding: 0 14px;
+                padding: 0 4px;
                 border-radius: 15px;
-                font-size: 15px;
-            }
-
-            #photo-reader-recognize-button {
-                flex-basis: 62%;
+                font-size: clamp(13px, 3.8vw, 15px);
+                white-space: nowrap;
             }
 
             #photoReaderModal .photo-reader-status {
@@ -560,9 +544,6 @@
                     <button class="photo-reader-button" id="photo-reader-start-button" type="button">開啟相機</button>
                     <button class="photo-reader-button primary" id="photo-reader-take-button" type="button" disabled>拍照</button>
                     <label class="photo-reader-file-button">選擇相片<input id="photo-reader-file-input" type="file" accept="image/jpeg,image/png,image/webp"></label>
-                </div>
-
-                <div class="photo-reader-actions recognition">
                     <button class="photo-reader-button primary" id="photo-reader-recognize-button" type="button" disabled>認牌</button>
                 </div>
 
