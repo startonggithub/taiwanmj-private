@@ -126,6 +126,65 @@
             top: calc(50% + 16px);
         }
 
+        #photoReaderModal .photo-reader-connection {
+            position: absolute;
+            z-index: 5;
+            top: 16px;
+            right: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            max-width: calc(100% - 150px);
+            padding: 7px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            border-radius: 999px;
+            box-sizing: border-box;
+            color: #fff;
+            background: rgba(58, 67, 62, 0.9);
+            font-size: 13px;
+            font-weight: 750;
+            line-height: 1.2;
+            white-space: nowrap;
+            pointer-events: none;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+        }
+
+        #photoReaderModal .photo-reader-connection-dot {
+            flex: 0 0 auto;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #c7cec9;
+            box-shadow: 0 0 0 5px rgba(199, 206, 201, 0.16);
+        }
+
+        #photoReaderModal .photo-reader-connection.connecting {
+            background: rgba(99, 76, 14, 0.92);
+        }
+
+        #photoReaderModal .photo-reader-connection.connecting .photo-reader-connection-dot {
+            background: #ffd267;
+            box-shadow: 0 0 0 5px rgba(255, 210, 103, 0.18);
+        }
+
+        #photoReaderModal .photo-reader-connection.ready {
+            background: rgba(0, 74, 52, 0.92);
+        }
+
+        #photoReaderModal .photo-reader-connection.ready .photo-reader-connection-dot {
+            background: #72dfa8;
+            box-shadow: 0 0 0 5px rgba(114, 223, 168, 0.18);
+        }
+
+        #photoReaderModal .photo-reader-connection.error {
+            background: rgba(119, 42, 34, 0.94);
+        }
+
+        #photoReaderModal .photo-reader-connection.error .photo-reader-connection-dot {
+            background: #ff9d90;
+            box-shadow: 0 0 0 5px rgba(255, 157, 144, 0.18);
+        }
+
         #photoReaderModal .photo-reader-actions {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -421,7 +480,7 @@
 			<div style="margin:8px 0px 0px 0px;" >
 				<div class="row col-12 nopadding">
 					<div style="width:55%;">
-						<button id="button-photo-reader" type="button" class="btn-xs btn-primary display-7">相片</button>
+						<button id="button-photo-reader" type="button" class="btn-xs btn-primary display-7">辯識</button>
 						<button id="button-calc" onclick="onClickCalc(-1); return false;" type="submit" class="btn-xs btn-primary display-7">計算</button>
 						<button id="button-reset" onclick="onClickReset(); return false;" type="submit" class="btn-xs btn-primary display-7">重設</button>
 						<button id="button-finish" onclick="onClickFinish(); return false;" type="submit" class="btn-xs btn-primary display-7">完成</button>
@@ -535,6 +594,10 @@
                 <div class="photo-reader-stage" id="photo-reader-stage">
                     <video class="photo-reader-media" id="photo-reader-camera" playsinline muted aria-label="相機預覽"></video>
                     <img class="photo-reader-media" id="photo-reader-preview" alt="已選取的暗間及落地麻將牌">
+                    <div class="photo-reader-connection" id="photo-reader-connection" role="status" aria-live="polite">
+                        <span class="photo-reader-connection-dot" aria-hidden="true"></span>
+                        <span id="photo-reader-connection-text">Firebase waiting</span>
+                    </div>
                     <div class="photo-reader-guide" aria-hidden="true">
                         <span class="photo-reader-label upper">暗間</span>
                         <span class="photo-reader-label lower">落地</span>
@@ -549,7 +612,7 @@
                     <button class="photo-reader-button" id="photo-reader-start-button" type="button">開啟相機</button>
                     <button class="photo-reader-button primary" id="photo-reader-take-button" type="button" disabled>拍照</button>
                     <label class="photo-reader-file-button">選擇相片<input id="photo-reader-file-input" type="file" accept="image/jpeg,image/png,image/webp"></label>
-                    <button class="photo-reader-button primary" id="photo-reader-recognize-button" type="button" disabled>認牌</button>
+                    <button class="photo-reader-button primary" id="photo-reader-recognize-button" type="button" disabled>辯識</button>
                 </div>
 
                 <div class="sr-only" id="photo-reader-status" role="status" aria-live="polite">請選擇相片或開啟相機。</div>
@@ -2993,6 +3056,8 @@
 			takeButton: document.getElementById("photo-reader-take-button"),
 			fileInput: document.getElementById("photo-reader-file-input"),
 			recognizeButton: document.getElementById("photo-reader-recognize-button"),
+			connection: document.getElementById("photo-reader-connection"),
+			connectionText: document.getElementById("photo-reader-connection-text"),
 			status: document.getElementById("photo-reader-status")
 		};
 
@@ -3011,6 +3076,12 @@
 			}
 		}
 
+		function setPhotoReaderConnection(label, state) {
+			photoReaderElements.connectionText.textContent = label;
+			photoReaderElements.connection.className = "photo-reader-connection" +
+				(state ? " " + state : "");
+		}
+
 		function syncPhotoReaderButtons() {
 			const imagesReady = Boolean(photoReaderImageData.upper && photoReaderImageData.lower);
 			photoReaderElements.recognizeButton.disabled =
@@ -3018,8 +3089,13 @@
 		}
 
 		async function initializePhotoReader() {
-			if (photoReaderModel) return photoReaderModel;
+			if (photoReaderModel) {
+				setPhotoReaderConnection("Firebase ready", "ready");
+				return photoReaderModel;
+			}
 			if (photoReaderInitialization) return photoReaderInitialization;
+
+			setPhotoReaderConnection("Firebase connecting", "connecting");
 
 			photoReaderInitialization = Promise.resolve().then(function () {
 				if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
@@ -3034,10 +3110,12 @@
 
 				const ai = getAI(app, { backend: new GoogleAIBackend() });
 				photoReaderModel = getGenerativeModel(ai, { model: photoReaderModelName });
+				setPhotoReaderConnection("Firebase ready", "ready");
 				syncPhotoReaderButtons();
 				return photoReaderModel;
 			}).catch(function (error) {
 				photoReaderInitialization = null;
+				setPhotoReaderConnection("Firebase error", "error");
 				throw error;
 			});
 
@@ -3160,7 +3238,7 @@
 			photoReaderElements.preview.classList.add("active");
 			photoReaderElements.camera.classList.remove("active");
 			syncPhotoReaderButtons();
-			setPhotoReaderStatus("相片已準備好，請按「認牌」。");
+			setPhotoReaderStatus("相片已準備好，請按「辯識」。");
 		}
 
 		function takePhotoReaderPhoto() {
@@ -3398,7 +3476,8 @@
 
 			photoReaderRecognizing = true;
 			syncPhotoReaderButtons();
-			photoReaderElements.recognizeButton.textContent = "辨識中…";
+			photoReaderElements.recognizeButton.textContent = "辯識中…";
+			setPhotoReaderConnection("Firebase checking", "connecting");
 			setPhotoReaderStatus("Gemini 正在辨識暗間及落地牌…", "working");
 
 			try {
@@ -3409,6 +3488,7 @@
 					inlinePhotoReaderImage(photoReaderImageData.lower)
 				]);
 				const parsed = parsePhotoReaderJson(response.response.text());
+				setPhotoReaderConnection("Firebase ready", "ready");
 				const upper = pointCodesFromRecognitionSection(parsed && parsed.upper);
 				const lower = pointCodesFromRecognitionSection(parsed && parsed.lower);
 				const unknownCount = upper.unknownCount + lower.unknownCount;
@@ -3439,10 +3519,11 @@
 				}, 900);
 			} catch (error) {
 				console.error("Photo reader recognition failed", error);
+				setPhotoReaderConnection("Firebase error", "error");
 				setPhotoReaderStatus(friendlyPhotoReaderError(error), "error");
 			} finally {
 				photoReaderRecognizing = false;
-				photoReaderElements.recognizeButton.textContent = "認牌";
+				photoReaderElements.recognizeButton.textContent = "辯識";
 				syncPhotoReaderButtons();
 			}
 		}
@@ -3455,7 +3536,7 @@
 					if (!photoReaderImageData.upper) {
 						setPhotoReaderStatus("請選擇相片或開啟相機。");
 					} else {
-						setPhotoReaderStatus("相片已準備好，請按「認牌」。");
+						setPhotoReaderStatus("相片已準備好，請按「辯識」。");
 					}
 				}).catch(function (error) {
 					setPhotoReaderStatus(friendlyPhotoReaderError(error), "error");
