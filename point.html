@@ -56,38 +56,15 @@
             line-height: 1.45;
         }
 
-        #photoReaderModal .photo-reader-stage-stack {
-            display: grid;
-            gap: 4px;
-            width: 100%;
-            background: #fffdf8;
-        }
-
         #photoReaderModal .photo-reader-stage {
             position: relative;
             width: 100%;
-            aspect-ratio: 2 / 1;
+            aspect-ratio: 16 / 9;
             overflow: hidden;
-            cursor: pointer;
             background:
                 linear-gradient(45deg, rgba(255, 255, 255, 0.04) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.04) 75%),
                 #14251e;
             background-size: 52px 52px;
-            box-shadow: inset 0 0 0 0 #72dfa8;
-            transition: box-shadow 160ms ease;
-        }
-
-        #photoReaderModal .photo-reader-stage.active {
-            box-shadow: inset 0 0 0 4px #72dfa8;
-        }
-
-        #photoReaderModal .photo-reader-stage:focus-visible {
-            outline: 4px solid #196344;
-            outline-offset: -4px;
-        }
-
-        #photoReaderModal .photo-reader-stage[aria-disabled="true"] {
-            cursor: wait;
         }
 
         #photoReaderModal .photo-reader-media {
@@ -113,7 +90,6 @@
         #photoReaderModal .photo-reader-label {
             position: absolute;
             z-index: 4;
-            top: 12px;
             left: 14px;
             padding: 7px 13px;
             border-radius: 999px;
@@ -125,24 +101,25 @@
             pointer-events: none;
         }
 
-        #photoReaderModal .photo-reader-panel-state {
-            position: absolute;
-            z-index: 4;
-            right: 14px;
-            bottom: 12px;
-            padding: 6px 11px;
-            border-radius: 999px;
-            color: #fff;
-            background: rgba(58, 67, 62, 0.88);
-            font-size: 12px;
-            font-weight: 750;
-            line-height: 1.2;
-            pointer-events: none;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.22);
+        #photoReaderModal .photo-reader-label-upper {
+            top: 12px;
         }
 
-        #photoReaderModal .photo-reader-stage.ready .photo-reader-panel-state {
-            background: rgba(0, 74, 52, 0.92);
+        #photoReaderModal .photo-reader-label-lower {
+            top: calc(50% + 12px);
+        }
+
+        #photoReaderModal .photo-reader-divider {
+            position: absolute;
+            z-index: 3;
+            top: 50%;
+            right: 0;
+            left: 0;
+            height: 4px;
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+            pointer-events: none;
         }
 
         #photoReaderModal .photo-reader-connection {
@@ -322,10 +299,6 @@
                 padding: 9px 52px 9px 14px;
                 font-size: 14px;
                 line-height: 1.3;
-            }
-
-            #photoReaderModal .photo-reader-stage-stack {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
 
             #photoReaderModal .photo-reader-actions {
@@ -644,24 +617,17 @@
             <div class="modal-content photo-reader-content">
                 <h2 id="photoReaderTitle" class="sr-only">麻將相片辨識</h2>
                 <button type="button" class="photo-reader-close" data-dismiss="modal" aria-label="關閉">&times;</button>
-                <p class="photo-reader-instruction">請橫向拍攝；先拍「落地」，再拍「暗間」。每張相片只放一組直線排列的牌。</p>
+                <p class="photo-reader-instruction">請橫向拍攝；「暗間」放上半部，「落地」放下半部。沒有落地牌時，下半部可留空。</p>
 
-                <div class="photo-reader-stage-stack" role="group" aria-label="落地及暗間相片">
-                    <div class="photo-reader-stage active" data-photo-reader-stage-section="lower" role="button" tabindex="0" aria-pressed="true" aria-label="選擇落地相片">
-                        <video class="photo-reader-media" id="photo-reader-lower-camera" playsinline muted aria-label="落地相機預覽"></video>
-                        <img class="photo-reader-media" id="photo-reader-lower-preview" alt="已選取的落地麻將牌相片">
-                        <span class="photo-reader-label">1　落地</span>
-                        <span class="photo-reader-panel-state">尚未拍攝</span>
-                        <div class="photo-reader-connection" id="photo-reader-connection" role="status" aria-live="polite">
-                            <span class="photo-reader-connection-dot" aria-hidden="true"></span>
-                            <span id="photo-reader-connection-text">Firebase 等候中</span>
-                        </div>
-                    </div>
-                    <div class="photo-reader-stage" data-photo-reader-stage-section="upper" role="button" tabindex="0" aria-pressed="false" aria-label="選擇暗間相片">
-                        <video class="photo-reader-media" id="photo-reader-upper-camera" playsinline muted aria-label="暗間相機預覽"></video>
-                        <img class="photo-reader-media" id="photo-reader-upper-preview" alt="已選取的暗間麻將牌相片">
-                        <span class="photo-reader-label">2　暗間</span>
-                        <span class="photo-reader-panel-state">尚未拍攝</span>
+                <div class="photo-reader-stage" id="photo-reader-stage" aria-label="暗間及落地相片預覽">
+                    <video class="photo-reader-media" id="photo-reader-camera" playsinline muted aria-label="麻將牌相機預覽"></video>
+                    <img class="photo-reader-media" id="photo-reader-preview" alt="已選取的暗間及落地麻將牌相片">
+                    <span class="photo-reader-label photo-reader-label-upper">暗間</span>
+                    <span class="photo-reader-label photo-reader-label-lower">落地</span>
+                    <span class="photo-reader-divider" aria-hidden="true"></span>
+                    <div class="photo-reader-connection" id="photo-reader-connection" role="status" aria-live="polite">
+                        <span class="photo-reader-connection-dot" aria-hidden="true"></span>
+                        <span id="photo-reader-connection-text">Firebase 等候中</span>
                     </div>
                 </div>
 
@@ -3021,8 +2987,7 @@
 		import {
 			getAI,
 			getGenerativeModel,
-			GoogleAIBackend,
-			Schema
+			GoogleAIBackend
 		} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-ai.js";
 
 		const photoReaderFirebaseConfig = {
@@ -3038,8 +3003,6 @@
 		const photoReaderAppCheckSiteKey = "6Le2pr8tAAAAAJok_ANlypsAU9A8OuMvOyfRG4xl";
 		const photoReaderModelNames = [
 			"gemini-3.8-flash",
-			"gemini-3.6-flash",
-			"gemini-3.5-flash",
 			"gemini-3.5-flash-lite"
 		];
 		const recognitionCodes = [
@@ -3089,30 +3052,20 @@
 		]);
 		const bonusPointCodes = new Set(["71", "72", "73", "74", "81", "82", "83", "84"]);
 
-		const recognitionResponseSchema = Schema.object({
-			properties: {
-				tiles: Schema.array({
-					items: Schema.object({
-						properties: {
-							code: Schema.enumString({ enum: recognitionCodes }),
-							confidence: Schema.number()
-						}
-					}),
-					maxItems: 40
-				})
-			}
-		});
-
-		function buildPhotoReaderPrompt(sectionKey) {
-			const sectionName = sectionKey === "lower" ? "落地" : "暗間";
+		function buildPhotoReaderPrompt() {
 			return [
 				"Act as a careful visual Mahjong tile transcriber.",
-				"The attached image contains only the " + sectionName + " set.",
-				"First count the visible physical tile rectangles, then classify every rectangle independently.",
-				"Return exactly one entry for every visible face-up Mahjong tile and preserve left-to-right order.",
-				"If the image has multiple rows, read the upper or farther row first, then the next row.",
+				"The image is divided horizontally into two independent regions.",
+				"The upper half is the concealed set called 暗間. The lower half is the open set called 落地.",
+				"Classify each half separately. Either half may contain zero tiles; return an empty tiles array for an empty half.",
+				"First count the visible physical tile rectangles in each half, then classify every rectangle independently.",
+				"Return exactly one entry for every visible face-up Mahjong tile and preserve left-to-right order within each half.",
+				"In the upper half, the winning tile is placed slightly above the main row of concealed tiles.",
+				"Include that raised winning tile exactly once and set isWinningTile to true only for that tile.",
+				"Set isWinningTile to false for every other upper tile and for every lower tile.",
+				"If no clearly raised upper tile is visible, set isWinningTile to false for all tiles rather than guessing.",
 				"Keep duplicate tiles as separate entries.",
-				"Ignore racks, dice, counters, table patterns, labels, and face-down tiles.",
+				"Ignore the centre divider, on-screen labels, racks, dice, counters, table patterns, and face-down tiles.",
 				"Use UNKNOWN instead of guessing when a visible physical tile cannot be identified.",
 				"Do not calculate points, determine a winning pattern, or sort the tiles.",
 				"Code meanings: CHARACTERS_n is n萬, BAMBOO_n is n索, and DOTS_n is n筒.",
@@ -3121,24 +3074,17 @@
 				"Seasons are SEASON_SPRING 春, SEASON_SUMMER 夏, SEASON_AUTUMN 秋, SEASON_WINTER 冬.",
 				"Allowed codes: " + recognitionCodes.join(", ") + ".",
 				"Return only JSON with no Markdown using this exact shape:",
-				"{\"tiles\":[{\"code\":\"ALLOWED_CODE\",\"confidence\":0.0}]}",
-				"Return no more than 40 tiles."
+				"{\"upper\":{\"tiles\":[{\"code\":\"ALLOWED_CODE\",\"confidence\":0.0,\"isWinningTile\":false}]},\"lower\":{\"tiles\":[{\"code\":\"ALLOWED_CODE\",\"confidence\":0.0,\"isWinningTile\":false}]}}",
+				"Use upper only for 暗間 and lower only for 落地. Return no more than 40 tiles per half."
 			].join("\n");
 		}
 
 		const photoReaderElements = {
 			openButton: document.getElementById("button-photo-reader"),
 			modal: document.getElementById("photoReaderModal"),
-			cameras: {
-				lower: document.getElementById("photo-reader-lower-camera"),
-				upper: document.getElementById("photo-reader-upper-camera")
-			},
-			previews: {
-				lower: document.getElementById("photo-reader-lower-preview"),
-				upper: document.getElementById("photo-reader-upper-preview")
-			},
+			camera: document.getElementById("photo-reader-camera"),
+			preview: document.getElementById("photo-reader-preview"),
 			canvas: document.getElementById("photo-reader-canvas"),
-			stages: Array.from(document.querySelectorAll("[data-photo-reader-stage-section]")),
 			startButton: document.getElementById("photo-reader-start-button"),
 			takeButton: document.getElementById("photo-reader-take-button"),
 			fileInput: document.getElementById("photo-reader-file-input"),
@@ -3148,14 +3094,12 @@
 			status: document.getElementById("photo-reader-status")
 		};
 
-		const photoReaderImageData = { upper: null, lower: null };
+		let photoReaderImageData = null;
 		let photoReaderCameraStream = null;
 		let photoReaderModel = null;
 		let photoReaderModelCandidates = [];
-		let photoReaderPreferredModelIndex = 0;
 		let photoReaderInitialization = null;
 		let photoReaderRecognizing = false;
-		let activePhotoReaderSection = "lower";
 
 		function setPhotoReaderStatus(message, state) {
 			photoReaderElements.status.textContent = message;
@@ -3172,82 +3116,30 @@
 				(state ? " " + state : "");
 		}
 
-		function photoReaderSectionName(sectionKey) {
-			return sectionKey === "lower" ? "落地" : "暗間";
-		}
-
-		function renderPhotoReaderSections() {
-			photoReaderElements.stages.forEach(function (stage) {
-				const sectionKey = stage.dataset.photoReaderStageSection;
-				const isActive = sectionKey === activePhotoReaderSection;
-				const isReady = Boolean(photoReaderImageData[sectionKey]);
-				const state = stage.querySelector(".photo-reader-panel-state");
-
-				stage.classList.toggle("active", isActive);
-				stage.classList.toggle("ready", isReady);
-				stage.setAttribute("aria-pressed", isActive ? "true" : "false");
-				stage.setAttribute("aria-disabled", photoReaderRecognizing ? "true" : "false");
-				if (state) state.textContent = isReady ? "已準備 ✓" : "尚未拍攝";
-			});
-		}
-
 		function renderPhotoReaderStage() {
-			["lower", "upper"].forEach(function (sectionKey) {
-				const camera = photoReaderElements.cameras[sectionKey];
-				const preview = photoReaderElements.previews[sectionKey];
-				const cameraIsActive = Boolean(
-					photoReaderCameraStream && sectionKey === activePhotoReaderSection
-				);
-
-				camera.classList.toggle("active", cameraIsActive);
-				if (cameraIsActive) {
-					preview.classList.remove("active");
-					return;
-				}
-
-				const imageData = photoReaderImageData[sectionKey];
-				if (imageData) {
-					preview.src = imageData;
-					preview.alt = "已選取的「" + photoReaderSectionName(sectionKey) + "」麻將牌相片";
-					preview.classList.add("active");
-				} else {
-					preview.removeAttribute("src");
-					preview.classList.remove("active");
-				}
-			});
-		}
-
-		function selectPhotoReaderSection(sectionKey, announce) {
-			if (sectionKey !== "lower" && sectionKey !== "upper") return;
-			if (photoReaderRecognizing) return;
-			if (photoReaderCameraStream && sectionKey !== activePhotoReaderSection) {
-				stopPhotoReaderCamera();
+			const cameraIsActive = Boolean(photoReaderCameraStream);
+			photoReaderElements.camera.classList.toggle("active", cameraIsActive);
+			if (cameraIsActive) {
+				photoReaderElements.preview.classList.remove("active");
+				return;
 			}
 
-			activePhotoReaderSection = sectionKey;
-			renderPhotoReaderSections();
-			renderPhotoReaderStage();
-			syncPhotoReaderButtons();
-
-			if (announce !== false) {
-				const sectionName = photoReaderSectionName(sectionKey);
-				if (photoReaderImageData[sectionKey]) {
-					setPhotoReaderStatus("「" + sectionName + "」相片已準備好，可重拍或更換相片。");
-				} else {
-					setPhotoReaderStatus("請拍攝或選擇「" + sectionName + "」相片。");
-				}
+			if (photoReaderImageData) {
+				photoReaderElements.preview.src = photoReaderImageData;
+				photoReaderElements.preview.classList.add("active");
+			} else {
+				photoReaderElements.preview.removeAttribute("src");
+				photoReaderElements.preview.classList.remove("active");
 			}
 		}
 
 		function syncPhotoReaderButtons() {
-			const imagesReady = Boolean(photoReaderImageData.upper && photoReaderImageData.lower);
 			photoReaderElements.recognizeButton.disabled =
-				!imagesReady || !photoReaderModel || photoReaderRecognizing;
+				!photoReaderImageData || !photoReaderModel || photoReaderRecognizing;
 			photoReaderElements.startButton.disabled = photoReaderRecognizing;
 			photoReaderElements.fileInput.disabled = photoReaderRecognizing;
 			photoReaderElements.takeButton.disabled =
 				!photoReaderCameraStream || photoReaderRecognizing;
-			renderPhotoReaderSections();
 		}
 
 		async function initializePhotoReader() {
@@ -3271,26 +3163,11 @@
 				});
 
 				const ai = getAI(app, { backend: new GoogleAIBackend() });
-				photoReaderModelCandidates = [];
-				photoReaderModelNames.forEach(function (modelName) {
-					photoReaderModelCandidates.push({
+				photoReaderModelCandidates = photoReaderModelNames.map(function (modelName) {
+					return {
 						name: modelName,
-						label: modelName,
-						mode: "structured",
-						model: getGenerativeModel(ai, {
-							model: modelName,
-							generationConfig: {
-								responseMimeType: "application/json",
-								responseSchema: recognitionResponseSchema
-							}
-						})
-					});
-					photoReaderModelCandidates.push({
-						name: modelName,
-						label: modelName + "（相容模式）",
-						mode: "compatibility",
 						model: getGenerativeModel(ai, { model: modelName })
-					});
+					};
 				});
 				photoReaderModel = photoReaderModelCandidates[0].model;
 				setPhotoReaderConnection("Firebase 就緒", "ready");
@@ -3313,9 +3190,7 @@
 				photoReaderCameraStream = null;
 			}
 
-			Object.keys(photoReaderElements.cameras).forEach(function (sectionKey) {
-				photoReaderElements.cameras[sectionKey].srcObject = null;
-			});
+			photoReaderElements.camera.srcObject = null;
 			photoReaderElements.startButton.textContent = "開啟相機";
 			renderPhotoReaderStage();
 			syncPhotoReaderButtons();
@@ -3333,34 +3208,25 @@
 			}
 
 			stopPhotoReaderCamera();
-			const requestedSection = activePhotoReaderSection;
-			const sectionName = photoReaderSectionName(requestedSection);
-			setPhotoReaderStatus("正在開啟相機拍攝「" + sectionName + "」…", "working");
+			setPhotoReaderStatus("正在開啟相機…", "working");
 
 			try {
 				photoReaderCameraStream = await navigator.mediaDevices.getUserMedia({
 					audio: false,
 					video: {
 						facingMode: { ideal: "environment" },
-						width: { ideal: 3072 },
-						height: { ideal: 1536 },
-						aspectRatio: { ideal: 2 }
+						width: { ideal: 2560 },
+						height: { ideal: 1440 },
+						aspectRatio: { ideal: 16 / 9 }
 					}
 				});
 
-				if (requestedSection !== activePhotoReaderSection) {
-					stopPhotoReaderCamera();
-					setPhotoReaderStatus("拍攝位置已切換，請重新開啟相機。");
-					return;
-				}
-
-				const camera = photoReaderElements.cameras[requestedSection];
-				camera.srcObject = photoReaderCameraStream;
-				await camera.play();
+				photoReaderElements.camera.srcObject = photoReaderCameraStream;
+				await photoReaderElements.camera.play();
 				renderPhotoReaderStage();
 				syncPhotoReaderButtons();
 				photoReaderElements.startButton.textContent = "重新啟動相機";
-				setPhotoReaderStatus("請橫向拍攝，只放置「" + sectionName + "」牌，讓整列牌填滿畫面後拍照。");
+				setPhotoReaderStatus("請橫向拍攝：暗間放上半部，落地放下半部；沒有落地牌時可留空下半部。");
 			} catch (error) {
 				stopPhotoReaderCamera();
 				const message = error && error.name === "NotAllowedError"
@@ -3371,8 +3237,7 @@
 		}
 
 		function preparePhotoReaderSource(source, sourceWidth, sourceHeight) {
-			const capturedSection = activePhotoReaderSection;
-			const targetAspectRatio = 2;
+			const targetAspectRatio = 16 / 9;
 			const maximumWidth = 2560;
 			let sourceX = 0;
 			let sourceY = 0;
@@ -3407,44 +3272,24 @@
 				height
 			);
 
-			photoReaderImageData[capturedSection] =
-				photoReaderElements.canvas.toDataURL("image/jpeg", 0.9);
+			photoReaderImageData = photoReaderElements.canvas.toDataURL("image/jpeg", 0.9);
 			stopPhotoReaderCamera();
-
-			let nextSection = null;
-			if (capturedSection === "lower" && !photoReaderImageData.upper) {
-				nextSection = "upper";
-			} else if (capturedSection === "upper" && !photoReaderImageData.lower) {
-				nextSection = "lower";
-			}
-
-			if (nextSection) {
-				selectPhotoReaderSection(nextSection, false);
-				setPhotoReaderStatus(
-					"「" + photoReaderSectionName(capturedSection) +
-					"」相片已儲存。現在請拍攝「" +
-					photoReaderSectionName(nextSection) + "」。"
-				);
-			} else {
-				selectPhotoReaderSection(capturedSection, false);
-				setPhotoReaderStatus("兩組相片已準備好，請按「辯識」。");
-			}
+			setPhotoReaderStatus("相片已準備好，請按「辯識」。");
 			syncPhotoReaderButtons();
 		}
 
 		function takePhotoReaderPhoto() {
-			const camera = photoReaderElements.cameras[activePhotoReaderSection];
 			if (!photoReaderCameraStream ||
-				!camera.videoWidth ||
-				!camera.videoHeight) {
+				!photoReaderElements.camera.videoWidth ||
+				!photoReaderElements.camera.videoHeight) {
 				setPhotoReaderStatus("相機尚未準備好。", "error");
 				return;
 			}
 
 			preparePhotoReaderSource(
-				camera,
-				camera.videoWidth,
-				camera.videoHeight
+				photoReaderElements.camera,
+				photoReaderElements.camera.videoWidth,
+				photoReaderElements.camera.videoHeight
 			);
 		}
 
@@ -3455,10 +3300,7 @@
 			}
 
 			stopPhotoReaderCamera();
-			setPhotoReaderStatus(
-				"正在處理「" + photoReaderSectionName(activePhotoReaderSection) + "」相片…",
-				"working"
-			);
+			setPhotoReaderStatus("正在處理相片…", "working");
 			const objectUrl = URL.createObjectURL(file);
 
 			try {
@@ -3493,8 +3335,8 @@
 				return JSON.parse(raw);
 			} catch (_) {
 				const withoutFence = raw
-					.replace(/^~~~(?:json)?\s*/i, "")
-					.replace(/\s*~~~$/i, "")
+					.replace(/^(?:```|~~~)(?:json)?\s*/i, "")
+					.replace(/\s*(?:```|~~~)$/i, "")
 					.trim();
 
 				try {
@@ -3510,25 +3352,252 @@
 			}
 		}
 
+		function normalizeRecognitionPointCode(rawCode) {
+			const code = String(rawCode || "").trim().toUpperCase();
+			if (validPointCodes.has(code)) return code;
+			return pointCodeByRecognitionCode.get(code) || null;
+		}
+
 		function pointCodesFromRecognitionSection(section) {
-			const rawTiles = Array.isArray(section && section.tiles) ? section.tiles : [];
+			const rawTiles = Array.isArray(section)
+				? section
+				: (Array.isArray(section && section.tiles) ? section.tiles : []);
 			const pointCodes = [];
 			let unknownCount = 0;
+			let winningTileCode = null;
+			let winningTileRegularIndex = null;
+			let winningTileFlagCount = 0;
+			let regularTileCount = 0;
 
 			rawTiles.slice(0, 40).forEach(function (tile) {
 				const rawCode = typeof tile === "string" ? tile : tile && tile.code;
-				const code = String(rawCode || "").trim().toUpperCase();
+				const pointCode = normalizeRecognitionPointCode(rawCode);
+				const isWinningTile = Boolean(
+					tile && typeof tile === "object" && tile.isWinningTile === true
+				);
 
-				if (validPointCodes.has(code)) {
-					pointCodes.push(code);
-				} else if (pointCodeByRecognitionCode.has(code)) {
-					pointCodes.push(pointCodeByRecognitionCode.get(code));
-				} else {
+				if (!pointCode) {
 					unknownCount += 1;
+					return;
+				}
+
+				if (isWinningTile) {
+					winningTileFlagCount += 1;
+					if (!winningTileCode) {
+						winningTileCode = pointCode;
+						if (regularPointCodes.has(pointCode)) {
+							winningTileRegularIndex = regularTileCount;
+						}
+					}
+				}
+
+				pointCodes.push(pointCode);
+				if (regularPointCodes.has(pointCode)) regularTileCount += 1;
+			});
+
+			return {
+				pointCodes: pointCodes,
+				unknownCount: unknownCount,
+				winningTileCode: winningTileCode,
+				winningTileRegularIndex: winningTileRegularIndex,
+				winningTileFlagCount: winningTileFlagCount
+			};
+		}
+
+		function comparePointCodes(left, right) {
+			return Number(left) - Number(right);
+		}
+
+		function comparePointCodeGroups(left, right) {
+			for (let index = 0; index < Math.min(left.length, right.length); index += 1) {
+				const comparison = comparePointCodes(left[index], right[index]);
+				if (comparison !== 0) return comparison;
+			}
+			return left.length - right.length;
+		}
+
+		function isSuitedPointCode(code) {
+			const suit = Math.floor(Number(code) / 10);
+			return suit >= 2 && suit <= 4;
+		}
+
+		function findConcealedHandSolutions(codes, maximumSolutions) {
+			if (codes.length < 2 || codes.length % 3 !== 2) return [];
+
+			const counts = new Map();
+			codes.forEach(function (code) {
+				counts.set(code, (counts.get(code) || 0) + 1);
+			});
+			if (Array.from(counts.values()).some(function (count) { return count > 4; })) {
+				return [];
+			}
+
+			const sortedCodes = Array.from(counts.keys()).sort(comparePointCodes);
+			const pairCandidates = sortedCodes.filter(function (code) {
+				return (counts.get(code) || 0) >= 2;
+			});
+			const solutionsByKey = new Map();
+			const solutionLimit = maximumSolutions || 64;
+
+			function changeCount(code, amount) {
+				counts.set(code, (counts.get(code) || 0) + amount);
+			}
+
+			function firstRemainingCode() {
+				for (let index = 0; index < sortedCodes.length; index += 1) {
+					if ((counts.get(sortedCodes[index]) || 0) > 0) return sortedCodes[index];
+				}
+				return null;
+			}
+
+			function saveSolution(pairCode, melds) {
+				const normalizedMelds = melds.map(function (meld) {
+					return meld.slice().sort(comparePointCodes);
+				}).sort(comparePointCodeGroups);
+				const key = normalizedMelds.map(function (meld) {
+					return meld.join("-");
+				}).join("|") + "||" + pairCode;
+				if (!solutionsByKey.has(key)) {
+					solutionsByKey.set(key, {
+						melds: normalizedMelds,
+						pair: [pairCode, pairCode],
+						key: key
+					});
+				}
+			}
+
+			function findMelds(pairCode, remainingCount, melds) {
+				if (solutionsByKey.size >= solutionLimit) return;
+				if (remainingCount === 0) {
+					saveSolution(pairCode, melds);
+					return;
+				}
+
+				const first = firstRemainingCode();
+				if (!first) return;
+
+				if ((counts.get(first) || 0) >= 3) {
+					changeCount(first, -3);
+					melds.push([first, first, first]);
+					findMelds(pairCode, remainingCount - 3, melds);
+					melds.pop();
+					changeCount(first, 3);
+				}
+
+				const rank = Number(first) % 10;
+				const second = String(Number(first) + 1);
+				const third = String(Number(first) + 2);
+				if (isSuitedPointCode(first) && rank <= 7 &&
+					(counts.get(second) || 0) > 0 &&
+					(counts.get(third) || 0) > 0) {
+					changeCount(first, -1);
+					changeCount(second, -1);
+					changeCount(third, -1);
+					melds.push([first, second, third]);
+					findMelds(pairCode, remainingCount - 3, melds);
+					melds.pop();
+					changeCount(first, 1);
+					changeCount(second, 1);
+					changeCount(third, 1);
+				}
+			}
+
+			pairCandidates.forEach(function (pairCode) {
+				if (solutionsByKey.size >= solutionLimit) return;
+				changeCount(pairCode, -2);
+				findMelds(pairCode, codes.length - 2, []);
+				changeCount(pairCode, 2);
+			});
+
+			return Array.from(solutionsByKey.values());
+		}
+
+		function arrangeConcealedRegularCodes(codes, winningTileCode, allowGrouping) {
+			const originalCounts = new Map();
+			codes.forEach(function (code) {
+				originalCounts.set(code, (originalCounts.get(code) || 0) + 1);
+			});
+
+			const fallbackCodes = codes.slice().sort(comparePointCodes);
+			const fallbackWinningIndex = winningTileCode
+				? fallbackCodes.indexOf(winningTileCode)
+				: -1;
+			if (!allowGrouping) {
+				return {
+					orderedCodes: fallbackCodes,
+					pairCodes: [],
+					winningIndex: fallbackWinningIndex,
+					applied: false,
+					ambiguous: false,
+					solutionCount: 0,
+					reason: "tile-count"
+				};
+			}
+
+			const solutions = findConcealedHandSolutions(codes, 64);
+			if (solutions.length === 0) {
+				return {
+					orderedCodes: fallbackCodes,
+					pairCodes: [],
+					winningIndex: fallbackWinningIndex,
+					applied: false,
+					ambiguous: false,
+					solutionCount: 0,
+					reason: "special-or-invalid"
+				};
+			}
+
+			solutions.sort(function (left, right) {
+				const leftExactPair = originalCounts.get(left.pair[0]) === 2 ? 0 : 1;
+				const rightExactPair = originalCounts.get(right.pair[0]) === 2 ? 0 : 1;
+				if (leftExactPair !== rightExactPair) return leftExactPair - rightExactPair;
+
+				const leftWinningGroups = winningTileCode
+					? left.melds.concat([left.pair]).filter(function (group) {
+						return group.includes(winningTileCode);
+					}).length
+					: 0;
+				const rightWinningGroups = winningTileCode
+					? right.melds.concat([right.pair]).filter(function (group) {
+						return group.includes(winningTileCode);
+					}).length
+					: 0;
+				const leftUniqueWinningGroup = leftWinningGroups === 1 ? 0 : 1;
+				const rightUniqueWinningGroup = rightWinningGroups === 1 ? 0 : 1;
+				if (leftUniqueWinningGroup !== rightUniqueWinningGroup) {
+					return leftUniqueWinningGroup - rightUniqueWinningGroup;
+				}
+
+				return left.key.localeCompare(right.key, "en");
+			});
+
+			const selected = solutions[0];
+			const groups = selected.melds.concat([selected.pair]);
+			const winningGroups = [];
+			groups.forEach(function (group, groupIndex) {
+				if (winningTileCode && group.includes(winningTileCode)) {
+					winningGroups.push(groupIndex);
 				}
 			});
 
-			return { pointCodes: pointCodes, unknownCount: unknownCount };
+			let winningIndex = -1;
+			if (winningGroups.length > 0) {
+				const winningGroupIndex = winningGroups[0];
+				winningIndex = groups
+					.slice(0, winningGroupIndex)
+					.reduce(function (total, group) { return total + group.length; }, 0) +
+					groups[winningGroupIndex].indexOf(winningTileCode);
+			}
+
+			return {
+				orderedCodes: groups.flat(),
+				pairCodes: selected.pair.slice(),
+				winningIndex: winningIndex,
+				applied: true,
+				ambiguous: solutions.length > 1 || winningGroups.length > 1,
+				solutionCount: solutions.length,
+				reason: ""
+			};
 		}
 
 		function setPhotoReaderOpenCheckbox(setNumber, checked) {
@@ -3576,15 +3645,35 @@
 			}
 		}
 
-		function applyPhotoReaderCodes(upperCodes, lowerCodes, unknownCount) {
+		function applyPhotoReaderCodes(
+			upperCodes,
+			lowerCodes,
+			unknownCount,
+			winningTileCode,
+			winningTileFlagCount
+		) {
 			const lowerRegularEntries = lowerCodes
 				.filter(function (code) { return regularPointCodes.has(code); })
 				.map(function (code) { return { code: code, fromLowerSet: true }; });
-			const upperRegularEntries = upperCodes
-				.filter(function (code) { return regularPointCodes.has(code); })
+			const recognizedUpperRegularCodes = upperCodes.filter(function (code) {
+				return regularPointCodes.has(code);
+			});
+			const canGroupConcealedTiles =
+				lowerRegularEntries.length % 3 === 0 &&
+				recognizedUpperRegularCodes.length % 3 === 2 &&
+				lowerRegularEntries.length + recognizedUpperRegularCodes.length === 17;
+			const concealedArrangement = arrangeConcealedRegularCodes(
+				recognizedUpperRegularCodes,
+				winningTileCode,
+				canGroupConcealedTiles
+			);
+			const upperRegularEntries = concealedArrangement.orderedCodes
 				.map(function (code) { return { code: code, fromLowerSet: false }; });
 			const regularEntries = lowerRegularEntries.concat(upperRegularEntries);
 			const combinedCodes = upperCodes.concat(lowerCodes);
+			const upperBonusCodes = upperCodes.filter(function (code) {
+				return bonusPointCodes.has(code);
+			});
 			const bonusCodes = combinedCodes.filter(function (code) {
 				return bonusPointCodes.has(code);
 			});
@@ -3602,6 +3691,24 @@
 				target.src = "image/" + entry.code + ".png";
 				target.setAttribute("name", entry.code);
 			});
+
+			let winningTilePosition = null;
+			if (winningTileCode && concealedArrangement.winningIndex >= 0) {
+				const calculatedPosition =
+					lowerRegularEntries.length + concealedArrangement.winningIndex + 1;
+				if (calculatedPosition <= importedRegularEntries.length && calculatedPosition <= 17) {
+					winningTilePosition = calculatedPosition;
+					if (typeof window.setLastTile === "function") {
+						window.setLastTile(winningTilePosition);
+					} else {
+						document.querySelectorAll("#sets img").forEach(function (tile) {
+							tile.classList.remove("selectedAqua");
+						});
+						const winningTile = document.getElementById(String(winningTilePosition));
+						if (winningTile) winningTile.classList.add("selectedAqua");
+					}
+				}
+			}
 
 			const openSetNumbers = [];
 			for (let setIndex = 0; setIndex < 5; setIndex += 1) {
@@ -3627,18 +3734,30 @@
 			if (window.jQuery) {
 				window.jQuery("#tiles").toggle(true);
 				window.jQuery("#results").toggle(false);
-				window.jQuery("#message").text(
+				let importMessage =
 					"相片已輸入 " + importedRegularCodes.length + " 只牌及 " +
-					Array.from(new Set(bonusCodes)).length + " 只花牌"
-				);
+					Array.from(new Set(bonusCodes)).length + " 只花牌";
+				if (winningTilePosition) importMessage += "；食糊牌已標示";
+				if (!concealedArrangement.applied) importMessage += "；暗間牌組請人手核對";
+				if (concealedArrangement.ambiguous) importMessage += "；暗間有多種排法，請核對";
+				if (winningTileFlagCount !== 1) importMessage += "；食糊牌位置請核對";
+				window.jQuery("#message").text(importMessage);
 			}
 
 			const detail = {
-				upperTileCodes: upperCodes.slice(),
+				upperTileCodes: upperBonusCodes.concat(concealedArrangement.orderedCodes),
+				recognizedUpperTileCodes: upperCodes.slice(),
 				lowerTileCodes: lowerCodes.slice(),
 				importedTileCodes: importedRegularCodes.slice(),
 				bonusTileCodes: Array.from(new Set(bonusCodes)),
 				openSetNumbers: openSetNumbers.slice(),
+				pairTileCodes: concealedArrangement.pairCodes.slice(),
+				winningTileCode: winningTileCode,
+				winningTilePosition: winningTilePosition,
+				winningTileFlagCount: winningTileFlagCount,
+				concealedSortApplied: concealedArrangement.applied,
+				concealedSortAmbiguous: concealedArrangement.ambiguous,
+				concealedSortSolutionCount: concealedArrangement.solutionCount,
 				unknownCount: unknownCount,
 				omittedCount: omittedCount
 			};
@@ -3656,7 +3775,7 @@
 				return "Firebase／Gemini 配額目前已用完，請待配額重設後再試。";
 			}
 			if (lower.includes("invalid argument") || /\[400\s*\]/.test(lower)) {
-				return "Firebase 拒絕了相片要求（400）。程式已自動嘗試所有模型的標準及相容模式；請重新拍攝較清晰的相片後再試。";
+				return "Firebase 拒絕了相片要求（400）。主模型及精簡備用模型都未能處理此相片，請重新拍攝較清晰的相片後再試。";
 			}
 			if (lower.includes("high demand") || /\[(500|502|503|504)\s*\]/.test(lower)) {
 				return "Gemini 主模型及備用模型目前都很繁忙，請稍後再試。";
@@ -3682,63 +3801,70 @@
 			return message.includes("invalid argument") || /\[400\s*\]/.test(message);
 		}
 
-		async function recognizePhotoReaderSection(sectionKey) {
-			const sectionName = photoReaderSectionName(sectionKey);
+		function recognitionSectionFromParsed(parsed, sectionKey) {
+			const section = parsed && parsed[sectionKey];
+			const candidates = [
+				section && section.tiles,
+				section && section.tileCodes,
+				parsed && parsed[sectionKey + "Tiles"],
+				parsed && parsed[sectionKey + "TileCodes"]
+			];
+
+			for (let index = 0; index < candidates.length; index += 1) {
+				if (Array.isArray(candidates[index])) return candidates[index];
+			}
+			return [];
+		}
+
+		async function recognizePhotoReaderPhoto() {
 			let lastError = null;
 
-			for (let index = photoReaderPreferredModelIndex;
-				index < photoReaderModelCandidates.length;
+			for (let index = 0; index < photoReaderModelCandidates.length;
 				index += 1) {
 				const candidate = photoReaderModelCandidates[index];
 				const usingFallback = index > 0;
-				setPhotoReaderConnection(
-					candidate.mode === "compatibility"
-						? candidate.name + " 相容模式"
-						: candidate.name,
-					"connecting"
-				);
+				setPhotoReaderConnection(candidate.name, "connecting");
 				setPhotoReaderStatus(
-					"Gemini 正在使用 " + candidate.label + " 辨識「" + sectionName + "」牌…",
+					"Gemini 正在使用 " + candidate.name + " 同時辨識暗間及落地…",
 					"working"
 				);
 
 				try {
 					const response = await candidate.model.generateContent([
-						buildPhotoReaderPrompt(sectionKey),
-						inlinePhotoReaderImage(photoReaderImageData[sectionKey])
+						buildPhotoReaderPrompt(),
+						inlinePhotoReaderImage(photoReaderImageData)
 					]);
 					const parsed = parsePhotoReaderJson(response.response.text());
-					const result = pointCodesFromRecognitionSection(parsed);
-					result.modelName = candidate.name;
-					result.fallbackUsed = usingFallback;
-					photoReaderPreferredModelIndex = index;
-					return result;
+					return {
+						upper: pointCodesFromRecognitionSection(
+							recognitionSectionFromParsed(parsed, "upper")
+						),
+						lower: pointCodesFromRecognitionSection(
+							recognitionSectionFromParsed(parsed, "lower")
+						),
+						modelName: candidate.name,
+						fallbackUsed: usingFallback
+					};
 				} catch (error) {
 					lastError = error;
-					console.warn("Photo reader model attempt failed", candidate.label, error);
+					console.warn("Photo reader model attempt failed", candidate.name, error);
 					const invalidRequest = isInvalidPhotoReaderRequest(error);
 					const temporaryModelError = isTemporaryPhotoReaderModelError(error);
-					if ((!invalidRequest && !temporaryModelError) ||
-						index === photoReaderModelCandidates.length - 1) {
+					const responseFormatError = String(error && error.message || error)
+						.toLowerCase()
+						.includes("json");
+					if ((!invalidRequest && !temporaryModelError && !responseFormatError) ||
+						index >= photoReaderModelCandidates.length - 1) {
 						throw error;
 					}
 
-					if (temporaryModelError && candidate.mode === "structured" &&
-						photoReaderModelCandidates[index + 1] &&
-						photoReaderModelCandidates[index + 1].name === candidate.name) {
-						index += 1;
-					}
-
-					photoReaderPreferredModelIndex = index + 1;
 					setPhotoReaderConnection(
-						invalidRequest ? "要求格式重試中" : "模型繁忙，切換中",
+						invalidRequest || responseFormatError ? "要求重試中" : "模型繁忙，切換中",
 						"connecting"
 					);
 					setPhotoReaderStatus(
-						invalidRequest
-							? (candidate.mode === "structured"
-								? candidate.name + " 拒絕標準格式，正在自動改用相容模式…"
-								: candidate.name + " 的相容模式仍被拒絕，正在改用備用模型…")
+						invalidRequest || responseFormatError
+							? candidate.name + " 未能處理要求，正在改用精簡備用模型…"
 							: candidate.name + " 暫時繁忙，正在自動改用備用模型…",
 						"working"
 					);
@@ -3749,9 +3875,7 @@
 		}
 
 		async function recognizePhotoReaderImage() {
-			if (!photoReaderImageData.upper ||
-				!photoReaderImageData.lower ||
-				photoReaderRecognizing) {
+			if (!photoReaderImageData || photoReaderRecognizing) {
 				return;
 			}
 
@@ -3759,16 +3883,16 @@
 			syncPhotoReaderButtons();
 			photoReaderElements.recognizeButton.textContent = "辯識中…";
 			setPhotoReaderConnection("準備辨識", "connecting");
-			setPhotoReaderStatus("正在準備兩次獨立辨識…", "working");
+			setPhotoReaderStatus("正在準備一次合併辨識…", "working");
 
 			try {
 				await initializePhotoReader();
-				photoReaderPreferredModelIndex = 0;
-				const lower = await recognizePhotoReaderSection("lower");
-				const upper = await recognizePhotoReaderSection("upper");
-				setPhotoReaderConnection("Firebase 就緒", "ready");
+				const result = await recognizePhotoReaderPhoto();
+				const upper = result.upper;
+				const lower = result.lower;
+				setPhotoReaderConnection(result.modelName, "ready");
 				const unknownCount = upper.unknownCount + lower.unknownCount;
-				const fallbackUsed = upper.fallbackUsed || lower.fallbackUsed;
+				const fallbackUsed = result.fallbackUsed;
 
 				if (upper.pointCodes.length + lower.pointCodes.length === 0) {
 					throw new Error("未能辨識任何麻將牌，請使用較清晰的相片再試。");
@@ -3777,7 +3901,9 @@
 				const imported = applyPhotoReaderCodes(
 					upper.pointCodes,
 					lower.pointCodes,
-					unknownCount
+					unknownCount,
+					upper.winningTileCode,
+					upper.winningTileFlagCount
 				);
 				let message = "已匯入 " + imported.importedTileCodes.length +
 					" 只一般牌及 " + imported.bonusTileCodes.length + " 只花牌。";
@@ -3788,6 +3914,21 @@
 				if (imported.omittedCount > 0) {
 					message += " 計分頁只有 17 個位置，已略過另外 " +
 						imported.omittedCount + " 只牌。";
+				}
+				if (imported.concealedSortApplied) {
+					message += " 暗間已分組，一對牌已放在最後。";
+				} else {
+					message += " 暗間未能確定一般牌型，已按牌碼排列，請人手核對。";
+				}
+				if (imported.concealedSortAmbiguous) {
+					message += " 暗間存在多種有效排法，請核對牌組及食糊牌位置。";
+				}
+				if (imported.winningTilePosition && imported.winningTileFlagCount === 1) {
+					message += " 已自動標示食糊牌。";
+				} else if (imported.winningTilePosition) {
+					message += " 已暫時標示食糊牌，但辨認結果不唯一，請核對。";
+				} else {
+					message += " 未能唯一辨認凸起的食糊牌，請長按正確牌作標示。";
 				}
 				if (fallbackUsed) {
 					message += " 主模型繁忙，本次已自動使用備用模型。";
@@ -3813,23 +3954,15 @@
 
 		photoReaderElements.openButton.addEventListener("click", function () {
 			if (window.jQuery) window.jQuery(photoReaderElements.modal).modal("show");
-			if (!photoReaderImageData.lower) {
-				selectPhotoReaderSection("lower", false);
-			} else if (!photoReaderImageData.upper) {
-				selectPhotoReaderSection("upper", false);
-			} else {
-				renderPhotoReaderStage();
-			}
+			renderPhotoReaderStage();
 			if (!photoReaderModel) {
 				setPhotoReaderStatus("正在連接 Firebase AI…", "working");
 				initializePhotoReader().then(function () {
-					if (!photoReaderImageData.lower) {
-						setPhotoReaderStatus("請先拍攝或選擇「落地」相片。");
-					} else if (!photoReaderImageData.upper) {
-						setPhotoReaderStatus("請拍攝或選擇「暗間」相片。");
-					} else {
-						setPhotoReaderStatus("兩組相片已準備好，請按「辯識」。");
-					}
+					setPhotoReaderStatus(
+						photoReaderImageData
+							? "相片已準備好，請按「辯識」。"
+							: "請拍攝或選擇一張同時包含暗間及落地的相片。"
+					);
 				}).catch(function (error) {
 					setPhotoReaderStatus(friendlyPhotoReaderError(error), "error");
 				});
@@ -3842,25 +3975,12 @@
 			loadPhotoReaderFile(event.target.files && event.target.files[0]);
 		});
 		photoReaderElements.recognizeButton.addEventListener("click", recognizePhotoReaderImage);
-		photoReaderElements.stages.forEach(function (stage) {
-			function selectStage() {
-				selectPhotoReaderSection(stage.dataset.photoReaderStageSection);
-			}
-
-			stage.addEventListener("click", selectStage);
-			stage.addEventListener("keydown", function (event) {
-				if (event.key === "Enter" || event.key === " ") {
-					event.preventDefault();
-					selectStage();
-				}
-			});
-		});
 
 		if (window.jQuery) {
 			window.jQuery(photoReaderElements.modal).on("hidden.bs.modal", stopPhotoReaderCamera);
 		}
 		window.addEventListener("pagehide", stopPhotoReaderCamera);
-		selectPhotoReaderSection("lower", false);
+		renderPhotoReaderStage();
 		syncPhotoReaderButtons();
 	</script>
 </body>
