@@ -81,11 +81,11 @@
         }
 
         #photoReaderModal .photo-reader-stage.upper-frame {
-            aspect-ratio: 2 / 1;
+            aspect-ratio: 1536 / 779;
         }
 
         #photoReaderModal .photo-reader-stage.lower-frame {
-            aspect-ratio: 3 / 1;
+            aspect-ratio: 1536 / 749;
         }
 
         #photoReaderModal .photo-reader-stage.active-target {
@@ -338,7 +338,7 @@
             }
 
             #photoReaderModal .photo-reader-stage-stack {
-                grid-template-rows: minmax(0, 3fr) minmax(0, 2fr);
+                grid-template-rows: minmax(0, 779fr) minmax(0, 749fr);
                 height: calc(100vh - 116px);
                 height: calc(100dvh - 116px);
                 min-height: 260px;
@@ -666,7 +666,7 @@
             <div class="modal-content photo-reader-content">
                 <h2 id="photoReaderTitle" class="sr-only">麻將相片辨識</h2>
                 <button type="button" class="photo-reader-close" data-dismiss="modal" aria-label="關閉">&times;</button>
-                <p class="photo-reader-instruction">請先橫向拍攝暗間，再拍攝落地；沒有落地牌可留空並直接辯識。</p>
+                <p class="photo-reader-instruction">請先橫向拍攝暗間，再拍攝落地；兩張相片會自動合併辨識，沒有落地牌可留空。</p>
 
                 <div class="photo-reader-stage-stack" role="group" aria-label="暗間及落地兩張獨立相片">
                     <div class="photo-reader-stage upper-frame active-target" id="photo-reader-upper-stage" data-photo-section="upper" role="button" tabindex="0" aria-pressed="true" aria-label="選擇暗間拍攝框">
@@ -3104,12 +3104,12 @@
 				upperTileCodes: Schema.array({
 					items: Schema.enumString({ enum: structuredRecognitionCodes }),
 					maxItems: 40,
-					description: "Tiles in IMAGE 1, the concealed set (暗間), ordered left to right."
+					description: "Tiles in the TOP region, the concealed set (暗間), ordered left to right."
 				}),
 				lowerTileCodes: Schema.array({
 					items: Schema.enumString({ enum: structuredRecognitionCodes }),
 					maxItems: 40,
-					description: "Tiles in optional IMAGE 2, the open set (落地), ordered left to right; empty when IMAGE 2 is absent or contains no tiles."
+					description: "Tiles in the BOTTOM region, the open set (落地), ordered left to right; empty when the region is blank."
 				}),
 				upperWinningTileIndex: Schema.integer({
 					minimum: -1,
@@ -3122,18 +3122,18 @@
 		function buildPhotoReaderPrompt(hasLowerImage) {
 			return [
 				"Act as a careful visual Mahjong tile transcriber.",
-				"The request contains separate Mahjong photos, not a split image.",
-				"IMAGE 1 is always the concealed set called 暗間.",
+				"The request contains exactly one square composite image divided horizontally by a thin white line.",
+				"The TOP region is the concealed set called 暗間 and is slightly taller than the bottom region.",
 				hasLowerImage
-					? "IMAGE 2 is the open set called 落地."
-					: "IMAGE 2 is absent because there are no open 落地 tiles; lowerTileCodes must be an empty array.",
-				"Classify the images separately and never move a tile from one image to the other.",
-				"First count the visible physical face-up tile rectangles in each supplied image, then classify every rectangle independently.",
-				"Preserve left-to-right order within each image and include each visible tile exactly once.",
-				"In IMAGE 1, a winning tile may be placed slightly above the main row.",
+					? "The BOTTOM region is the open set called 落地."
+					: "The BOTTOM region is intentionally blank because there are no open 落地 tiles; lowerTileCodes must be an empty array.",
+				"Classify the two regions separately and never move a tile from one region to the other.",
+				"First count the visible physical face-up tile rectangles in each region, then classify every rectangle independently.",
+				"Preserve left-to-right order within each region and include each visible tile exactly once.",
+				"In the TOP 暗間 region, a winning tile may be placed slightly above the main row.",
 				"Set upperWinningTileIndex to its zero-based position in upperTileCodes only when one clearly raised tile is visible; otherwise use -1.",
 				"Keep duplicate tiles as separate entries.",
-				"Ignore labels, racks, dice, counters, table patterns, shadows, and face-down tiles.",
+				"Ignore the white divider, labels, racks, dice, counters, table patterns, shadows, and face-down tiles.",
 				"Use UNKNOWN instead of guessing when a visible physical tile cannot be identified.",
 				"Do not calculate points, determine a winning pattern, or sort the tiles.",
 				"Numeric code meanings: 21-29 are 1-9筒; 31-39 are 1-9索; 41-49 are 1-9萬.",
@@ -3175,6 +3175,13 @@
 			connectionText: document.getElementById("photo-reader-connection-text"),
 			status: document.getElementById("photo-reader-status")
 		};
+		const photoReaderCompositeLayout = Object.freeze({
+			width: 1536,
+			height: 1536,
+			upperHeight: 779,
+			dividerHeight: 8,
+			lowerHeight: 749
+		});
 
 		let photoReaderImages = { upper: null, lower: null };
 		let photoReaderQualities = { upper: null, lower: null };
@@ -3353,7 +3360,9 @@
 			stopPhotoReaderCamera();
 			const targetSection = photoReaderActiveSection;
 			const targetSectionName = photoReaderSectionName(targetSection);
-			const targetAspectRatio = targetSection === "upper" ? 2 : 3;
+			const targetAspectRatio = targetSection === "upper"
+				? photoReaderCompositeLayout.width / photoReaderCompositeLayout.upperHeight
+				: photoReaderCompositeLayout.width / photoReaderCompositeLayout.lowerHeight;
 			setPhotoReaderStatus("正在開啟" + targetSectionName + "相機…", "working");
 
 			try {
@@ -3469,7 +3478,9 @@
 		}
 
 		function preparePhotoReaderSource(source, sourceWidth, sourceHeight, section) {
-			const targetAspectRatio = section === "upper" ? 2 : 3;
+			const targetAspectRatio = section === "upper"
+				? photoReaderCompositeLayout.width / photoReaderCompositeLayout.upperHeight
+				: photoReaderCompositeLayout.width / photoReaderCompositeLayout.lowerHeight;
 			const maximumWidth = 2048;
 			let sourceX = 0;
 			let sourceY = 0;
@@ -3595,6 +3606,90 @@
 			const match = /^data:(image\/(?:jpeg|png|webp));base64,(.+)$/s.exec(dataUrl);
 			if (!match) throw new Error("處理後的相片格式不受支援。");
 			return { inlineData: { mimeType: match[1], data: match[2] } };
+		}
+
+		function loadPhotoReaderDataImage(dataUrl) {
+			return new Promise(function (resolve, reject) {
+				const image = new Image();
+				image.onload = function () { resolve(image); };
+				image.onerror = function () { reject(new Error("無法建立合併辨識相片。")); };
+				image.src = dataUrl;
+			});
+		}
+
+		function drawPhotoReaderCompositeRegion(context, image, destinationY, destinationHeight) {
+			const destinationWidth = photoReaderCompositeLayout.width;
+			const destinationAspectRatio = destinationWidth / destinationHeight;
+			const sourceAspectRatio = image.naturalWidth / image.naturalHeight;
+			let sourceX = 0;
+			let sourceY = 0;
+			let sourceWidth = image.naturalWidth;
+			let sourceHeight = image.naturalHeight;
+
+			if (sourceAspectRatio > destinationAspectRatio) {
+				sourceWidth = sourceHeight * destinationAspectRatio;
+				sourceX = (image.naturalWidth - sourceWidth) / 2;
+			} else if (sourceAspectRatio < destinationAspectRatio) {
+				sourceHeight = sourceWidth / destinationAspectRatio;
+				sourceY = (image.naturalHeight - sourceHeight) / 2;
+			}
+
+			context.drawImage(
+				image,
+				sourceX,
+				sourceY,
+				sourceWidth,
+				sourceHeight,
+				0,
+				destinationY,
+				destinationWidth,
+				destinationHeight
+			);
+		}
+
+		async function buildPhotoReaderCompositeImage() {
+			if (!photoReaderImages.upper) {
+				throw new Error("請先拍攝暗間相片。");
+			}
+
+			const images = await Promise.all([
+				loadPhotoReaderDataImage(photoReaderImages.upper),
+				photoReaderImages.lower
+					? loadPhotoReaderDataImage(photoReaderImages.lower)
+					: Promise.resolve(null)
+			]);
+			const compositeCanvas = document.createElement("canvas");
+			compositeCanvas.width = photoReaderCompositeLayout.width;
+			compositeCanvas.height = photoReaderCompositeLayout.height;
+			const context = compositeCanvas.getContext("2d", { alpha: false });
+			const lowerY = photoReaderCompositeLayout.upperHeight +
+				photoReaderCompositeLayout.dividerHeight;
+
+			context.fillStyle = "#14251e";
+			context.fillRect(0, 0, compositeCanvas.width, compositeCanvas.height);
+			drawPhotoReaderCompositeRegion(
+				context,
+				images[0],
+				0,
+				photoReaderCompositeLayout.upperHeight
+			);
+			context.fillStyle = "#ffffff";
+			context.fillRect(
+				0,
+				photoReaderCompositeLayout.upperHeight,
+				photoReaderCompositeLayout.width,
+				photoReaderCompositeLayout.dividerHeight
+			);
+			if (images[1]) {
+				drawPhotoReaderCompositeRegion(
+					context,
+					images[1],
+					lowerY,
+					photoReaderCompositeLayout.lowerHeight
+				);
+			}
+
+			return compositeCanvas.toDataURL("image/jpeg", 0.88);
 		}
 
 		function parsePhotoReaderJson(text) {
@@ -4121,15 +4216,11 @@
 			let lastError = null;
 			let skipCompatibilityForModel = null;
 			const hasLowerImage = Boolean(photoReaderImages.lower);
+			const compositeImageData = await buildPhotoReaderCompositeImage();
 			const requestParts = [
 				buildPhotoReaderPrompt(hasLowerImage),
-				"IMAGE 1 — 暗間：",
-				inlinePhotoReaderImage(photoReaderImages.upper)
+				inlinePhotoReaderImage(compositeImageData)
 			];
-			if (hasLowerImage) {
-				requestParts.push("IMAGE 2 — 落地：");
-				requestParts.push(inlinePhotoReaderImage(photoReaderImages.lower));
-			}
 
 			for (let index = 0; index < photoReaderModelCandidates.length;
 				index += 1) {
@@ -4148,7 +4239,7 @@
 					setPhotoReaderConnection(displayName, "connecting");
 					setPhotoReaderStatus(
 						"Gemini 正在使用 " + displayName +
-						(hasLowerImage ? " 從兩張獨立相片辨識暗間及落地…" : " 辨識暗間；落地留空…"),
+						(hasLowerImage ? " 從一張合併相片辨識暗間及落地…" : " 辨識暗間；落地留空…"),
 						"working"
 					);
 
@@ -4254,7 +4345,7 @@
 			setPhotoReaderConnection("準備辨識", "connecting");
 			setPhotoReaderStatus(
 				photoReaderImages.lower
-					? "正在準備暗間及落地兩張獨立相片的辨識要求…"
+					? "正在合併暗間及落地相片，準備辨識要求…"
 					: "正在準備暗間相片的辨識要求；落地將留空…",
 				"working"
 			);
