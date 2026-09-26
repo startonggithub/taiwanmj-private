@@ -164,6 +164,8 @@
             font-weight: 750;
             line-height: 1.2;
             white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
             pointer-events: none;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
         }
@@ -3020,8 +3022,7 @@
 			getAI,
 			getGenerativeModel,
 			GoogleAIBackend,
-			Schema,
-			ThinkingLevel
+			Schema
 		} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-ai.js";
 
 		const photoReaderFirebaseConfig = {
@@ -3036,8 +3037,9 @@
 
 		const photoReaderAppCheckSiteKey = "6Le2pr8tAAAAAJok_ANlypsAU9A8OuMvOyfRG4xl";
 		const photoReaderModelNames = [
-			"gemini-3.5-flash",
+			"gemini-3.8-flash",
 			"gemini-3.6-flash",
+			"gemini-3.5-flash",
 			"gemini-3.5-flash-lite"
 		];
 		const recognitionCodes = [
@@ -3269,24 +3271,26 @@
 				});
 
 				const ai = getAI(app, { backend: new GoogleAIBackend() });
-				photoReaderModelCandidates = photoReaderModelNames.map(function (modelName, index) {
-					const generationConfig = {
-						responseMimeType: "application/json",
-						responseSchema: recognitionResponseSchema
-					};
-					if (index === 0) {
-						generationConfig.thinkingConfig = {
-							thinkingLevel: ThinkingLevel.HIGH
-						};
-					}
-
-					return {
+				photoReaderModelCandidates = [];
+				photoReaderModelNames.forEach(function (modelName) {
+					photoReaderModelCandidates.push({
 						name: modelName,
+						label: modelName,
+						mode: "structured",
 						model: getGenerativeModel(ai, {
 							model: modelName,
-							generationConfig: generationConfig
+							generationConfig: {
+								responseMimeType: "application/json",
+								responseSchema: recognitionResponseSchema
+							}
 						})
-					};
+					});
+					photoReaderModelCandidates.push({
+						name: modelName,
+						label: modelName + "（相容模式）",
+						mode: "compatibility",
+						model: getGenerativeModel(ai, { model: modelName })
+					});
 				});
 				photoReaderModel = photoReaderModelCandidates[0].model;
 				setPhotoReaderConnection("Firebase 就緒", "ready");
@@ -3369,7 +3373,7 @@
 		function preparePhotoReaderSource(source, sourceWidth, sourceHeight) {
 			const capturedSection = activePhotoReaderSection;
 			const targetAspectRatio = 2;
-			const maximumWidth = 3072;
+			const maximumWidth = 2560;
 			let sourceX = 0;
 			let sourceY = 0;
 			let cropWidth = sourceWidth;
@@ -3404,7 +3408,7 @@
 			);
 
 			photoReaderImageData[capturedSection] =
-				photoReaderElements.canvas.toDataURL("image/jpeg", 0.94);
+				photoReaderElements.canvas.toDataURL("image/jpeg", 0.9);
 			stopPhotoReaderCamera();
 
 			let nextSection = null;
@@ -3651,6 +3655,9 @@
 			if (lower.includes("quota") || lower.includes("429") || lower.includes("resource_exhausted")) {
 				return "Firebase／Gemini 配額目前已用完，請待配額重設後再試。";
 			}
+			if (lower.includes("invalid argument") || /\[400\s*\]/.test(lower)) {
+				return "Firebase 拒絕了相片要求（400）。程式已自動嘗試所有模型的標準及相容模式；請重新拍攝較清晰的相片後再試。";
+			}
 			if (lower.includes("high demand") || /\[(500|502|503|504)\s*\]/.test(lower)) {
 				return "Gemini 主模型及備用模型目前都很繁忙，請稍後再試。";
 			}
@@ -3670,6 +3677,11 @@
 				/\[(404|429|500|502|503|504)\s*\]/.test(message);
 		}
 
+		function isInvalidPhotoReaderRequest(error) {
+			const message = (error instanceof Error ? error.message : String(error)).toLowerCase();
+			return message.includes("invalid argument") || /\[400\s*\]/.test(message);
+		}
+
 		async function recognizePhotoReaderSection(sectionKey) {
 			const sectionName = photoReaderSectionName(sectionKey);
 			let lastError = null;
@@ -3680,11 +3692,13 @@
 				const candidate = photoReaderModelCandidates[index];
 				const usingFallback = index > 0;
 				setPhotoReaderConnection(
-					(usingFallback ? "備用模型辨識「" : "辨識「") + sectionName + "」",
+					candidate.mode === "compatibility"
+						? candidate.name + " 相容模式"
+						: candidate.name,
 					"connecting"
 				);
 				setPhotoReaderStatus(
-					"Gemini 正在使用 " + candidate.name + " 辨識「" + sectionName + "」牌…",
+					"Gemini 正在使用 " + candidate.label + " 辨識「" + sectionName + "」牌…",
 					"working"
 				);
 
@@ -3701,15 +3715,31 @@
 					return result;
 				} catch (error) {
 					lastError = error;
-					if (!isTemporaryPhotoReaderModelError(error) ||
+					console.warn("Photo reader model attempt failed", candidate.label, error);
+					const invalidRequest = isInvalidPhotoReaderRequest(error);
+					const temporaryModelError = isTemporaryPhotoReaderModelError(error);
+					if ((!invalidRequest && !temporaryModelError) ||
 						index === photoReaderModelCandidates.length - 1) {
 						throw error;
 					}
 
+					if (temporaryModelError && candidate.mode === "structured" &&
+						photoReaderModelCandidates[index + 1] &&
+						photoReaderModelCandidates[index + 1].name === candidate.name) {
+						index += 1;
+					}
+
 					photoReaderPreferredModelIndex = index + 1;
-					setPhotoReaderConnection("模型繁忙，切換中", "connecting");
+					setPhotoReaderConnection(
+						invalidRequest ? "要求格式重試中" : "模型繁忙，切換中",
+						"connecting"
+					);
 					setPhotoReaderStatus(
-						candidate.name + " 暫時繁忙，正在自動改用備用模型…",
+						invalidRequest
+							? (candidate.mode === "structured"
+								? candidate.name + " 拒絕標準格式，正在自動改用相容模式…"
+								: candidate.name + " 的相容模式仍被拒絕，正在改用備用模型…")
+							: candidate.name + " 暫時繁忙，正在自動改用備用模型…",
 						"working"
 					);
 				}
