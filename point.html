@@ -4181,10 +4181,14 @@
 			if (window.jQuery) {
 				window.jQuery("#tiles").toggle(true);
 				window.jQuery("#results").toggle(false);
-				window.jQuery("#message").text(
-					"相片已輸入：" + importedRegularCodes.length + " 只牌、" +
-					Array.from(new Set(bonusCodes)).length + " 只花牌"
-				);
+				let importMessage =
+					"相片已輸入 " + importedRegularCodes.length + " 只牌及 " +
+					Array.from(new Set(bonusCodes)).length + " 只花牌";
+				if (winningTilePosition) importMessage += "；食糊牌已標示";
+				if (!concealedArrangement.applied) importMessage += "；暗間牌組請人手核對";
+				if (concealedArrangement.ambiguous) importMessage += "；暗間有多種排法，請核對";
+				if (winningTileFlagCount !== 1) importMessage += "；食糊牌位置請核對";
+				window.jQuery("#message").text(importMessage);
 			}
 
 			const detail = {
