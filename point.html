@@ -52,11 +52,19 @@
         #photoReaderModal .photo-reader-instruction {
             margin: 0;
             padding: 18px 58px 18px 24px;
-            border-bottom: 1px solid #d7ded9;
             color: #617068;
             background: #fffdf8;
             font-size: 17px;
             line-height: 1.45;
+        }
+
+        #photoReaderModal .photo-reader-service-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 24px 14px;
+            border-bottom: 1px solid #d7ded9;
+            background: #fffdf8;
         }
 
         #photoReaderModal .photo-reader-stage-stack {
@@ -152,14 +160,11 @@
         }
 
         #photoReaderModal .photo-reader-connection {
-            position: absolute;
-            z-index: 5;
-            top: 12px;
-            right: 14px;
             display: inline-flex;
+            flex: 1 1 auto;
             align-items: center;
             gap: 8px;
-            max-width: calc(100% - 150px);
+            min-width: 0;
             padding: 7px 12px;
             border: 1px solid rgba(255, 255, 255, 0.28);
             border-radius: 999px;
@@ -174,6 +179,30 @@
             text-overflow: ellipsis;
             pointer-events: none;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+        }
+
+        #photoReaderModal .photo-reader-lite-option {
+            display: inline-flex;
+            flex: 0 1 auto;
+            align-items: center;
+            gap: 7px;
+            min-width: 0;
+            padding: 7px 10px;
+            border-radius: 999px;
+            color: #174b39;
+            background: #e4f1e9;
+            font-size: 13px;
+            font-weight: 750;
+            line-height: 1.2;
+            cursor: pointer;
+        }
+
+        #photoReaderModal .photo-reader-lite-option input {
+            flex: 0 0 auto;
+            width: 18px;
+            height: 18px;
+            margin: 0;
+            accent-color: #196344;
         }
 
         #photoReaderModal .photo-reader-connection-dot {
@@ -227,10 +256,10 @@
             align-self: stretch;
             width: 100%;
             min-width: 0;
-            height: 54px;
-            min-height: 54px;
+            height: 70px;
+            min-height: 70px;
             margin: 0;
-            padding: 0 10px;
+            padding: 8px 10px;
             border: 0;
             border-radius: 18px;
             box-sizing: border-box;
@@ -239,7 +268,10 @@
             font: inherit;
             font-size: 17px;
             font-weight: 750;
+            line-height: 1.2;
             text-align: center;
+            white-space: normal;
+            overflow-wrap: anywhere;
             cursor: pointer;
         }
 
@@ -296,8 +328,19 @@
             }
 
             #photoReaderModal .photo-reader-instruction {
-                padding: 16px 52px 16px 18px;
+                padding: 16px 52px 10px 18px;
                 font-size: 15px;
+            }
+
+            #photoReaderModal .photo-reader-service-row {
+                gap: 7px;
+                padding: 0 14px 12px;
+            }
+
+            #photoReaderModal .photo-reader-connection,
+            #photoReaderModal .photo-reader-lite-option {
+                padding: 7px 9px;
+                font-size: 12px;
             }
 
             #photoReaderModal .photo-reader-actions {
@@ -307,12 +350,11 @@
 
             #photoReaderModal .photo-reader-button,
             #photoReaderModal .photo-reader-file-button {
-                height: 50px;
-                min-height: 50px;
-                padding: 0 4px;
+                height: 68px;
+                min-height: 68px;
+                padding: 7px 4px;
                 border-radius: 15px;
                 font-size: clamp(13px, 3.8vw, 15px);
-                white-space: nowrap;
             }
 
             #photoReaderModal .photo-reader-status {
@@ -337,6 +379,17 @@
                 line-height: 1.3;
             }
 
+            #photoReaderModal .photo-reader-service-row {
+                gap: 7px;
+                padding: 0 12px 8px;
+            }
+
+            #photoReaderModal .photo-reader-connection,
+            #photoReaderModal .photo-reader-lite-option {
+                padding: 6px 8px;
+                font-size: 11px;
+            }
+
             #photoReaderModal .photo-reader-stage-stack {
                 grid-template-rows: minmax(0, 779fr) minmax(0, 749fr);
                 height: calc(100vh - 116px);
@@ -357,8 +410,8 @@
 
             #photoReaderModal .photo-reader-button,
             #photoReaderModal .photo-reader-file-button {
-                height: 44px;
-                min-height: 44px;
+                height: 58px;
+                min-height: 58px;
                 border-radius: 14px;
                 font-size: 14px;
             }
@@ -667,6 +720,16 @@
                 <h2 id="photoReaderTitle" class="sr-only">麻將相片辨識</h2>
                 <button type="button" class="photo-reader-close" data-dismiss="modal" aria-label="關閉">&times;</button>
                 <p class="photo-reader-instruction">請先橫向拍攝暗間，再拍攝落地；兩張相片會自動合併辨識，沒有落地牌可留空。</p>
+                <div class="photo-reader-service-row">
+                    <div class="photo-reader-connection" id="photo-reader-connection" role="status" aria-live="polite">
+                        <span class="photo-reader-connection-dot" aria-hidden="true"></span>
+                        <span id="photo-reader-connection-text">Firebase 等候中</span>
+                    </div>
+                    <label class="photo-reader-lite-option" for="photo-reader-lite-fallback">
+                        <input id="photo-reader-lite-fallback" type="checkbox">
+                        <span>允許 3.5 Lite 備用</span>
+                    </label>
+                </div>
 
                 <div class="photo-reader-stage-stack" role="group" aria-label="暗間及落地兩張獨立相片">
                     <div class="photo-reader-stage upper-frame active-target" id="photo-reader-upper-stage" data-photo-section="upper" role="button" tabindex="0" aria-pressed="true" aria-label="選擇暗間拍攝框">
@@ -674,10 +737,6 @@
                         <img class="photo-reader-media" id="photo-reader-upper-preview" alt="已選取的暗間麻將牌相片">
                         <span class="photo-reader-label upper">暗間</span>
                         <span class="photo-reader-panel-state" id="photo-reader-upper-state">尚未拍攝</span>
-                        <div class="photo-reader-connection" id="photo-reader-connection" role="status" aria-live="polite">
-                            <span class="photo-reader-connection-dot" aria-hidden="true"></span>
-                            <span id="photo-reader-connection-text">Firebase 等候中</span>
-                        </div>
                     </div>
                     <div class="photo-reader-stage lower-frame" id="photo-reader-lower-stage" data-photo-section="lower" role="button" tabindex="0" aria-pressed="false" aria-label="選擇落地拍攝框，可留空">
                         <video class="photo-reader-media" id="photo-reader-lower-camera" playsinline muted aria-label="落地相機預覽"></video>
@@ -3063,6 +3122,7 @@
 			"gemini-3.8-flash",
 			"gemini-3.6-flash"
 		];
+		const photoReaderLiteModelName = "gemini-3.5-flash-lite";
 		const pointCodeByRecognitionCode = new Map([
 			...Array.from({ length: 9 }, function (_, index) {
 				return ["DOTS_" + (index + 1), String(21 + index)];
@@ -3171,6 +3231,7 @@
 			fileInput: document.getElementById("photo-reader-file-input"),
 			fileLabel: document.getElementById("photo-reader-file-label"),
 			recognizeButton: document.getElementById("photo-reader-recognize-button"),
+			liteFallback: document.getElementById("photo-reader-lite-fallback"),
 			connection: document.getElementById("photo-reader-connection"),
 			connectionText: document.getElementById("photo-reader-connection-text"),
 			status: document.getElementById("photo-reader-status")
@@ -3247,6 +3308,7 @@
 				!photoReaderImages.upper || !photoReaderModel || photoReaderRecognizing;
 			photoReaderElements.startButton.disabled = photoReaderRecognizing;
 			photoReaderElements.fileInput.disabled = photoReaderRecognizing;
+			photoReaderElements.liteFallback.disabled = photoReaderRecognizing;
 			photoReaderElements.takeButton.disabled =
 				!photoReaderCameraStream ||
 				photoReaderCameraSection !== photoReaderActiveSection ||
@@ -3301,10 +3363,11 @@
 
 				const ai = getAI(app, { backend: new GoogleAIBackend() });
 				photoReaderModelCandidates = [];
-				photoReaderModelNames.forEach(function (modelName) {
+				function addModelCandidates(modelName, liteFallback) {
 					photoReaderModelCandidates.push({
 						name: modelName,
 						mode: "structured",
+						liteFallback: liteFallback,
 						model: getGenerativeModel(ai, {
 							model: modelName,
 							generationConfig: {
@@ -3316,9 +3379,14 @@
 					photoReaderModelCandidates.push({
 						name: modelName,
 						mode: "compatibility",
+						liteFallback: liteFallback,
 						model: getGenerativeModel(ai, { model: modelName })
 					});
+				}
+				photoReaderModelNames.forEach(function (modelName) {
+					addModelCandidates(modelName, false);
 				});
+				addModelCandidates(photoReaderLiteModelName, true);
 				photoReaderModel = photoReaderModelCandidates[0].model;
 				setPhotoReaderConnection("Firebase 就緒", "ready");
 				syncPhotoReaderButtons();
@@ -4139,17 +4207,22 @@
 		function friendlyPhotoReaderError(error) {
 			const message = error instanceof Error ? error.message : String(error);
 			const lower = message.toLowerCase();
+			const liteFallbackEnabled = photoReaderElements.liteFallback.checked;
 			if (lower.includes("app check") || lower.includes("403") || lower.includes("permission")) {
 				return "Firebase App Check 拒絕了要求。請確認此網站網域已登記至 reCAPTCHA Enterprise 金鑰。";
 			}
 			if (lower.includes("quota") || lower.includes("429") || lower.includes("resource_exhausted")) {
-				return "Firebase／Gemini 配額目前已用完，請待配額重設後再試。";
+				return liteFallbackEnabled
+					? "Firebase／Gemini 配額目前已用完，3.5 Flash Lite 亦未能完成；請待配額重設後再試。"
+					: "Firebase／Gemini 配額目前已用完。可勾選「允許 3.5 Lite 備用」後再試；若專案總配額已用完，仍需等待配額重設。";
 			}
 			if (lower.includes("invalid argument") || /\[400\s*\]/.test(lower)) {
 				return "Firebase 拒絕了相片要求（400）。標準及相容模式都未能處理此相片，請重新拍攝較清晰的相片後再試。";
 			}
 			if (lower.includes("high demand") || /\[(500|502|503|504)\s*\]/.test(lower)) {
-				return "Gemini 3.8 及 3.6 模型目前都很繁忙，請稍後再試；系統不會自動轉用 Lite。";
+				return liteFallbackEnabled
+					? "Gemini 3.8、3.6 及 3.5 Flash Lite 目前都未能完成，請稍後再試。"
+					: "Gemini 3.8 及 3.6 模型目前都很繁忙；可勾選「允許 3.5 Lite 備用」後再試。";
 			}
 			if (lower.includes("failed to fetch") || !navigator.onLine) {
 				return "無法連線至辨識服務，請檢查網絡連線後再試。";
@@ -4215,6 +4288,7 @@
 		async function recognizePhotoReaderPhoto() {
 			let lastError = null;
 			let skipCompatibilityForModel = null;
+			const allowLiteFallback = photoReaderElements.liteFallback.checked;
 			const hasLowerImage = Boolean(photoReaderImages.lower);
 			const compositeImageData = await buildPhotoReaderCompositeImage();
 			const requestParts = [
@@ -4225,6 +4299,9 @@
 			for (let index = 0; index < photoReaderModelCandidates.length;
 				index += 1) {
 				const candidate = photoReaderModelCandidates[index];
+				if (candidate.liteFallback && !allowLiteFallback) {
+					continue;
+				}
 				if (candidate.mode === "compatibility" &&
 					skipCompatibilityForModel === candidate.name) {
 					continue;
@@ -4262,7 +4339,8 @@
 							),
 							modelName: candidate.name,
 							compatibilityMode: candidate.mode === "compatibility",
-							fallbackUsed: candidate.name !== photoReaderModelNames[0]
+							fallbackUsed: candidate.name !== photoReaderModelNames[0],
+							liteFallbackUsed: candidate.liteFallback
 						};
 					} catch (error) {
 						candidateError = error;
@@ -4294,7 +4372,7 @@
 				if (temporaryModelError) {
 					skipCompatibilityForModel = candidate.name;
 					setPhotoReaderConnection("模型繁忙，切換中", "connecting");
-					setPhotoReaderStatus(candidate.name + " 暫時繁忙，正在改用下一個完整 Flash 模型…", "working");
+					setPhotoReaderStatus(candidate.name + " 暫時繁忙，正在改用下一個可用模型…", "working");
 					continue;
 				}
 				if ((invalidRequest || responseFormatError) &&
@@ -4361,6 +4439,7 @@
 				);
 				const unknownCount = upper.unknownCount + lower.unknownCount;
 				const fallbackUsed = result.fallbackUsed;
+				const liteFallbackUsed = result.liteFallbackUsed;
 				const recognitionWarnings = validateRecognizedPointCodes(
 					upper.pointCodes,
 					lower.pointCodes
@@ -4403,7 +4482,12 @@
 				} else {
 					message += " 未能唯一辨認凸起的食糊牌，請長按正確牌作標示。";
 				}
-				if (fallbackUsed) {
+				if (liteFallbackUsed) {
+					message += " 3.8 及 3.6 未能完成，本次已使用 3.5 Flash Lite 備用模型；準確度可能較低，請特別核對。";
+					if (window.jQuery) {
+						window.jQuery("#message").append("（已使用 3.5 Flash Lite 備用模型，請核對結果）");
+					}
+				} else if (fallbackUsed) {
 					message += " 主模型繁忙，本次已自動使用完整 Flash 備用模型。";
 					if (window.jQuery) {
 						window.jQuery("#message").append("（已自動使用完整 Flash 備用模型）");
