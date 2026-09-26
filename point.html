@@ -51,18 +51,18 @@
 
         #photoReaderModal .photo-reader-instruction {
             margin: 0;
-            padding: 18px 58px 18px 24px;
+            padding: 10px 52px 8px 16px;
             color: #617068;
             background: #fffdf8;
-            font-size: 17px;
-            line-height: 1.45;
+            font-size: 15px;
+            line-height: 1.3;
         }
 
         #photoReaderModal .photo-reader-service-row {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 0 24px 14px;
+            gap: 8px;
+            padding: 0 16px 8px;
             border-bottom: 1px solid #d7ded9;
             background: #fffdf8;
         }
@@ -70,7 +70,7 @@
         #photoReaderModal .photo-reader-stage-stack {
             display: grid;
             grid-template-columns: minmax(0, 1fr);
-            gap: 6px;
+            gap: 3px;
             width: 100%;
             background: #fffdf8;
         }
@@ -244,8 +244,8 @@
         #photoReaderModal .photo-reader-actions {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 12px;
-            padding: 24px;
+            gap: 8px;
+            padding: 10px 12px;
         }
 
         #photoReaderModal .photo-reader-button,
@@ -256,8 +256,8 @@
             align-self: stretch;
             width: 100%;
             min-width: 0;
-            height: 70px;
-            min-height: 70px;
+            height: 60px;
+            min-height: 60px;
             margin: 0;
             padding: 8px 10px;
             border: 0;
@@ -295,11 +295,11 @@
         }
 
         #photoReaderModal .photo-reader-status {
-            margin: 0 24px 24px;
-            padding: 14px 16px;
+            margin: 0 12px 12px;
+            padding: 10px 12px;
             border-radius: 14px;
-            font-size: 15px;
-            line-height: 1.45;
+            font-size: 14px;
+            line-height: 1.35;
         }
 
         #photoReaderModal .photo-reader-status.error {
@@ -328,13 +328,13 @@
             }
 
             #photoReaderModal .photo-reader-instruction {
-                padding: 16px 52px 10px 18px;
-                font-size: 15px;
+                padding: 8px 48px 6px 12px;
+                font-size: 14px;
             }
 
             #photoReaderModal .photo-reader-service-row {
-                gap: 7px;
-                padding: 0 14px 12px;
+                gap: 6px;
+                padding: 0 10px 6px;
             }
 
             #photoReaderModal .photo-reader-connection,
@@ -344,21 +344,21 @@
             }
 
             #photoReaderModal .photo-reader-actions {
-                gap: 8px;
-                padding: 14px 14px 18px;
+                gap: 6px;
+                padding: 8px 10px 10px;
             }
 
             #photoReaderModal .photo-reader-button,
             #photoReaderModal .photo-reader-file-button {
-                height: 68px;
-                min-height: 68px;
-                padding: 7px 4px;
+                height: 56px;
+                min-height: 56px;
+                padding: 5px 3px;
                 border-radius: 15px;
                 font-size: clamp(13px, 3.8vw, 15px);
             }
 
             #photoReaderModal .photo-reader-status {
-                margin: 0 14px 20px;
+                margin: 0 10px 10px;
             }
 
         }
@@ -374,14 +374,14 @@
             }
 
             #photoReaderModal .photo-reader-instruction {
-                padding: 9px 52px 9px 14px;
-                font-size: 14px;
+                padding: 6px 48px 4px 10px;
+                font-size: 13px;
                 line-height: 1.3;
             }
 
             #photoReaderModal .photo-reader-service-row {
-                gap: 7px;
-                padding: 0 12px 8px;
+                gap: 6px;
+                padding: 0 10px 4px;
             }
 
             #photoReaderModal .photo-reader-connection,
@@ -392,9 +392,9 @@
 
             #photoReaderModal .photo-reader-stage-stack {
                 grid-template-rows: minmax(0, 779fr) minmax(0, 749fr);
-                height: calc(100vh - 116px);
-                height: calc(100dvh - 116px);
-                min-height: 260px;
+                height: calc(100vh - 190px);
+                height: calc(100dvh - 190px);
+                min-height: 240px;
             }
 
             #photoReaderModal .photo-reader-stage.upper-frame,
@@ -404,14 +404,14 @@
             }
 
             #photoReaderModal .photo-reader-actions {
-                gap: 8px;
-                padding: 8px 12px 10px;
+                gap: 6px;
+                padding: 6px 10px 8px;
             }
 
             #photoReaderModal .photo-reader-button,
             #photoReaderModal .photo-reader-file-button {
-                height: 58px;
-                min-height: 58px;
+                height: 52px;
+                min-height: 52px;
                 border-radius: 14px;
                 font-size: 14px;
             }
@@ -719,7 +719,7 @@
             <div class="modal-content photo-reader-content">
                 <h2 id="photoReaderTitle" class="sr-only">麻將相片辨識</h2>
                 <button type="button" class="photo-reader-close" data-dismiss="modal" aria-label="關閉">&times;</button>
-                <p class="photo-reader-instruction">請先橫向拍攝暗間，再拍攝落地；兩張相片會自動合併辨識，沒有落地牌可留空。</p>
+                <p class="photo-reader-instruction">先拍暗間，再拍落地（可留空）。</p>
                 <div class="photo-reader-service-row">
                     <div class="photo-reader-connection" id="photo-reader-connection" role="status" aria-live="polite">
                         <span class="photo-reader-connection-dot" aria-hidden="true"></span>
@@ -3259,6 +3259,14 @@
 			photoReaderElements.status.textContent = message;
 			if (state === "error" || state === "warning") {
 				photoReaderElements.status.className = "photo-reader-status " + state;
+				if (state === "error") {
+					window.requestAnimationFrame(function () {
+						photoReaderElements.status.scrollIntoView({
+							behavior: "smooth",
+							block: "nearest"
+						});
+					});
+				}
 			} else {
 				photoReaderElements.status.className = "sr-only";
 			}
@@ -4173,14 +4181,10 @@
 			if (window.jQuery) {
 				window.jQuery("#tiles").toggle(true);
 				window.jQuery("#results").toggle(false);
-				let importMessage =
-					"相片已輸入 " + importedRegularCodes.length + " 只牌及 " +
-					Array.from(new Set(bonusCodes)).length + " 只花牌";
-				if (winningTilePosition) importMessage += "；食糊牌已標示";
-				if (!concealedArrangement.applied) importMessage += "；暗間牌組請人手核對";
-				if (concealedArrangement.ambiguous) importMessage += "；暗間有多種排法，請核對";
-				if (winningTileFlagCount !== 1) importMessage += "；食糊牌位置請核對";
-				window.jQuery("#message").text(importMessage);
+				window.jQuery("#message").text(
+					"相片已輸入：" + importedRegularCodes.length + " 只牌、" +
+					Array.from(new Set(bonusCodes)).length + " 只花牌"
+				);
 			}
 
 			const detail = {
@@ -4484,14 +4488,8 @@
 				}
 				if (liteFallbackUsed) {
 					message += " 3.8 及 3.6 未能完成，本次已使用 3.5 Flash Lite 備用模型；準確度可能較低，請特別核對。";
-					if (window.jQuery) {
-						window.jQuery("#message").append("（已使用 3.5 Flash Lite 備用模型，請核對結果）");
-					}
 				} else if (fallbackUsed) {
 					message += " 主模型繁忙，本次已自動使用完整 Flash 備用模型。";
-					if (window.jQuery) {
-						window.jQuery("#message").append("（已自動使用完整 Flash 備用模型）");
-					}
 				}
 				if (result.compatibilityMode) {
 					message += " 本次使用同一模型的相容模式。";
@@ -4499,7 +4497,6 @@
 				if (recognitionWarnings.length > 0) {
 					const warningText = " 辨識結果可能有問題：" + recognitionWarnings.join("；") + "，請人手核對。";
 					message += warningText;
-					if (window.jQuery) window.jQuery("#message").append(warningText);
 				}
 				const qualityWarnings = getPhotoReaderQualityWarnings();
 				if (qualityWarnings.length > 0) {
